@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function TeamDetailsScreen() {
   const [memberName, setMemberName] = useState('');
-  const [members, setMembers] = useState(['Sofia K', 'Yanis Y', 'Ty M']);
+  const [members, setMembers] = useState(['Sofia K', 'Yanis Y', 'Ty', 'Bri']);
   const navigation = useNavigation();
 
   const addMember = () => {
@@ -20,8 +20,10 @@ export default function TeamDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Manage Team Members</Text>
+      {/* Titre */}
+      <Text style={styles.title}>👥 Manage Team Members</Text>
 
+      {/* Champ d'entrée */}
       <TextInput
         style={styles.input}
         placeholder="Enter member's name"
@@ -29,23 +31,29 @@ export default function TeamDetailsScreen() {
         onChangeText={setMemberName}
       />
 
+      {/* Bouton pour ajouter un membre */}
       <TouchableOpacity style={styles.addButton} onPress={addMember}>
-        <Text style={styles.addButtonText}>Add Member</Text>
+        <Text style={styles.addButtonText}>➕ Add Member</Text>
       </TouchableOpacity>
 
+      {/* Liste des membres */}
       <FlatList
         data={members}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <View style={styles.memberContainer}>
-            <Text style={styles.memberName}>{item}</Text>
+            <Text style={styles.memberName}>👤 {item}</Text>
             <TouchableOpacity onPress={() => removeMember(item)}>
-              <Text style={styles.removeText}>Remove</Text>
+              <Text style={styles.removeText}>❌</Text>
             </TouchableOpacity>
           </View>
         )}
+        ListEmptyComponent={
+          <Text style={styles.emptyListText}>No members added yet.</Text>
+        }
       />
 
+      {/* Bouton de confirmation */}
       <TouchableOpacity
         style={styles.confirmButton}
         onPress={() => navigation.goBack()}
@@ -77,7 +85,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     marginBottom: 15,
     fontSize: 16,
-    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Nouvelle syntaxe
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
   addButton: {
     backgroundColor: '#40E0D0',
@@ -85,7 +97,11 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginBottom: 20,
     alignItems: 'center',
-    boxShadow: '0px 2px 5px rgba(64, 224, 208, 0.4)', // Nouvelle syntaxe
+    elevation: 3,
+    shadowColor: '#40E0D0',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   addButtonText: {
     color: '#FFF',
@@ -100,7 +116,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 15,
     marginBottom: 10,
-    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Nouvelle syntaxe
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   memberName: {
     fontSize: 16,
@@ -112,13 +132,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  emptyListText: {
+    textAlign: 'center',
+    color: '#999',
+    fontSize: 16,
+    marginTop: 20,
+  },
   confirmButton: {
     backgroundColor: '#FFA500',
     paddingVertical: 15,
     borderRadius: 30,
     marginTop: 20,
     alignItems: 'center',
-    boxShadow: '0px 2px 5px rgba(255, 165, 0, 0.4)', // Nouvelle syntaxe
+    elevation: 3,
+    shadowColor: '#FFA500',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   confirmButtonText: {
     color: '#FFF',
