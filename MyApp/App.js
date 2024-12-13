@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AppNavigator from './components/BottomMenuBar';
 
 // Auth Screens
 import ForgotPasswordScreen from './src/screens/Auth/ForgotPasswordScreen';
@@ -41,22 +42,22 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="GetStarted">
+      <Stack.Navigator initialRouteName="GetStarted" screenOptions={{ headerShown: false }}>
         {/* Auth Screens */}
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
-          options={{ title: 'Forgot Password' }}
+          options={{ title: 'Forgot Password', headerShown: true }}
         />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ title: 'Login' }}
+          options={{ title: 'Login', headerShown: true }}
         />
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
-          options={{ title: 'Sign Up' }}
+          options={{ title: 'Sign Up', headerShown: true }}
         />
 
         {/* Home Screens */}
@@ -68,92 +69,99 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Home' }}
+          options={{ title: 'Home', headerShown: true }}
+        />
+
+        {/* Main App Navigator */}
+        <Stack.Screen
+          name="Main"
+          component={AppNavigator}
+          options={{ headerShown: false }}
         />
 
         {/* Teams Screens */}
         <Stack.Screen
           name="Teams"
           component={TeamsScreen}
-          options={{ title: 'Teams' }}
+          options={{ title: 'Teams', headerShown: true }}
         />
         <Stack.Screen
           name="AddTeam"
           component={AddTeamScreen}
-          options={{ title: 'Add a Team' }}
+          options={{ title: 'Add a Team', headerShown: true }}
         />
         <Stack.Screen
           name="TeamDetails"
           component={TeamDetailsScreen}
-          options={{ title: 'Team Details' }}
+          options={{ title: 'Team Details', headerShown: true }}
         />
 
         {/* Events Screens */}
         <Stack.Screen
           name="AddEvent"
           component={AddEventScreen}
-          options={{ title: 'Add Event' }}
+          options={{ title: 'Add Event', headerShown: true }}
         />
         <Stack.Screen
           name="EventDetails"
           component={EventDetailsScreen}
-          options={{ title: 'Event Details' }}
+          options={{ title: 'Event Details', headerShown: true }}
         />
         <Stack.Screen
           name="EditEvent"
           component={EditEventScreen}
-          options={{ title: 'Edit Event' }}
+          options={{ title: 'Edit Event', headerShown: true }}
         />
 
         {/* Bucketlists Screens */}
         <Stack.Screen
           name="Bucketlists"
           component={BucketlistsScreen}
-          options={{ title: 'Bucketlists' }}
+          options={{ title: 'Bucketlists', headerShown: true }}
         />
         <Stack.Screen
           name="BucketlistDetails"
           component={BucketlistDetailsScreen}
-          options={{ title: 'Bucketlist Details' }}
+          options={{ title: 'Bucketlist Details', headerShown: true }}
         />
 
         {/* Calendar Screens */}
         <Stack.Screen
           name="Calendar"
           component={CalendarScreen}
-          options={{ title: 'Calendar' }}
+          options={{ title: 'Calendar', headerShown: true }}
         />
         <Stack.Screen
           name="CalendarDetails"
           component={CalendarDetailsScreen}
-          options={{ title: 'Calendar Details' }}
+          options={{ title: 'Calendar Details', headerShown: true }}
         />
 
         {/* General Screens */}
         <Stack.Screen
           name="Dashboard"
           component={DashboardScreen}
-          options={{ title: 'Dashboard' }}
+          options={{ title: 'Dashboard', headerShown: true }}
         />
         <Stack.Screen
           name="Notifications"
           component={NotificationsScreen}
-          options={{ title: 'Notifications' }}
+          options={{ title: 'Notifications', headerShown: true }}
         />
         <Stack.Screen
           name="NotificationsSettings"
           component={NotificationsSettingsScreen}
-          options={{ title: 'Notifications Settings' }}
+          options={{ title: 'Notifications Settings', headerShown: true }}
         />
         <Stack.Screen
           name="Profile"
           component={UserProfileScreen}
-          options={{ title: 'Profile' }}
+          options={{ title: 'Profile', headerShown: true }}
         />
         <Stack.Screen
           name="Settings"
           component={GeneralSettingsScreen}
-          options={{ title: 'Settings' }}
+          options={{ title: 'Settings', headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>

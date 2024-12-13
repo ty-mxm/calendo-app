@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 
-// Typing for navigation and notification
+
 interface Notification {
   id: string;
   title: string;
@@ -15,14 +15,14 @@ type Props = {
 };
 
 const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
-  // Sample notifications
+  
   const [notifications, setNotifications] = useState<Notification[]>([
     { id: '1', title: 'Nouvelle équipe ajoutée', message: 'Une équipe a été ajoutée avec succès.', time: 'Il y a 5 min' },
     { id: '2', title: 'Événement à venir', message: 'N’oubliez pas votre événement demain.', time: 'Il y a 2 heures' },
     { id: '3', title: 'Mise à jour', message: 'Votre profil a été mis à jour.', time: 'Hier' },
   ]);
 
-  // Function to delete a notification
+  // Function pour supprimer une notification
   const handleDeleteNotification = (id: string) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter((notification) => notification.id !== id)
@@ -30,7 +30,7 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
     Alert.alert('Notification supprimée');
   };
 
-  // Function to render each notification
+  // Function pour afficher une notification
   const renderNotification = ({ item }: { item: Notification }) => (
     <TouchableOpacity style={styles.notificationCard} onLongPress={() => handleDeleteNotification(item.id)}>
       <Text style={styles.notificationTitle}>{item.title}</Text>
