@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, ListRenderItem } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 
-const DashboardScreen = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [events, setEvents] = useState([
-    { id: '1', title: 'Breakfast at restaurant', location: '123 Main St', date: '2023-12-15', time: '10:00 - 12:00', category: 'Food' },
-    { id: '2', title: 'Running in the park', location: 'Central Park', date: '2023-12-16', time: '14:00 - 15:30', category: 'Exercise' },
-    { id: '3', title: 'Movie night', location: 'Cinema City', date: '2023-12-20', time: '19:00 - 22:00', category: 'Leisure' },
-    { id: '4', title: 'Team Meeting', location: 'Office HQ', date: '2023-12-18', time: '09:00 - 10:30', category: 'Work' },
-    { id: '5', title: 'Yoga Class', location: 'Fitness Center', date: '2023-12-20', time: '07:00 - 08:00', category: 'Wellness' },
-    { id: '6', title: 'Dinner with friends', location: 'Restaurant XYZ', date: '2023-12-21', time: '18:00 - 20:00', category: 'Social' },
-    { id: '7', title: 'Doctor Appointment', location: 'Clinic ABC', date: '2023-12-22', time: '11:00 - 12:00', category: 'Health' },
- 
+// Interface pour les événements
+interface Event {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  time: string;
+  category: string;
+}
+
+const DashboardScreen: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [events, setEvents] = useState<Event[]>([
+    { id: '1', title: '🍳 Breakfast at restaurant', location: '123 Main St', date: '2023-12-15', time: '10:00 - 12:00', category: 'Food' },
+    { id: '2', title: '🏃‍♂️ Running in the park', location: 'Central Park', date: '2023-12-16', time: '14:00 - 15:30', category: 'Exercise' },
+    { id: '3', title: '🎬 Movie night', location: 'Cinema City', date: '2023-12-20', time: '19:00 - 22:00', category: 'Leisure' },
+    { id: '4', title: '🧘‍♀️ Yoga Class', location: 'Fitness Center', date: '2023-12-20', time: '07:00 - 08:00', category: 'Wellness' },
+    { id: '5', title: '🍽️ Dinner with friends', location: 'Restaurant XYZ', date: '2023-12-21', time: '18:00 - 20:00', category: 'Social' },
   ]);
 
-  // Filtrer les événements par date sélectionnée
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
-  return (
-<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-      {/* Header */}
+  const renderEventCard: ListRenderItem<Event> = ({ item }) => (
+    <View style={styles.eventCard}>
+      <Text style={styles.eventTitle}>{item.title}</Text>
+      <Text style={styles.eventDetails}>📍 {item.location}</Text>
+      <Text style={styles.eventDetails}>⏰ {item.time}</Text>
+      <Text style={styles.eventCategory}>{item.category}</Text>
+    </View>
+  );
+
+  const ListHeader = () => (
+    <View>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Sync Your Calendar With Your Team</Text>
+        <Text style={styles.headerTitle}>📅 Sync Your Calendar With Your Team</Text>
         <TouchableOpacity style={styles.syncButton}>
           <Text style={styles.syncButtonText}>Sync with Google Calendar</Text>
         </TouchableOpacity>
@@ -30,62 +44,37 @@ const DashboardScreen = () => {
           <Text style={styles.syncButtonText}>Sync with Apple Calendar</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Calendrier */}
       <View style={styles.calendarContainer}>
         <Calendar
-          onDayPress={(day: { dateString: React.SetStateAction<string>; }) => setSelectedDate(day.dateString)}
+          onDayPress={(day) => setSelectedDate(day.dateString)}
           markedDates={{
-            [selectedDate]: { selected: true, marked: true, selectedColor: '#7F57FF' },
-            '2023-12-15': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-16': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-18': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-20': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-21': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-22': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-23': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-24': { marked: true, dotColor: '#7F57FF' },
-            '2023-12-25': { marked: true, dotColor: '#7F57FF' },
+            [selectedDate]: { selected: true, marked: true, selectedColor: '#87CEEB' },
           }}
           theme={{
-            selectedDayBackgroundColor: '#7F57FF',
-            todayTextColor: '#7F57FF',
-            arrowColor: '#7F57FF',
-            dotColor: '#7F57FF',
+            selectedDayBackgroundColor: '#87CEEB',
+            todayTextColor: '#FFA500',
+            arrowColor: '#FF69B4',
           }}
         />
       </View>
-
-      {/* Prochains événements */}
       <Text style={styles.subHeader}>Upcoming Events</Text>
-      {selectedDate && filteredEvents.length === 0 ? (
-        <Text style={styles.noEvents}>No events scheduled for this date.</Text>
-      ) : (
-        (selectedDate ? filteredEvents : events).map((item) => (
-          <View key={item.id} style={styles.eventCard}>
-            <Text style={styles.eventTitle}>{item.title}</Text>
-            <Text style={styles.eventDetails}>{item.location}</Text>
-            <Text style={styles.eventDetails}>{item.time}</Text>
-            <Text style={styles.eventCategory}>{item.category}</Text>
-          </View>
-        ))
-      )}
+    </View>
+  );
 
-      {/* Bouton pour ajouter un événement */}
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>Add New Event</Text>
-      </TouchableOpacity>
-    </ScrollView>
+  return (
+    <FlatList
+      data={selectedDate ? filteredEvents : events}
+      keyExtractor={(item) => item.id}
+      renderItem={renderEventCard}
+      ListHeaderComponent={ListHeader}
+      contentContainerStyle={styles.contentContainer}
+    />
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F4F4F4',
-  },
-  scrollContainer: {
-    paddingBottom: 20, // Ajoute un espace en bas
+  contentContainer: {
+    paddingBottom: 20,
   },
   header: {
     alignItems: 'center',
@@ -95,13 +84,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#EDEDED',
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 16,
+    textAlign: 'center',
   },
   syncButton: {
-    backgroundColor: '#5AC8FA',
+    backgroundColor: '#87CEEB',
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -136,11 +126,15 @@ const styles = StyleSheet.create({
   eventCard: {
     backgroundColor: '#FFF',
     padding: 16,
-    marginHorizontal: 16,
-    marginBottom: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#EDEDED',
+    marginVertical: 8,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+    width: '90%',
+    alignSelf: 'center',
   },
   eventTitle: {
     fontSize: 16,
@@ -153,31 +147,9 @@ const styles = StyleSheet.create({
   },
   eventCategory: {
     fontSize: 12,
-    color: '#7F57FF',
+    color: '#FFA500',
     fontWeight: 'bold',
     marginTop: 4,
-  },
-  noEvents: {
-    textAlign: 'center',
-    color: '#999',
-    fontSize: 14,
-    marginTop: 16,
-  },
-  addButton: {
-    backgroundColor: '#7F57FF',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 50,
-    alignItems: 'center',
-    alignSelf: 'center',
-    marginTop: 16,
-    marginBottom: 20,
-    width: '60%',
-  },
-  addButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 
