@@ -19,23 +19,22 @@ import TeamDetailsScreen from './src/screens/Teams/TeamDetailsScreen';
 // Events Screens
 import AddEventScreen from './src/screens/Events/AddEventScreen';
 import EventDetailsScreen from './src/screens/Events/EventDetailsScreen';
+import EditEventScreen from './src/screens/Events/EditEventScreen';
 
 // Bucketlists Screens
 import BucketlistsScreen from './src/screens/Bucketlists/BucketlistsScreen';
 import BucketlistDetailsScreen from './src/screens/Bucketlists/BucketlistDetailsScreen';
 
-
 // Settings Screens
 import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen';
 
 // Placeholder imports for missing screens (add these imports when available)
-// import CalendarScreen from './src/screens/Calendar/CalendarScreen';
-// import CalendarDetailsScreen from './src/screens/Calendar/CalendarDetailsScreen';
-// import DashboardScreen from './src/screens/Dashboard/DashboardScreen';
-// import EditEventScreen from './src/screens/Events/EditEventScreen';
-// import NotificationsScreen from './src/screens/Notifications/NotificationsScreen';
-// import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
-// import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
+import CalendarScreen from './src/screens/Calendar/CalendarScreen';
+import CalendarDetailsScreen from './src/screens/Calendar/CalendarDetailsScreen';
+import DashboardScreen from './src/screens/Dashboard/DashboardScreen';
+import NotificationsScreen from './src/screens/Notifications/NotificationsScreen';
+import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
+import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -112,14 +111,13 @@ export default function App() {
           component={BucketlistsScreen}
           options={{ title: 'Bucketlists' }}
         />
-<Stack.Screen
-  name="BucketlistDetails"
-  component={BucketlistDetailsScreen}
-  options={{ title: 'Bucketlist Details' }}
-/>
+        <Stack.Screen
+          name="BucketlistDetails"
+          component={BucketlistDetailsScreen}
+          options={{ title: 'Bucketlist Details' }}
+        />
 
-
-        {/* Calendar Screens
+        {/* Calendar Screens */}
         <Stack.Screen
           name="Calendar"
           component={CalendarScreen}
@@ -129,7 +127,7 @@ export default function App() {
           name="CalendarDetails"
           component={CalendarDetailsScreen}
           options={{ title: 'Calendar Details' }}
-        /> */}
+        />
 
         {/* General Screens */}
         <Stack.Screen
