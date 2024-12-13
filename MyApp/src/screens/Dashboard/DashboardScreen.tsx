@@ -12,20 +12,14 @@ const DashboardScreen = () => {
     { id: '5', title: 'Yoga Class', location: 'Fitness Center', date: '2023-12-20', time: '07:00 - 08:00', category: 'Wellness' },
     { id: '6', title: 'Dinner with friends', location: 'Restaurant XYZ', date: '2023-12-21', time: '18:00 - 20:00', category: 'Social' },
     { id: '7', title: 'Doctor Appointment', location: 'Clinic ABC', date: '2023-12-22', time: '11:00 - 12:00', category: 'Health' },
-    { id: '8', title: 'Gym Session', location: 'Gym 123', date: '2023-12-23', time: '16:00 - 17:30', category: 'Exercise' },
-    { id: '9', title: 'Book Club Meeting', location: 'Library', date: '2023-12-24', time: '15:00 - 17:00', category: 'Leisure' },
-    { id: '10', title: 'Family Reunion', location: 'Home', date: '2023-12-25', time: '12:00 - 15:00', category: 'Family' },
+ 
   ]);
 
   // Filtrer les événements par date sélectionnée
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.scrollContainer}
-      showsVerticalScrollIndicator={false} // Cache l'indicateur de défilement
-    >
+<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Sync Your Calendar With Your Team</Text>

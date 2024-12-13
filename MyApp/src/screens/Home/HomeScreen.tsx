@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
   return (
+<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
     <View style={styles.container}>
       {/* Titre principal */}
       <Text style={styles.headerText}>Manage Your Teams & Events</Text>
@@ -14,7 +15,7 @@ export default function HomeScreen() {
       <Image
         style={styles.icon}
         source={{
-          uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png', // Une icône d'équipe par défaut
+          uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png', 
         }}
       />
 
@@ -75,6 +76,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 }
 
@@ -84,6 +86,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F5F5',
     alignItems: 'center',
     padding: 20,
+  },
+
+  scrollContainer: {
+    paddingBottom: 20, // Ajoute un espace en bas
   },
   headerText: {
     fontSize: 24,
