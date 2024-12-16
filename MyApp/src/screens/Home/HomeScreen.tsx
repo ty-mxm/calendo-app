@@ -4,9 +4,8 @@ import { Calendar } from 'react-native-calendars';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList, Event } from '../../types';
+import { RootStackParamList, Event } from  '../../../types';
 
-// Typage de la navigation
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {

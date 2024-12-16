@@ -2,19 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../types';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../types';
 
-// Typage des paramètres pour la route
+// Typage pour la navigation
+type NavigationProp = StackNavigationProp<RootStackParamList, 'EventDetails'>;
 type EventDetailsRouteProp = RouteProp<RootStackParamList, 'EventDetails'>;
 
 export default function EventDetailsScreen() {
   const route = useRoute<EventDetailsRouteProp>();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
   const { event } = route.params;
 
   return (
     <View style={styles.container}>
-      {/* En-tête */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -22,7 +23,6 @@ export default function EventDetailsScreen() {
         <Text style={styles.headerTitle}>Détails de l'Événement</Text>
       </View>
 
-      {/* Carte d'événement */}
       <View style={styles.eventDetailsContainer}>
         <Text style={styles.title}>{event.title}</Text>
         <Text style={styles.details}>📍 {event.location}</Text>
@@ -30,6 +30,14 @@ export default function EventDetailsScreen() {
         <Text style={styles.details}>📅 {event.date}</Text>
         <Text style={styles.category}>Catégorie : {event.category}</Text>
       </View>
+
+      <TouchableOpacity
+        style={styles.editButton}
+        onPress={() => navigation.navigate('EditEvent', { event })}
+      >
+        <Ionicons name="pencil-outline" size={20} color="#FFF" />
+        <Text style={styles.editButtonText}>Modifier</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -57,12 +65,23 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
   },
   title: { fontSize: 22, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   details: { fontSize: 16, color: '#666', marginBottom: 5 },
   category: { fontSize: 16, fontWeight: 'bold', color: '#7F57FF', marginTop: 10 },
+  editButton: {
+    backgroundColor: '#7F57FF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    marginHorizontal: 20,
+    borderRadius: 10,
+  },
+  editButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
 });

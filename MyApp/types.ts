@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Home: undefined;
   EventDetails: { event: Event };
   AddEvent: undefined;
+  EditEvent: { event: Event };
 };
 
 // Interface pour les événements

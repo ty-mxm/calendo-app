@@ -70,7 +70,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Home', headerShown: true }}
+          options={{ title: 'Home', headerShown: false }}
         />
 
         {/* Main App Navigator */}
