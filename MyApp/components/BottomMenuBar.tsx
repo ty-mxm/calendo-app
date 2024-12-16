@@ -16,11 +16,11 @@ export default function AppNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false, // Pas d'entête en haut
-        tabBarStyle: styles.tabBar, // Style de la barre
-        tabBarShowLabel: true, // Afficher les labels des onglets
-        tabBarActiveTintColor: '#7F57FF', // Couleur active
-        tabBarInactiveTintColor: '#555', // Couleur inactive
+        headerShown: false, 
+        tabBarStyle: styles.tabBar, 
+        tabBarShowLabel: true, 
+        tabBarActiveTintColor: '#7F57FF', 
+        tabBarInactiveTintColor: '#555', 
       }}
     >
       {/* Onglet Home */}
@@ -53,23 +53,23 @@ export default function AppNavigator() {
   component={AddEventScreen}
   options={{
     tabBarButton: (props: BottomTabBarButtonProps) => {
-      // Gestion des valeurs par défaut pour éviter les problèmes de typage
+
       const style = props.style || {};
-      const delayLongPress = props.delayLongPress ?? 0; // Utilise 0 si null/undefined
-      const disabled = props.disabled ?? false; // Utilise false si null/undefined
+      const delayLongPress = props.delayLongPress ?? 0; 
+      const disabled = props.disabled ?? false; 
 
       return (
         <TouchableOpacity
-          style={[styles.addButton, style as ViewStyle]} // Ajout du style personnalisé
+          style={[styles.addButton, style as ViewStyle]} 
           onPress={(event) => props.onPress && props.onPress(event)}
-          delayLongPress={delayLongPress} // Passe la valeur corrigée
-          disabled={disabled} // Passe la valeur corrigée
+          delayLongPress={delayLongPress} 
+          disabled={disabled} 
         >
           <Ionicons name="add" size={32} color="#FFF" />
         </TouchableOpacity>
       );
     },
-    tabBarLabel: '', // Pas de label sous le bouton central
+    tabBarLabel: '', 
   }}
 />
 
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderTopWidth: 1,
     borderTopColor: '#EDEDED',
-    height: 70, // Hauteur de la barre
+    height: 70, 
   },
   addButton: {
     backgroundColor: '#7F57FF',
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10, // Remonte légèrement le bouton
+    marginBottom: 10, 
     shadowColor: '#7F57FF',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,

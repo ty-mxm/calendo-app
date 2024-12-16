@@ -7,12 +7,23 @@ export default function GetStartedScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Titre principal */}
       <Text style={styles.title}>Sync Your Calendar With Your Friends</Text>
+
+      {/* Boutons de synchronisation */}
+      <TouchableOpacity style={styles.syncButton}>
+        <Text style={styles.syncButtonText}>Sync with Google Calendar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.syncButtonBlack}>
+        <Text style={styles.syncButtonText}>Sync with Apple Calendar</Text>
+      </TouchableOpacity>
+
+      {/* Bouton pour commencer */}
       <TouchableOpacity
-        style={styles.button}
+        style={styles.getStartedButton}
         onPress={() => navigation.navigate('Main' as never)}
       >
-        <Text style={styles.buttonText}>Get Started</Text>
+        <Text style={styles.getStartedButtonText}>Get Started</Text>
       </TouchableOpacity>
     </View>
   );
@@ -24,22 +35,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F4F4F4',
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
     color: '#333',
   },
-  button: {
-    backgroundColor: '#7F57FF',
+  syncButton: {
+    backgroundColor: '#87CEEB', // Bleu clair
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 15,
+    width: '80%',
+    alignItems: 'center',
+  },
+  syncButtonBlack: {
+    backgroundColor: '#000', // Noir
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 30,
+    width: '80%',
+    alignItems: 'center',
+  },
+  syncButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  getStartedButton: {
+    backgroundColor: '#7F57FF', // Violet
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     elevation: 5,
   },
-  buttonText: {
+  getStartedButtonText: {
     color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',

@@ -39,6 +39,7 @@ import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
 
 const Stack = createStackNavigator();
 
+
 export default function App() {
   return (
     <NavigationContainer>

@@ -1,147 +1,91 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, FlatList, ListRenderItem, TouchableOpacity } from 'react-native';
+import { Calendar } from 'react-native-calendars';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList, Event } from '../../types';;
+
+// Typage de la navigation
+type NavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
+  const [selectedDate, setSelectedDate] = useState<string>('');
+  const [events] = useState<Event[]>([
+    { id: '1', title: '🍳 Petit-déjeuner au restaurant', location: '123 Rue Principale', date: '2023-12-15', time: '10:00 - 12:00', category: 'Nourriture' },
+    { id: '2', title: '🏃‍♂️ Course au parc', location: 'Parc Central', date: '2023-12-16', time: '14:00 - 15:30', category: 'Exercice' },
+    { id: '3', title: '🎬 Soirée cinéma', location: 'Cinéma City', date: '2023-12-20', time: '19:00 - 22:00', category: 'Loisir' },
+  ]);
+
+  const filteredEvents = events.filter((event) => event.date === selectedDate);
+
+  const renderEventCard: ListRenderItem<Event> = ({ item }) => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('EventDetails', { event: item })}
+    >
+      {renderEvent(item)}
+    </TouchableOpacity>
+  );
+
+  const renderEvent = (event: Event) => (
+    <View style={[styles.eventCard, getCategoryStyle(event.category)]}>
+      <Text style={styles.eventTitle}>{event.title}</Text>
+      <Text style={styles.eventDetails}>📍 {event.location}</Text>
+      <Text style={styles.eventDetails}>⏰ {event.time}</Text>
+      <Text style={styles.eventCategory}>{event.category}</Text>
+    </View>
+  );
 
   return (
-<ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-    <View style={styles.container}>
-      {/* Titre principal */}
-      <Text style={styles.headerText}>Manage Your Teams & Events</Text>
-
-      {/* Icône principale */}
-      <Image
-        style={styles.icon}
-        source={{
-          uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png', 
-        }}
-      />
-
-      {/* Boutons principaux */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[styles.button, styles.createButton]}
-          onPress={() => navigation.navigate('AddTeam' as never)}
-          accessibilityLabel="Create a new team"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>Create a Team</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.joinButton]}
-          onPress={() => navigation.navigate('JoinTeam' as never)}
-          accessibilityLabel="Join an existing team"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>Join a Team</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.addEventButton]}
-          onPress={() => navigation.navigate('AddEvent' as never)}
-          accessibilityLabel="Add an event"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>Add Event</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.viewEventButton]}
-          onPress={() => navigation.navigate('EventDetails' as never)}
-          accessibilityLabel="View an event"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>View Events</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.notifButton]}
-          onPress={() => navigation.navigate('Notifications' as never)}
-          accessibilityLabel="View notifications"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>Notifications</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.dashboardButton]}
-          onPress={() => navigation.navigate('Dashboard' as never)}
-          accessibilityLabel="Go to dashboard"
-          accessible={true}
-        >
-          <Text style={styles.buttonText}>Dashboard</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-    </ScrollView>
+    <FlatList
+      data={selectedDate ? filteredEvents : events}
+      keyExtractor={(item) => item.id}
+      renderItem={renderEventCard}
+      ListHeaderComponent={() => (
+        <>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Bienvenue sur Calendo</Text>
+            <Text style={styles.headerSubtitle}>Gardez un œil sur vos prochains événements</Text>
+          </View>
+          <Calendar
+            onDayPress={(day) => setSelectedDate(day.dateString)}
+            markedDates={{
+              [selectedDate]: { selected: true, marked: true, selectedColor: '#87CEEB' },
+            }}
+            theme={{
+              todayTextColor: '#FF69B4',
+              arrowColor: '#7F57FF',
+              textSectionTitleColor: '#7F57FF',
+            }}
+          />
+        </>
+      )}
+      contentContainerStyle={styles.contentContainer}
+    />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-    alignItems: 'center',
-    padding: 20,
-  },
+const getCategoryStyle = (category: string) => {
+  switch (category) {
+    case 'Nourriture':
+      return { borderLeftColor: '#FFA07A' };
+    case 'Exercice':
+      return { borderLeftColor: '#40E0D0' };
+    case 'Loisir':
+      return { borderLeftColor: '#FFD700' };
+    default:
+      return { borderLeftColor: '#E0E0E0' };
+  }
+};
 
-  scrollContainer: {
-    paddingBottom: 20, // Ajoute un espace en bas
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-    textAlign: 'center',
-  },
-  icon: {
-    width: 120,
-    height: 120,
-    marginBottom: 30,
-  },
-  buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  button: {
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    marginBottom: 15,
-    width: '90%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  createButton: {
-    backgroundColor: '#40E0D0', // Turquoise
-    boxShadow: '0px 4px 10px rgba(64, 224, 208, 0.4)', // Nouvelle syntaxe
-  },
-  joinButton: {
-    backgroundColor: '#FF6CB8', // Rose pastel
-    boxShadow: '0px 4px 10px rgba(255, 108, 184, 0.4)', // Nouvelle syntaxe
-  },
-  addEventButton: {
-    backgroundColor: '#FFA500', // Orange vif
-    boxShadow: '0px 4px 10px rgba(255, 165, 0, 0.4)', // Nouvelle syntaxe
-  },
-  viewEventButton: {
-    backgroundColor: '#87CEEB', // Bleu clair
-    boxShadow: '0px 4px 10px rgba(135, 206, 235, 0.4)', // Nouvelle syntaxe
-  },
-  notifButton: {
-    backgroundColor: '#98FB98', // Vert clair
-    boxShadow: '0px 4px 10px rgba(152, 251, 152, 0.4)', // Nouvelle syntaxe
-  },
-  dashboardButton: {
-    backgroundColor: '#D3D3D3', // Gris clair
-    boxShadow: '0px 4px 10px rgba(211, 211, 211, 0.4)', // Nouvelle syntaxe
-  },
+const styles = StyleSheet.create({
+  contentContainer: { paddingBottom: 20 },
+  header: { alignItems: 'center', paddingVertical: 24, backgroundColor: '#7F57FF' },
+  headerTitle: { fontSize: 26, fontWeight: 'bold', color: '#FFF' },
+  headerSubtitle: { fontSize: 18, color: '#E0E0E0' },
+  eventCard: { backgroundColor: '#FFF', padding: 16, borderLeftWidth: 5, marginVertical: 8 },
+  eventTitle: { fontSize: 16, fontWeight: 'bold' },
+  eventDetails: { fontSize: 14, color: '#666' },
+  eventCategory: { fontSize: 12, fontWeight: 'bold', color: '#666' },
 });
