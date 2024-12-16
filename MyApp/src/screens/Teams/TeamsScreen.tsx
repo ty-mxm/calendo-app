@@ -3,9 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native
 import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+// Définition des paramètres de navigation
 type RootStackParamList = {
   Teams: { newTeam?: string };
   TeamDetails: { teamName: string };
+  AddTeam: undefined; // Écran pour ajouter une équipe
 };
 
 type TeamsRouteProp = RouteProp<RootStackParamList, 'Teams'>;
@@ -17,7 +19,7 @@ export default function TeamsScreen() {
 
   const [teams, setTeams] = useState<string[]>(['Team 1', 'Team 2', 'Team 3']);
 
-  // Ajouter la nouvelle équipe reçue dans la route
+  // Ajouter la nouvelle équipe reçue de AddTeamScreen
   useEffect(() => {
     const newTeam = route.params?.newTeam;
     if (newTeam) {
@@ -32,10 +34,7 @@ export default function TeamsScreen() {
 
   const renderTeamCard = ({ item }: { item: string }) => (
     <View style={styles.teamCard}>
-      <TouchableOpacity
-        style={{ flex: 1 }}
-        onPress={() => navigation.navigate('TeamDetails', { teamName: item })}
-      >
+      <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate('TeamDetails', { teamName: item })}>
         <Text style={styles.teamTitle}>👥 {item}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => removeTeam(item)}>
@@ -58,7 +57,7 @@ export default function TeamsScreen() {
             <View style={styles.separatorLine} />
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => navigation.navigate('AddTeam')}
+              onPress={() => navigation.navigate('AddTeam')} // Navigue vers AddTeamScreen
             >
               <Ionicons name="add-circle-outline" size={30} color="#7F57FF" />
               <Text style={styles.addButtonText}>Ajouter une équipe</Text>
@@ -101,10 +100,6 @@ const styles = StyleSheet.create({
     borderLeftColor: '#40E0D0',
     elevation: 2,
     marginHorizontal: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
     alignItems: 'center',
   },
   teamTitle: { fontSize: 18, fontWeight: 'bold', color: '#333' },
