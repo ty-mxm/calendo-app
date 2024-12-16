@@ -81,7 +81,7 @@ export default function HomeScreen() {
           <Text style={styles.subHeader}>Prochains événements</Text>
         </>
       )}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={{ paddingBottom: 80 }}
     />
   );
 }
