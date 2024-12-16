@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+
+// Définition des paramètres de navigation
+type RootStackParamList = {
+  Home: { newEvent?: { name: string; address: string; date: string; startTime: string; endTime: string; category: string } };
+};
 
 export default function AddEventScreen() {
   const [eventName, setEventName] = useState('');
@@ -9,16 +15,39 @@ export default function AddEventScreen() {
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
   const [category, setCategory] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const handleCreateEvent = () => {
+    if (eventName.trim()) {
+      const newEvent = {
+        name: eventName,
+        address,
+        date,
+        startTime,
+        endTime,
+        category,
+      };
+
+      // Redirection vers la page Home avec l'événement
+      navigation.navigate('Home', { newEvent });
+      setEventName('');
+      setAddress('');
+      setDate('');
+      setStartTime('');
+      setEndTime('');
+      setCategory('');
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add New Event</Text>
+      <Text style={styles.title}>Créer un nouvel événement</Text>
 
       <View style={styles.inputContainer}>
         <MaterialIcons name="event" size={24} color="#40E0D0" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Event name*"
+          placeholder="Nom de l'événement*"
           value={eventName}
           onChangeText={setEventName}
         />
@@ -28,7 +57,7 @@ export default function AddEventScreen() {
         <MaterialIcons name="location-on" size={24} color="#FF69B4" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Address"
+          placeholder="Adresse"
           value={address}
           onChangeText={setAddress}
         />
@@ -49,7 +78,7 @@ export default function AddEventScreen() {
           <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
           <TextInput
             style={styles.input}
-            placeholder="Start time"
+            placeholder="Heure de début"
             value={startTime}
             onChangeText={setStartTime}
           />
@@ -58,7 +87,7 @@ export default function AddEventScreen() {
           <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
           <TextInput
             style={styles.input}
-            placeholder="End time"
+            placeholder="Heure de fin"
             value={endTime}
             onChangeText={setEndTime}
           />
@@ -69,14 +98,14 @@ export default function AddEventScreen() {
         <MaterialIcons name="category" size={24} color="#87CEEB" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Custom poll"
+          placeholder="Catégorie"
           value={category}
           onChangeText={setCategory}
         />
       </View>
 
-      <TouchableOpacity style={styles.createButton}>
-        <Text style={styles.createButtonText}>Create Event</Text>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
+        <Text style={styles.createButtonText}>Créer l'événement</Text>
       </TouchableOpacity>
     </View>
   );

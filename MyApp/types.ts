@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  Home: undefined;
+  Home: { newEvent?: Omit<Event, 'id'> }
   EventDetails: { event: Event };
   AddEvent: undefined;
   EditEvent: { event: Event };

@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, ListRenderItem, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList, Event } from  '../../../types';
+import { RootStackParamList, Event } from '../../../types';
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type RoutePropType = RouteProp<RootStackParamList, 'Home'>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<RoutePropType>();
+
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [events] = useState<Event[]>([
+  const [events, setEvents] = useState<Event[]>([
     { id: '1', title: '🍳 Petit-déjeuner au restaurant', location: '123 Rue Principale', date: '2023-12-15', time: '10:00 - 12:00', category: 'Nourriture' },
     { id: '2', title: '🏃‍♂️ Course au parc', location: 'Parc Central', date: '2023-12-16', time: '14:00 - 15:30', category: 'Exercice' },
     { id: '3', title: '🎬 Soirée cinéma', location: 'Cinéma City', date: '2023-12-20', time: '19:00 - 22:00', category: 'Loisir' },
   ]);
 
+  // Ajouter le nouvel événement reçu depuis AddEventScreen
+  useEffect(() => {
+    if (route.params?.newEvent) {
+      const newEvent = route.params.newEvent;
+      setEvents((prevEvents) => [
+        ...prevEvents,
+        { id: `${prevEvents.length + 1}`, ...newEvent }, // Génère un nouvel ID basé sur la taille actuelle des événements
+      ]);
+    }
+  }, [route.params?.newEvent]);
+
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
-  const renderEventCard: ListRenderItem<Event> = ({ item }) => (
+  const renderEventCard = ({ item }: { item: Event }) => (
     <TouchableOpacity
       onPress={() => navigation.navigate('EventDetails', { event: item })}
     >
