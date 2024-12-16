@@ -3,7 +3,10 @@ export type RootStackParamList = {
   EventDetails: { event: Event };
   AddEvent: undefined;
   EditEvent: { event: Event };
-  Main: undefined; // Ajoute cette ligne
+  Main: undefined; 
+  Teams: { newTeam: string }; 
+  TeamDetails: { teamName: string };
+  
 };
 
 // Interface pour les événements

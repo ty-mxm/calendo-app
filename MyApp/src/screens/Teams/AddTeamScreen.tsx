@@ -1,117 +1,147 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+// Définition des paramètres de navigation
+type RootStackParamList = {
+  Teams: { newTeam: string };
+  TeamDetails: { teamName: string };
+};
 
 export default function AddTeamScreen() {
   const [teamName, setTeamName] = useState('');
-  const navigation = useNavigation();
+  const [members, setMembers] = useState<string[]>([]);
+  const [memberName, setMemberName] = useState('');
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  // Ajouter un membre à l'équipe
+  const handleAddMember = () => {
+    if (memberName.trim()) {
+      setMembers((prev) => [...prev, memberName]);
+      setMemberName('');
+    }
+  };
+
+  // Créer l'équipe et naviguer vers Teams
+  const handleCreateTeam = () => {
+    if (teamName.trim()) {
+      console.log(`Nouvelle équipe ajoutée: ${teamName} avec membres: ${members.join(', ')}`);
+      navigation.navigate('Teams', { newTeam: teamName }); // Passe le nom de l'équipe
+      setTeamName('');
+      setMembers([]);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      {/* Titre */}
-      <Text style={styles.title}>Create Your Team</Text>
+      <Text style={styles.title}>Créer une nouvelle équipe</Text>
+      <Text style={styles.subtitle}>Saisis le nom de ton équipe pour commencer</Text>
 
-      {/* Champ d'entrée pour le nom de l'équipe */}
+      {/* Nom de l'équipe */}
       <TextInput
         style={styles.input}
-        placeholder="Enter your team's name"
+        placeholder="Nom de l'équipe"
+        placeholderTextColor="#999"
         value={teamName}
         onChangeText={setTeamName}
       />
 
-      {/* Boutons */}
-      <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => navigation.navigate('GetStarted' as never)}
-      >
-        <Text style={styles.createButtonText}>Create Team</Text>
-      </TouchableOpacity>
+      {/* Ajouter des membres */}
+      <Text style={styles.sectionTitle}>Ajouter des membres</Text>
+      <View style={styles.memberInputContainer}>
+        <TextInput
+          style={styles.memberInput}
+          placeholder="Nom du membre"
+          placeholderTextColor="#999"
+          value={memberName}
+          onChangeText={setMemberName}
+        />
+        <TouchableOpacity style={styles.addMemberButton} onPress={handleAddMember}>
+          <Text style={styles.addMemberButtonText}>Ajouter</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity
-        style={styles.teamDetailsButton}
-        onPress={() => navigation.navigate('TeamDetails' as never)}
-        accessibilityLabel="View team details"
-        accessible={true}
-      >
-        <Text style={styles.buttonText}>View Team Details</Text>
-      </TouchableOpacity>
+      {/* Liste des membres */}
+      <FlatList
+        data={members}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.memberItem}>
+            <Text style={styles.memberText}>👤 {item}</Text>
+          </View>
+        )}
+        ListEmptyComponent={<Text style={styles.emptyText}>Aucun membre ajouté</Text>}
+      />
 
-      <TouchableOpacity
-        style={styles.teamsButton}
-        onPress={() => navigation.navigate('Teams' as never)}
-        accessibilityLabel="View all teams"
-        accessible={true}
-      >
-        <Text style={styles.buttonText}>View All Teams</Text>
+      {/* Bouton Créer l'équipe */}
+      <TouchableOpacity style={styles.createButton} onPress={handleCreateTeam}>
+        <Text style={styles.createButtonText}>Créer l'équipe</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5', // Couleur de fond neutre et élégante
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 30,
-    textAlign: 'center',
-  },
+  container: { flex: 1, backgroundColor: '#F5F5F5', padding: 20, justifyContent: 'center' },
+  title: { fontSize: 26, fontWeight: 'bold', color: '#333', marginBottom: 10, textAlign: 'center' },
+  subtitle: { fontSize: 16, color: '#666', marginBottom: 20, textAlign: 'center' },
   input: {
     backgroundColor: '#FFF',
     borderColor: '#D3D3D3',
     borderWidth: 1,
     padding: 15,
-    borderRadius: 15,
+    borderRadius: 12,
+    fontSize: 16,
     marginBottom: 20,
-    fontSize: 16,
-    width: '90%',
-    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)', // Nouvelle syntaxe
+    width: '100%',
+    elevation: 3,
   },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 10,
+  },
+  memberInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  memberInput: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    borderColor: '#D3D3D3',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 12,
+    fontSize: 16,
+    marginRight: 10,
+    elevation: 3,
+  },
+  addMemberButton: {
+    backgroundColor: '#7F57FF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    elevation: 3,
+  },
+  addMemberButtonText: { color: '#FFF', fontSize: 14, fontWeight: 'bold' },
+  memberItem: {
+    backgroundColor: '#FFF',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 5,
+    elevation: 2,
+  },
+  memberText: { fontSize: 16, color: '#333' },
+  emptyText: { textAlign: 'center', fontSize: 14, color: '#999', marginBottom: 10 },
   createButton: {
-    backgroundColor: '#40E0D0', // Turquoise
+    backgroundColor: '#40E0D0',
     paddingVertical: 15,
-    paddingHorizontal: 30,
     borderRadius: 30,
-    marginBottom: 15,
-    width: '80%',
     alignItems: 'center',
-    boxShadow: '0px 2px 5px rgba(64, 224, 208, 0.4)', // Nouvelle syntaxe
+    elevation: 3,
+    marginTop: 20,
   },
-  createButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  teamDetailsButton: {
-    backgroundColor: '#FFA500', // Orange vif
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginBottom: 15,
-    width: '80%',
-    alignItems: 'center',
-    boxShadow: '0px 2px 5px rgba(255, 165, 0, 0.4)', // Nouvelle syntaxe
-  },
-  teamsButton: {
-    backgroundColor: '#FF6CB8', // Rose pastel
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 30,
-    marginBottom: 15,
-    width: '80%',
-    alignItems: 'center',
-    boxShadow: '0px 2px 5px rgba(255, 108, 184, 0.4)', // Nouvelle syntaxe
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  createButtonText: { color: '#FFF', fontSize: 18, fontWeight: 'bold' },
 });
