@@ -10,7 +10,7 @@ export default function GetStartedScreen() {
       <Text style={styles.title}>Sync Your Calendar With Your Friends</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Home' as never)}
+        onPress={() => navigation.navigate('Main' as never)}
       >
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
@@ -30,12 +30,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+    color: '#333',
   },
   button: {
     backgroundColor: '#7F57FF',
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
+    elevation: 5,
   },
   buttonText: {
     color: '#FFF',
