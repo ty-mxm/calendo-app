@@ -30,6 +30,7 @@ export default function AppNavigator() {
             <Ionicons name="home-outline" size={22} color={color} />
           ),
           tabBarLabel: 'Home',
+          headerShown: true,
         }}
       />
 

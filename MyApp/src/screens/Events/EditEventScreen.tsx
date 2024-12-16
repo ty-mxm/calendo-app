@@ -30,16 +30,18 @@ export default function EditEventScreen() {
       time,
       category,
     };
-
-    // Réinitialiser la pile et naviguer vers EventDetails
+  
+    // Naviguer vers Home via Main (BottomTabNavigator)
     navigation.reset({
-      index: 1,
-      routes: [
-        { name: 'Home' }, // Retourne sur Home
-        { name: 'EventDetails', params: { event: updatedEvent } }, // Puis EventDetails
-      ],
+      index: 0,
+      routes: [{ name: 'Main', params: { screen: 'Home' } }],
     });
   };
+  
+  
+  
+  
+  
 
   return (
     <View style={styles.container}>
