@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import HomeScreen from '../src/screens/Home/HomeScreen';
 import TeamsScreen from '../src/screens/Teams/TeamsScreen';
@@ -20,11 +19,6 @@ export default function AppNavigator() {
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: '#7F57FF',
         tabBarInactiveTintColor: '#555',
-        headerShown: false,
-        tabBarShowLabel: true,
-        tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#7F57FF',
-        tabBarInactiveTintColor: '#555',
       }}
     >
       {/* Onglet Home */}
@@ -34,11 +28,8 @@ export default function AppNavigator() {
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={22} color={color} />
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home-outline" size={22} color={color} />
           ),
           tabBarLabel: 'Home',
-          headerShown: true,
           headerShown: true,
         }}
       />
@@ -48,8 +39,6 @@ export default function AppNavigator() {
         name="Teams"
         component={TeamsScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="group" size={26} color={color} />
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="group" size={26} color={color} />
           ),
@@ -75,30 +64,12 @@ export default function AppNavigator() {
           tabBarLabel: '',
         }}
       />
-        name="AddEvent"
-        component={AddEventScreen}
-        options={{
-          tabBarButton: (props) => (
-            <TouchableOpacity
-              style={styles.centralButton}
-              onPress={(event) => props.onPress && props.onPress(event)}
-            >
-              <View style={styles.buttonInner}>
-                <Ionicons name="add" size={26} color="#FFF" />
-              </View>
-            </TouchableOpacity>
-          ),
-          tabBarLabel: '',
-        }}
-      />
 
       {/* Onglet Notifications */}
       <Tab.Screen
         name="Notifications"
         component={NotificationsScreen}
         options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="notifications-outline" size={22} color={color} />
           tabBarIcon: ({ color }) => (
             <Ionicons name="notifications-outline" size={22} color={color} />
           ),
@@ -113,8 +84,6 @@ export default function AppNavigator() {
         options={{
           tabBarIcon: ({ color }) => (
             <Feather name="user" size={22} color={color} />
-          tabBarIcon: ({ color }) => (
-            <Feather name="user" size={22} color={color} />
           ),
           tabBarLabel: 'Profile',
         }}
@@ -126,7 +95,7 @@ export default function AppNavigator() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: '#FFF',
-    height: 60, // Réduction de la hauteur totale
+    height: 60,
     borderTopWidth: 0,
     position: 'absolute',
     left: 10,
@@ -140,45 +109,21 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   centralButton: {
-    top: -15, // Ajustement pour un bouton flottant
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonInner: {
-    height: 60, // Réduction de la hauteur totale
-    borderTopWidth: 0,
-    position: 'absolute',
-    left: 10,
-    right: 10,
-    bottom: 10,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  centralButton: {
-    top: -15, // Ajustement pour un bouton flottant
+    top: -15,
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonInner: {
     backgroundColor: '#7F57FF',
-    height: 50, // Taille réduite du bouton
-    width: 50,
-    borderRadius: 25,
-    height: 50, // Taille réduite du bouton
+    height: 50,
     width: 50,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#7F57FF',
     shadowOffset: { width: 0, height: 3 },
-    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 8,
     elevation: 8,
   },
 });
