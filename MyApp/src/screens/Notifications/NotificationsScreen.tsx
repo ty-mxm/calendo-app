@@ -47,7 +47,10 @@ const NotificationsScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Notifications</Text>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Notifications</Text>
+        <Text style={styles.headerSubtitle}>Gérez vos notifications ici</Text>
+      </View>
       <FlatList
         data={notifications}
         keyExtractor={(item) => item.id}
@@ -61,21 +64,31 @@ const NotificationsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F4F4F4',
+    backgroundColor: '#F5F5F5',
     paddingTop: 16,
   },
   header: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: '#7F57FF',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 16,
+  },
+  headerTitle: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#7F57FF',
-    textAlign: 'center',
-    marginBottom: 16,
+    color: '#FFF',
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#E0E0E0',
   },
   list: {
     paddingBottom: 16,
   },
   notificationCard: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFF',
     padding: 16,
     marginHorizontal: 16,
     marginVertical: 8,

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker'; // Importer le sélecteur de date/heure
+import moment from 'moment';
 
 export default function AddEventScreen() {
+  const navigation = useNavigation();
+
   const [eventName, setEventName] = useState('');
   const [address, setAddress] = useState('');
   const [date, setDate] = useState('');
@@ -10,6 +15,72 @@ export default function AddEventScreen() {
   const [endTime, setEndTime] = useState('');
   const [category, setCategory] = useState('');
 
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+  const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+
+  // Afficher/masquer le sélecteur de date
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirmDate = (date: Date) => {
+    setDate(moment(date).format('DD/MM/YYYY')); // Formater la date
+    hideDatePicker();
+  };
+
+  // Afficher/masquer le sélecteur d'heure (pour start time)
+  const showStartTimePicker = () => {
+    setStartTimePickerVisibility(true);
+  };
+
+  const hideStartTimePicker = () => {
+    setStartTimePickerVisibility(false);
+  };
+
+  const handleConfirmStartTime = (time: Date) => {
+    setStartTime(moment(time).format('HH:mm')); // Formater l'heure
+    hideStartTimePicker();
+  };
+
+  // Afficher/masquer le sélecteur d'heure (pour end time)
+  const showEndTimePicker = () => {
+    setEndTimePickerVisibility(true);
+  };
+
+  const hideEndTimePicker = () => {
+    setEndTimePickerVisibility(false);
+  };
+
+  const handleConfirmEndTime = (time: Date) => {
+    setEndTime(moment(time).format('HH:mm')); // Formater l'heure
+    hideEndTimePicker();
+  };
+
+  // Fonction pour gérer la création de l'événement
+  const handleCreateEvent = () => {
+    if (!eventName || !address || !date || !startTime || !endTime || !category) {
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
+      return;
+    }
+
+    // Logique de création de l'événement
+    const newEvent = {
+      eventName,
+      address,
+      date,
+      startTime,
+      endTime,
+      category,
+    };
+
+    console.log('Événement créé : ', newEvent);
+    navigation.navigate('Home' as never); // Naviguer vers la page "Home"
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add New Event</Text>
@@ -36,32 +107,23 @@ export default function AddEventScreen() {
 
       <View style={styles.inputContainer}>
         <FontAwesome5 name="calendar-alt" size={20} color="#FFA500" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Date"
-          value={date}
-          onChangeText={setDate}
-        />
+        <TouchableOpacity onPress={showDatePicker} style={styles.input}>
+          <Text style={styles.inputText}>{date || 'Select Date'}</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.timeContainer}>
         <View style={[styles.inputContainer, styles.timeInputContainer]}>
           <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Start time"
-            value={startTime}
-            onChangeText={setStartTime}
-          />
+          <TouchableOpacity onPress={showStartTimePicker} style={styles.input}>
+            <Text style={styles.inputText}>{startTime || 'Start Time'}</Text>
+          </TouchableOpacity>
         </View>
         <View style={[styles.inputContainer, styles.timeInputContainer]}>
           <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder="End time"
-            value={endTime}
-            onChangeText={setEndTime}
-          />
+          <TouchableOpacity onPress={showEndTimePicker} style={styles.input}>
+            <Text style={styles.inputText}>{endTime || 'End Time'}</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -69,15 +131,39 @@ export default function AddEventScreen() {
         <MaterialIcons name="category" size={24} color="#87CEEB" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Custom poll"
+          placeholder="Category"
           value={category}
           onChangeText={setCategory}
         />
       </View>
 
-      <TouchableOpacity style={styles.createButton}>
+      <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
         <Text style={styles.createButtonText}>Create Event</Text>
       </TouchableOpacity>
+
+      {/* Date Picker Modal */}
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirmDate}
+        onCancel={hideDatePicker}
+      />
+
+      {/* Start Time Picker Modal */}
+      <DateTimePickerModal
+        isVisible={isStartTimePickerVisible}
+        mode="time"
+        onConfirm={handleConfirmStartTime}
+        onCancel={hideStartTimePicker}
+      />
+
+      {/* End Time Picker Modal */}
+      <DateTimePickerModal
+        isVisible={isEndTimePickerVisible}
+        mode="time"
+        onConfirm={handleConfirmEndTime}
+        onCancel={hideEndTimePicker}
+      />
     </View>
   );
 }
@@ -108,6 +194,10 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
+    fontSize: 16,
+    color: '#333',
+  },
+  inputText: {
     fontSize: 16,
     color: '#333',
   },
