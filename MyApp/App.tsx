@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppNavigator from './components/BottomMenuBar';
-
+import { RootStackParamList } from './types';
 // Auth Screens
 import ForgotPasswordScreen from './src/screens/Auth/ForgotPasswordScreen';
 import LoginScreen from './src/screens/Auth/LoginScreen';
@@ -37,7 +37,7 @@ import NotificationsScreen from './src/screens/Notifications/NotificationsScreen
 import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
 import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 
 export default function App() {
