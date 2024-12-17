@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation, NavigationProp, StackActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../types';
 
-type NavigationPropType = NavigationProp<RootStackParamList, 'Teams'>;
+type NavigationPropType = StackNavigationProp<RootStackParamList, 'Teams'>;
 
 export default function AddTeamScreen() {
   const navigation = useNavigation<NavigationPropType>();
@@ -21,15 +22,17 @@ export default function AddTeamScreen() {
     }
   };
 
-  // Créer l'équipe et revenir à l'écran Teams avec reset
+  // Créer l'équipe et revenir à l'écran Teams
   const handleCreateTeam = () => {
     if (teamName.trim()) {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Teams', params: { newTeam: teamName } }],
-      });
+      // Naviguer vers Teams sans réinitialiser la pile
+      navigation.navigate('Teams', { newTeam: teamName });
     }
   };
+
+  useEffect(() => {
+    console.log('Navigating to Teams...');
+  }, [navigation]);
 
   return (
     <FlatList
@@ -37,7 +40,6 @@ export default function AddTeamScreen() {
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={() => (
         <>
-          {/* Header */}
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Créer une nouvelle équipe</Text>
             <Text style={styles.headerSubtitle}>

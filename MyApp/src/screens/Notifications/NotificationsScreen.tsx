@@ -1,43 +1,49 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { NavigationProp } from '@react-navigation/native';
-
 
 interface Notification {
   id: string;
   title: string;
   message: string;
   time: string;
+  category: string; // Catégorie pour styliser les notifications
 }
 
-type Props = {
-  navigation: NavigationProp<any, any>;
-};
-
-const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
-  
+const NotificationsScreen: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([
-    { id: '1', title: 'Nouvelle équipe ajoutée', message: 'Une équipe a été ajoutée avec succès.', time: 'Il y a 5 min' },
-    { id: '2', title: 'Événement à venir', message: 'N’oubliez pas votre événement demain.', time: 'Il y a 2 heures' },
-    { id: '3', title: 'Mise à jour', message: 'Votre profil a été mis à jour.', time: 'Hier' },
+    { id: '1', title: 'Nouvelle équipe ajoutée', message: 'Une équipe a été ajoutée avec succès.', time: 'Il y a 5 min', category: 'Ajout' },
+    { id: '2', title: 'Événement à venir', message: 'N’oubliez pas votre événement demain.', time: 'Il y a 2 heures', category: 'Rappel' },
+    { id: '3', title: 'Mise à jour', message: 'Votre profil a été mis à jour.', time: 'Hier', category: 'Mise à jour' },
   ]);
 
-  // Function pour supprimer une notification
   const handleDeleteNotification = (id: string) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
-    );
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
     Alert.alert('Notification supprimée');
   };
 
-  // Function pour afficher une notification
   const renderNotification = ({ item }: { item: Notification }) => (
-    <TouchableOpacity style={styles.notificationCard} onLongPress={() => handleDeleteNotification(item.id)}>
+    <TouchableOpacity
+      style={[styles.notificationCard, getCategoryStyle(item.category)]}
+      onLongPress={() => handleDeleteNotification(item.id)}
+    >
       <Text style={styles.notificationTitle}>{item.title}</Text>
       <Text style={styles.notificationMessage}>{item.message}</Text>
       <Text style={styles.notificationTime}>{item.time}</Text>
     </TouchableOpacity>
   );
+
+  const getCategoryStyle = (category: string) => {
+    switch (category) {
+      case 'Ajout':
+        return { borderLeftColor: '#FFA07A' }; // Saumon
+      case 'Rappel':
+        return { borderLeftColor: '#40E0D0' }; // Turquoise
+      case 'Mise à jour':
+        return { borderLeftColor: '#FFD700' }; // Doré
+      default:
+        return { borderLeftColor: '#E0E0E0' };
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -56,13 +62,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F4F4F4',
-    padding: 16,
+    paddingTop: 16,
   },
   header: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 16,
+    color: '#7F57FF',
     textAlign: 'center',
+    marginBottom: 16,
   },
   list: {
     paddingBottom: 16,
@@ -70,27 +77,30 @@ const styles = StyleSheet.create({
   notificationCard: {
     backgroundColor: '#FFFFFF',
     padding: 16,
+    marginHorizontal: 16,
     marginVertical: 8,
-    borderRadius: 8,
+    borderRadius: 12,
+    borderLeftWidth: 5,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
     elevation: 2,
   },
   notificationTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 4,
   },
   notificationMessage: {
     fontSize: 14,
-    color: '#666666',
+    color: '#666',
     marginBottom: 4,
   },
   notificationTime: {
     fontSize: 12,
-    color: '#999999',
+    color: '#999',
   },
 });
 

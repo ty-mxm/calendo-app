@@ -39,7 +39,6 @@ import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-
 export default function App() {
   return (
     <NavigationContainer>
