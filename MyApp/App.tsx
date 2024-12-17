@@ -70,7 +70,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Home', headerShown: true }}
+          options={{ title: 'Home', headerShown: false }}
         />
 
         {/* Main App Navigator */}
@@ -106,7 +106,7 @@ export default function App() {
         <Stack.Screen
           name="EventDetails"
           component={EventDetailsScreen}
-          options={{ title: 'Event Details', headerShown: true }}
+          options={{ title: 'Event Details', headerShown: false }}
         />
         <Stack.Screen
           name="EditEvent"
