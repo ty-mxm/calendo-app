@@ -1,107 +1,115 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import { useNavigation, useRoute, RouteProp, NavigationProp } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-// Définition des paramètres de navigation
-type RootStackParamList = {
-  Teams: { newTeam?: string };
-  TeamDetails: { teamName: string };
-  AddTeam: undefined; // Écran pour ajouter une équipe
-};
+export default function TeamsScreen({ route }: { route: { params?: { newTeam?: string } } }) {
+  const [teams, setTeams] = useState(['Team 1', 'Team 2', 'Team 3']);
+  const navigation = useNavigation();
 
-type TeamsRouteProp = RouteProp<RootStackParamList, 'Teams'>;
-type NavigationPropType = NavigationProp<RootStackParamList>;
-
-export default function TeamsScreen() {
-  const navigation = useNavigation<NavigationPropType>();
-  const route = useRoute<TeamsRouteProp>();
-
-  const [teams, setTeams] = useState<string[]>(['Team 1', 'Team 2', 'Team 3']);
-
-  // Ajouter la nouvelle équipe reçue de AddTeamScreen
-  useEffect(() => {
-    const newTeam = route.params?.newTeam;
-    if (newTeam) {
-      setTeams((prevTeams) => [...prevTeams, newTeam]);
+  // Récupérer une nouvelle équipe ajoutée
+  if (route.params?.newTeam) {
+    if (!teams.includes(route.params.newTeam)) {
+      setTeams([...teams, route.params.newTeam]);
     }
-  }, [route.params?.newTeam]);
+  }
 
-  // Fonction pour supprimer une équipe
-  const removeTeam = (teamName: string) => {
-    setTeams((prevTeams) => prevTeams.filter((team) => team !== teamName));
+  const handleTeamDetails = (team: string) => {
+    navigation.navigate('TeamDetails', { teamName: team });
   };
 
-  const renderTeamCard = ({ item }: { item: string }) => (
-    <View style={styles.teamCard}>
-      <TouchableOpacity style={{ flex: 1 }} onPress={() => navigation.navigate('TeamDetails', { teamName: item })}>
-        <Text style={styles.teamTitle}>👥 {item}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => removeTeam(item)}>
-        <Ionicons name="close-circle-outline" size={24} color="#FF6CB8" />
-      </TouchableOpacity>
-    </View>
-  );
-
   return (
-    <FlatList
-      data={teams}
-      keyExtractor={(item, index) => index.toString()}
-      ListHeaderComponent={() => (
-        <>
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>👥 Mes équipes</Text>
-            <Text style={styles.headerSubtitle}>Organise et gère tes équipes facilement</Text>
-          </View>
-          <View style={styles.separatorContainer}>
-            <View style={styles.separatorLine} />
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => navigation.navigate('AddTeam')} // Navigue vers AddTeamScreen
-            >
-              <Ionicons name="add-circle-outline" size={30} color="#7F57FF" />
-              <Text style={styles.addButtonText}>Ajouter une équipe</Text>
-            </TouchableOpacity>
-            <View style={styles.separatorLine} />
-          </View>
-        </>
-      )}
-      renderItem={renderTeamCard}
-      ListEmptyComponent={() => (
-        <Text style={styles.emptyText}>Aucune équipe pour le moment. Crée ta première équipe !</Text>
-      )}
-      contentContainerStyle={styles.contentContainer}
-    />
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#FFF" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>👥 Mes équipes</Text>
+        <View style={{ width: 24 }} /> {/* Espacement pour équilibrer */}
+      </View>
+
+      {/* Sous-titre */}
+      <Text style={styles.subtitle}>Organise et gère tes équipes facilement</Text>
+
+      {/* Ajouter une équipe */}
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate('AddTeam' as never)}
+      >
+        <Ionicons name="add-circle-outline" size={24} color="#FFF" />
+        <Text style={styles.addButtonText}>Ajouter une équipe</Text>
+      </TouchableOpacity>
+
+      {/* Liste des équipes */}
+      <FlatList
+        data={teams}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.teamContainer}
+            onPress={() => handleTeamDetails(item)}
+          >
+            <View style={styles.teamInfo}>
+              <Ionicons name="people" size={20} color="#7F57FF" />
+              <Text style={styles.teamName}>{item}</Text> {/* Rendu du texte */}
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#AAA" />
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.listContent}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  contentContainer: { paddingBottom: 80 },
-  header: { alignItems: 'center', paddingVertical: 20, backgroundColor: '#7F57FF', marginBottom: 16 },
-  headerTitle: { fontSize: 26, fontWeight: 'bold', color: '#FFF' },
-  headerSubtitle: { fontSize: 16, color: '#E0E0E0', marginTop: 5 },
-  separatorContainer: {
+  container: { flex: 1, backgroundColor: '#F9F9F9' },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#7F57FF',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#FFF' },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 15,
+    marginBottom: 20,
+  },
+  addButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 16,
-    paddingHorizontal: 16,
+    marginHorizontal: 20,
+    padding: 12,
+    backgroundColor: '#7F57FF',
+    borderRadius: 10,
   },
-  separatorLine: { flex: 1, height: 1, backgroundColor: '#E0E0E0' },
-  addButton: { flexDirection: 'row', alignItems: 'center', marginHorizontal: 8 },
-  addButtonText: { fontSize: 16, fontWeight: 'bold', color: '#7F57FF', marginLeft: 8 },
-  teamCard: {
+  addButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: 8,
+  },
+  teamContainer: {
     flexDirection: 'row',
-    backgroundColor: '#FFF',
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 12,
-    borderLeftWidth: 5,
-    borderLeftColor: '#40E0D0',
-    elevation: 2,
-    marginHorizontal: 16,
+    justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 15,
+    marginHorizontal: 20,
+    marginVertical: 8,
+    borderRadius: 10,
+    elevation: 2,
   },
-  teamTitle: { fontSize: 18, fontWeight: 'bold', color: '#333' },
-  emptyText: { textAlign: 'center', fontSize: 16, color: '#999', marginTop: 20 },
+  teamInfo: { flexDirection: 'row', alignItems: 'center' },
+  teamName: { marginLeft: 10, fontSize: 16, fontWeight: 'bold', color: '#333' },
+  listContent: { paddingBottom: 30 },
 });

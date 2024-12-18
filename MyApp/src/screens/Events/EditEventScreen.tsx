@@ -30,18 +30,13 @@ export default function EditEventScreen() {
       time,
       category,
     };
-  
+
     // Naviguer vers Home via Main (BottomTabNavigator)
     navigation.reset({
       index: 0,
       routes: [{ name: 'Main', params: { screen: 'Home' } }],
     });
   };
-  
-  
-  
-  
-  
 
   return (
     <View style={styles.container}>

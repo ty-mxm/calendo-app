@@ -12,7 +12,7 @@ type EventDetailsRouteProp = RouteProp<RootStackParamList, 'EventDetails'>;
 export default function EventDetailsScreen() {
   const route = useRoute<EventDetailsRouteProp>();
   const navigation = useNavigation<NavigationProp>();
-  const { event } = route.params;
+  const { eventName, team, bucketlist, category } = route.params;
 
   return (
     <View style={styles.container}>
@@ -24,16 +24,26 @@ export default function EventDetailsScreen() {
       </View>
 
       <View style={styles.eventDetailsContainer}>
-        <Text style={styles.title}>{event.title}</Text>
-        <Text style={styles.details}>📍 {event.location}</Text>
-        <Text style={styles.details}>⏰ {event.time}</Text>
-        <Text style={styles.details}>📅 {event.date}</Text>
-        <Text style={styles.category}>Catégorie : {event.category}</Text>
+        <Text style={styles.title}>{eventName}</Text>
+        <Text style={styles.details}>📍 {team}</Text>
+        <Text style={styles.details}>⏰ {bucketlist}</Text>
+        <Text style={styles.category}>Catégorie : {category}</Text>
       </View>
 
       <TouchableOpacity
         style={styles.editButton}
-        onPress={() => navigation.navigate('EditEvent', { event })}
+        onPress={() =>
+          navigation.navigate('EditEvent', {
+            event: {
+              id: '1', // Remplacez par un ID unique réel
+              title: eventName,
+              location: team,
+              date: bucketlist,
+              time: '00:00', // Remplissez si vous avez une valeur pour le temps
+              category: category,
+            },
+          })
+        }
       >
         <Ionicons name="pencil-outline" size={20} color="#FFF" />
         <Text style={styles.editButtonText}>Modifier</Text>

@@ -1,15 +1,14 @@
 export type RootStackParamList = {
-  Home: { newEvent?: Omit<Event, 'id'> }
-  EventDetails: { event: Event };
-  AddEvent: undefined;
+  Home: { newEvent?: Omit<Event, 'id'> };
+  AddEvent: { selectedTeam?: string };
   EditEvent: { event: Event };
-  Main: undefined; 
-  Teams: { newTeam: string }; 
+  Main: undefined;
+  Teams: undefined;
   TeamDetails: { teamName: string };
-  
+  EventDetails: { eventName: string; team: string; bucketlist: string; category: string };
+  Bucketlists: undefined;
 };
 
-// Interface pour les événements
 export interface Event {
   id: string;
   title: string;

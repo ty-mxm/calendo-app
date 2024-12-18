@@ -35,7 +35,7 @@ export default function HomeScreen() {
 
   const renderEventCard = ({ item }: { item: Event }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate('EventDetails', { event: item })}
+      onPress={() => navigation.navigate('EventDetails', { eventName: item.title, team: '', bucketlist: '', category: item.category })}
     >
       {renderEvent(item)}
     </TouchableOpacity>
@@ -82,7 +82,7 @@ export default function HomeScreen() {
             <View style={styles.separatorLine} />
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => navigation.navigate('AddEvent')}
+              onPress={() => navigation.navigate('AddEvent' as never)}
             >
               <Ionicons name="add-circle-outline" size={30} color="#7F57FF" />
               <Text style={styles.addButtonText}>Ajouter un événement</Text>
