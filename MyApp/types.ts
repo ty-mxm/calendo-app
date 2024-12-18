@@ -1,31 +1,4 @@
-export type RootStackParamList = {
-  ForgotPassword: undefined;
-  Login: undefined;
-  SignUp: undefined;
-  GetStarted: undefined;
-  Home: undefined;
-  Main: undefined;
-
-  Teams: { newTeam?: string };
-  AddTeam: undefined;
-  TeamDetails: { teamName: string };
-
-  AddEvent: undefined;
-  EventDetails: { event: Event };
-  EditEvent: { event: Event };
-
-  Bucketlists: undefined;
-  BucketlistDetails: undefined;
-
-  Calendar: undefined;
-  CalendarDetails: undefined;
-
-  Dashboard: undefined;
-  Notifications: undefined;
-  NotificationsSettings: undefined;
-  Profile: undefined;
-  Settings: undefined;
-};
+// types.ts
 
 export interface Event {
   id: string;
@@ -35,3 +8,29 @@ export interface Event {
   time: string;
   category: string;
 }
+export type RootStackParamList = {
+  Home: { newEvent?: Omit<Event, 'id'> };
+  AddEvent: { selectedTeam?: string };
+  EditEvent: { event: Event };
+  Main: undefined;
+  Teams: undefined;
+  AddTeam: undefined;
+  TeamDetails: { teamName: string };
+  EventDetails: { eventName: string; team: string; bucketlist: string; category: string };
+  Bucketlists: undefined;
+  BucketlistDetails: undefined; 
+  Calendar: undefined;         
+  CalendarDetails: undefined;  
+  Dashboard: undefined;        
+  Notifications: undefined;    
+  NotificationsSettings: undefined; // Ajout ici
+  Profile: undefined;
+  Settings: undefined;
+  Login: undefined;
+  ForgotPassword: undefined;
+  SignUp: undefined;
+  GetStarted: undefined;
+  
+};
+
+

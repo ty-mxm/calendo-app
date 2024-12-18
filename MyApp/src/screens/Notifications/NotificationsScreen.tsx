@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { NavigationProp } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 
+// Interface pour les notifications
 interface Notification {
   id: string;
   title: string;
@@ -9,29 +12,30 @@ interface Notification {
   category: string; // Catégorie pour styliser les notifications
 }
 
-const NotificationsScreen: React.FC = () => {
+interface Props {
+  navigation: NavigationProp<any>;
+}
+
+const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
   const [notifications, setNotifications] = useState<Notification[]>([
     { id: '1', title: 'Nouvelle équipe ajoutée', message: 'Une équipe a été ajoutée avec succès.', time: 'Il y a 5 min', category: 'Ajout' },
-    { id: '2', title: 'Événement à venir', message: 'N’oubliez pas votre événement demain.', time: 'Il y a 2 heures', category: 'Rappel' },
+    { id: '2', title: 'Événement à venir', message: 'N\'oubliez pas votre événement demain.', time: 'Il y a 2 heures', category: 'Rappel' },
     { id: '3', title: 'Mise à jour', message: 'Votre profil a été mis à jour.', time: 'Hier', category: 'Mise à jour' },
   ]);
 
+  // Supprimer une notification
   const handleDeleteNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
-    Alert.alert('Notification supprimée');
+    Alert.alert(
+      'Supprimer la notification',
+      'Voulez-vous vraiment supprimer cette notification ?',
+      [
+        { text: 'Annuler', style: 'cancel' },
+        { text: 'Supprimer', onPress: () => setNotifications((prev) => prev.filter((n) => n.id !== id)) },
+      ]
+    );
   };
 
-  const renderNotification = ({ item }: { item: Notification }) => (
-    <TouchableOpacity
-      style={[styles.notificationCard, getCategoryStyle(item.category)]}
-      onLongPress={() => handleDeleteNotification(item.id)}
-    >
-      <Text style={styles.notificationTitle}>{item.title}</Text>
-      <Text style={styles.notificationMessage}>{item.message}</Text>
-      <Text style={styles.notificationTime}>{item.time}</Text>
-    </TouchableOpacity>
-  );
-
+  // Stylisation des catégories
   const getCategoryStyle = (category: string) => {
     switch (category) {
       case 'Ajout':
@@ -45,27 +49,49 @@ const NotificationsScreen: React.FC = () => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Notifications</Text>
-        <Text style={styles.headerSubtitle}>Gérez vos notifications ici</Text>
-      </View>
-      <FlatList
-        data={notifications}
-        keyExtractor={(item) => item.id}
-        renderItem={renderNotification}
-        contentContainerStyle={styles.list}
-      />
+  // Rendu d'une notification
+  const renderNotification = ({ item }: { item: Notification }) => (
+    <View style={styles.cardContainer}>
+      <TouchableOpacity
+        style={[styles.notificationCard, getCategoryStyle(item.category)]}
+        onLongPress={() => handleDeleteNotification(item.id)}
+      >
+        <Ionicons name="notifications-outline" size={24} color="#7F57FF" style={styles.icon} />
+        <View style={styles.textContainer}>
+          <Text style={styles.notificationTitle}>{item.title}</Text>
+          <Text style={styles.notificationMessage}>{item.message}</Text>
+          <Text style={styles.notificationTime}>{item.time}</Text>
+        </View>
+        <TouchableOpacity onPress={() => handleDeleteNotification(item.id)}>
+          <Ionicons name="close-circle" size={24} color="#FF6C6C" />
+        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
+  );
+
+  return (
+    <FlatList
+      data={notifications}
+      keyExtractor={(item) => item.id}
+      renderItem={renderNotification}
+      ListHeaderComponent={() => (
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>🔔 Notifications</Text>
+          <Text style={styles.headerSubtitle}>Vos dernières mises à jour et alertes</Text>
+        </View>
+      )}
+      ListEmptyComponent={() => (
+        <Text style={styles.emptyText}>Aucune notification disponible</Text>
+      )}
+      contentContainerStyle={styles.contentContainer}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  contentContainer: {
     backgroundColor: '#F5F5F5',
-    paddingTop: 16,
+    paddingBottom: 80,
   },
   header: {
     alignItems: 'center',
@@ -83,37 +109,51 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     fontSize: 16,
     color: '#E0E0E0',
+    marginTop: 5,
   },
-  list: {
-    paddingBottom: 16,
+  cardContainer: {
+    marginHorizontal: 16,
   },
   notificationCard: {
-    backgroundColor: '#FFF',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
     padding: 16,
-    marginHorizontal: 16,
     marginVertical: 8,
     borderRadius: 12,
-    borderLeftWidth: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    borderLeftWidth: 5,
+  },
+  icon: {
+    marginRight: 12,
+  },
+  textContainer: {
+    flex: 1,
   },
   notificationTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
   },
   notificationMessage: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 4,
+    marginTop: 4,
   },
   notificationTime: {
     fontSize: 12,
     color: '#999',
+    marginTop: 4,
+  },
+  emptyText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#999',
+    marginTop: 20,
   },
 });
 

@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
   const renderEventCard: ListRenderItem<Event> = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', { event: item })}>
+    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', { eventName: item.title, team: '', bucketlist: '', category: item.category })}>
       {renderEvent(item)}
     </TouchableOpacity>
   );
@@ -42,7 +42,7 @@ export default function HomeScreen() {
       ListHeaderComponent={() => (
         <>
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Bienvenue sur Calendo!</Text>
+            <Text style={styles.headerTitle}>Bienvenue sur Calendo</Text>
             <Text style={styles.headerSubtitle}>Gardez un œil sur vos prochains événements</Text>
           </View>
 
@@ -61,7 +61,7 @@ export default function HomeScreen() {
 
           <View style={styles.separatorContainer}>
             <View style={styles.separatorLine} />
-            <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddEvent')}>
+            <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddEvent' as never)}>
               <Ionicons name="add-circle-outline" size={30} color="#7F57FF" />
               <Text style={styles.addButtonText}>Ajouter un événement</Text>
             </TouchableOpacity>

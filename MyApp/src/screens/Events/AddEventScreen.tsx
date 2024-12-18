@@ -1,185 +1,147 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  FlatList,
+} from 'react-native';
+import { MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import DateTimePickerModal from 'react-native-modal-datetime-picker'; // Importer le sélecteur de date/heure
-import moment from 'moment';
 
 export default function AddEventScreen() {
   const navigation = useNavigation();
 
   const [eventName, setEventName] = useState('');
-  const [address, setAddress] = useState('');
-  const [date, setDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [team, setTeam] = useState('');
+  const [bucketlist, setBucketlist] = useState('');
   const [category, setCategory] = useState('');
+  const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
-  const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+  const teams = ['Team 1', 'Team 2', 'Team 3']; // Exemple de liste d'équipes
 
-  // Afficher/masquer le sélecteur de date
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  // Fonction pour choisir une équipe
+  const handleSelectTeam = (selectedTeam: string) => {
+    setTeam(selectedTeam);
+    setIsTeamModalVisible(false); // Fermer la popup
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirmDate = (date: Date) => {
-    setDate(moment(date).format('DD/MM/YYYY')); // Formater la date
-    hideDatePicker();
-  };
-
-  // Afficher/masquer le sélecteur d'heure (pour start time)
-  const showStartTimePicker = () => {
-    setStartTimePickerVisibility(true);
-  };
-
-  const hideStartTimePicker = () => {
-    setStartTimePickerVisibility(false);
-  };
-
-  const handleConfirmStartTime = (time: Date) => {
-    setStartTime(moment(time).format('HH:mm')); // Formater l'heure
-    hideStartTimePicker();
-  };
-
-  // Afficher/masquer le sélecteur d'heure (pour end time)
-  const showEndTimePicker = () => {
-    setEndTimePickerVisibility(true);
-  };
-
-  const hideEndTimePicker = () => {
-    setEndTimePickerVisibility(false);
-  };
-
-  const handleConfirmEndTime = (time: Date) => {
-    setEndTime(moment(time).format('HH:mm')); // Formater l'heure
-    hideEndTimePicker();
-  };
-
-  // Fonction pour gérer la création de l'événement
   const handleCreateEvent = () => {
-    if (!eventName || !address || !date || !startTime || !endTime || !category) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
+    if (!eventName || !team || !bucketlist || !category) {
+      alert('Veuillez remplir tous les champs');
       return;
     }
 
-    // Logique de création de l'événement
-    const newEvent = {
-      eventName,
-      address,
-      date,
-      startTime,
-      endTime,
-      category,
-    };
-
-    console.log('Événement créé : ', newEvent);
-    navigation.navigate('Home' as never); // Naviguer vers la page "Home"
+    console.log({ eventName, team, bucketlist, category });
+    alert('Événement créé avec succès !');
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add New Event</Text>
+      <Text style={styles.title}>Créer un nouvel événement</Text>
 
+      {/* Nom de l'événement */}
       <View style={styles.inputContainer}>
-        <MaterialIcons name="event" size={24} color="#40E0D0" style={styles.icon} />
+        <MaterialIcons name="event" size={24} color="#40E0D0" />
         <TextInput
           style={styles.input}
-          placeholder="Event name*"
+          placeholder="Nom de l'événement*"
           value={eventName}
           onChangeText={setEventName}
         />
       </View>
 
+      {/* Groupe sélectionné */}
       <View style={styles.inputContainer}>
-        <MaterialIcons name="location-on" size={24} color="#FF69B4" style={styles.icon} />
+        <MaterialIcons name="group" size={24} color="#FF69B4" />
         <TextInput
           style={styles.input}
-          placeholder="Address"
-          value={address}
-          onChangeText={setAddress}
+          placeholder="Ajouter un groupe"
+          value={team}
+          editable={false}
         />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="calendar-alt" size={20} color="#FFA500" style={styles.icon} />
-        <TouchableOpacity onPress={showDatePicker} style={styles.input}>
-          <Text style={styles.inputText}>{date || 'Select Date'}</Text>
+        <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
+          <AntDesign name="pluscircle" size={24} color="#7F57FF" />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.timeContainer}>
-        <View style={[styles.inputContainer, styles.timeInputContainer]}>
-          <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
-          <TouchableOpacity onPress={showStartTimePicker} style={styles.input}>
-            <Text style={styles.inputText}>{startTime || 'Start Time'}</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={[styles.inputContainer, styles.timeInputContainer]}>
-          <FontAwesome5 name="clock" size={20} color="#7F57FF" style={styles.icon} />
-          <TouchableOpacity onPress={showEndTimePicker} style={styles.input}>
-            <Text style={styles.inputText}>{endTime || 'End Time'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
+      {/* Ajouter une Bucketlist */}
       <View style={styles.inputContainer}>
-        <MaterialIcons name="category" size={24} color="#87CEEB" style={styles.icon} />
+        <FontAwesome5 name="list-alt" size={20} color="#FFA500" />
         <TextInput
           style={styles.input}
-          placeholder="Category"
+          placeholder="Ajouter une Bucketlist"
+          value={bucketlist}
+          editable={false}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('Bucketlists' as never)}>
+          <AntDesign name="pluscircle" size={24} color="#7F57FF" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Catégorie */}
+      <View style={styles.inputContainer}>
+        <MaterialIcons name="category" size={24} color="#87CEEB" />
+        <TextInput
+          style={styles.input}
+          placeholder="Catégorie*"
           value={category}
           onChangeText={setCategory}
         />
       </View>
 
+      {/* Bouton Créer l'événement */}
       <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
-        <Text style={styles.createButtonText}>Create Event</Text>
+        <Text style={styles.createButtonText}>Créer l'événement</Text>
       </TouchableOpacity>
 
-      {/* Date Picker Modal */}
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={handleConfirmDate}
-        onCancel={hideDatePicker}
-      />
+      {/* Popup pour sélectionner une équipe */}
+      <Modal
+        visible={isTeamModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setIsTeamModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choisir une équipe</Text>
 
-      {/* Start Time Picker Modal */}
-      <DateTimePickerModal
-        isVisible={isStartTimePickerVisible}
-        mode="time"
-        onConfirm={handleConfirmStartTime}
-        onCancel={hideStartTimePicker}
-      />
+            <FlatList
+              data={teams}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.teamOption}
+                  onPress={() => handleSelectTeam(item)}
+                >
+                  <Text style={styles.teamName}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
 
-      {/* End Time Picker Modal */}
-      <DateTimePickerModal
-        isVisible={isEndTimePickerVisible}
-        mode="time"
-        onConfirm={handleConfirmEndTime}
-        onCancel={hideEndTimePicker}
-      />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsTeamModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Fermer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-    padding: 20,
-  },
+  container: { flex: 1, backgroundColor: '#F5F5F5', padding: 20 },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
+    color: '#333',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#333',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -189,36 +151,47 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 15,
   },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333',
-  },
-  inputText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  timeInputContainer: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
+  input: { flex: 1, fontSize: 16, marginLeft: 10, color: '#333' },
   createButton: {
     backgroundColor: '#7F57FF',
     padding: 15,
     borderRadius: 10,
     marginTop: 20,
   },
-  createButtonText: {
-    color: '#FFF',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
+  createButtonText: { color: '#FFF', fontSize: 18, textAlign: 'center', fontWeight: 'bold' },
+
+  // Modal styles
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
+  modalContent: {
+    backgroundColor: '#FFF',
+    width: '90%',
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+    color: '#333',
+  },
+  teamOption: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+  },
+  teamName: { fontSize: 16, color: '#333', textAlign: 'center' },
+  closeButton: {
+    marginTop: 10,
+    backgroundColor: '#FF6C6C',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  closeButtonText: { color: '#FFF', fontWeight: 'bold', fontSize: 16 },
 });
