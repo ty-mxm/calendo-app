@@ -42,7 +42,7 @@ export default function HomeScreen() {
       ListHeaderComponent={() => (
         <>
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Bienvenue sur Calendo</Text>
+            <Text style={styles.headerTitle}>Bienvenue sur Calendo!</Text>
             <Text style={styles.headerSubtitle}>Gardez un œil sur vos prochains événements</Text>
           </View>
 
