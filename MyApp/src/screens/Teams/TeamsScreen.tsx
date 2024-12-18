@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { RootStackParamList } from 'types';
 
 export default function TeamsScreen({ route }: { route: { params?: { newTeam?: string } } }) {
   const [teams, setTeams] = useState(['Team 1', 'Team 2', 'Team 3']);
-  const navigation = useNavigation();
+  type NavigationType = NavigationProp<RootStackParamList, 'Teams'>;
+  const navigation = useNavigation<NavigationType>();
 
   // Récupérer une nouvelle équipe ajoutée
   if (route.params?.newTeam) {

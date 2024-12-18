@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../types';
@@ -41,10 +49,23 @@ export default function TeamDetailsScreen() {
     );
   };
 
+  // Enregistrer les modifications
+  const saveChanges = () => {
+    Alert.alert('Succès', 'Les modifications ont été enregistrées.');
+    navigation.navigate('Teams' as never);
+  };
+
   return (
     <View style={styles.container}>
       {/* En-tête */}
-      <Text style={styles.title}>👥 {teamName}</Text>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="#FFF" />
+        </TouchableOpacity>
+        <Text style={styles.title}>👥 {teamName}</Text>
+        <View style={{ width: 24 }} /> {/* Pour équilibrer */}
+      </View>
+
       <Text style={styles.subtitle}>Gère les membres de cette équipe</Text>
 
       {/* Champ pour ajouter un membre */}
@@ -77,9 +98,9 @@ export default function TeamDetailsScreen() {
         }
       />
 
-      {/* Bouton pour revenir */}
-      <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.goBackButtonText}>Retour</Text>
+      {/* Bouton Enregistrer */}
+      <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
+        <Text style={styles.saveButtonText}>Enregistrer</Text>
       </TouchableOpacity>
     </View>
   );
@@ -91,18 +112,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     padding: 20,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#7F57FF',
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
   title: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#7F57FF',
+    color: '#FFF',
     textAlign: 'center',
-    marginBottom: 10,
   },
   subtitle: {
     fontSize: 16,
     color: '#666',
     textAlign: 'center',
-    marginBottom: 20,
+    marginVertical: 20,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -115,8 +145,8 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    marginRight: 10,
     color: '#333',
+    marginRight: 10,
   },
   addButton: {
     backgroundColor: '#40E0D0',
@@ -148,14 +178,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
-  goBackButton: {
-    backgroundColor: '#FFA500',
+  saveButton: {
+    backgroundColor: '#7F57FF',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 20,
+    marginVertical: 20,
+    alignSelf: 'center',
+    width: '50%',
   },
-  goBackButtonText: {
+  saveButtonText: {
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,

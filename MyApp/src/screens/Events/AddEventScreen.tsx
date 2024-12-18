@@ -9,6 +9,7 @@ import {
   FlatList,
 } from 'react-native';
 import { MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function AddEventScreen() {
   const [eventName, setEventName] = useState('');
@@ -18,6 +19,7 @@ export default function AddEventScreen() {
   const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
 
   const teams = ['Team 1', 'Team 2', 'Team 3']; // Exemple de liste d'équipes
+  const navigation = useNavigation();
 
   // Fonction pour choisir une équipe
   const handleSelectTeam = (selectedTeam: string) => {
@@ -71,8 +73,11 @@ export default function AddEventScreen() {
           style={styles.input}
           placeholder="Ajouter une Bucketlist"
           value={bucketlist}
-          onChangeText={setBucketlist}
+          editable={false}
         />
+        <TouchableOpacity onPress={() => navigation.navigate('Bucketlists' as never)}>
+          <AntDesign name="pluscircle" size={24} color="#7F57FF" />
+        </TouchableOpacity>
       </View>
 
       {/* Catégorie */}
