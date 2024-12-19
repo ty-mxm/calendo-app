@@ -36,6 +36,7 @@ import DashboardScreen from './src/screens/Dashboard/DashboardScreen';
 import NotificationsScreen from './src/screens/Notifications/NotificationsScreen';
 import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
 import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
+import ChangePasswordScreen from './src/screens/Profile/ChangePasswordScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -158,6 +159,11 @@ export default function App() {
           component={UserProfileScreen}
           options={{ title: 'Profile', headerShown: true }}
         />
+        <Stack.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{ title: 'Change Password', headerShown: true }}
+      />
         <Stack.Screen
           name="Settings"
           component={GeneralSettingsScreen}

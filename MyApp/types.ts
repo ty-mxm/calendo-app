@@ -30,6 +30,7 @@ export type RootStackParamList = {
   ForgotPassword: undefined;
   SignUp: undefined;
   GetStarted: undefined;
+  ChangePassword: undefined;
   
 };
 
