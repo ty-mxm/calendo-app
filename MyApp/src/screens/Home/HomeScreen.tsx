@@ -20,7 +20,7 @@ export default function HomeScreen() {
   const filteredEvents = events.filter((event) => event.date === selectedDate);
 
   const renderEventCard: ListRenderItem<Event> = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', { eventName: item.title, team: '', bucketlist: '', category: item.category })}>
+    <TouchableOpacity onPress={() => navigation.navigate('EventDetails', { event: item })}>
       {renderEvent(item)}
     </TouchableOpacity>
   );

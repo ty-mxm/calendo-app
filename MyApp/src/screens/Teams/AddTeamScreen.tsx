@@ -11,10 +11,11 @@ export default function AddTeamScreen() {
   const [teamName, setTeamName] = useState('');
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+  // Modifier la fonction handleCreateTeam pour éviter l'empilement d'écrans
   const handleCreateTeam = () => {
     if (teamName.trim()) {
-      navigation.navigate('Teams', { newTeam: teamName });
-      setTeamName('');
+      navigation.navigate('Teams', { newTeam: teamName }); // Utiliser navigation.navigate au lieu de reset
+      setTeamName(''); // Réinitialiser le champ de texte
     }
   };
 

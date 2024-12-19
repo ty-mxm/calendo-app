@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AppNavigator from './components/BottomMenuBar';
-import { RootStackParamList } from './types';
+import { RootStackParamList, Event } from './types';
 // Auth Screens
 import ForgotPasswordScreen from './src/screens/Auth/ForgotPasswordScreen';
 import LoginScreen from './src/screens/Auth/LoginScreen';
@@ -36,9 +36,8 @@ import DashboardScreen from './src/screens/Dashboard/DashboardScreen';
 import NotificationsScreen from './src/screens/Notifications/NotificationsScreen';
 import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
 import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
-import ChangePasswordScreen from './src/screens/Profile/ChangePasswordScreen';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -81,21 +80,31 @@ export default function App() {
         />
 
         {/* Teams Screens */}
-        <Stack.Screen
-          name="Teams"
-          component={TeamsScreen}
-          options={{ title: 'Teams', headerShown: true }}
-        />
-        <Stack.Screen
-          name="AddTeam"
-          component={AddTeamScreen}
-          options={{ title: 'Add a Team', headerShown: true }}
-        />
-        <Stack.Screen
-          name="TeamDetails"
-          component={TeamDetailsScreen}
-          options={{ title: 'Team Details', headerShown: true }}
-        />
+        <Stack.Group screenOptions={{ presentation: 'card' }}>
+          <Stack.Screen
+            name="Teams"
+            component={TeamsScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddTeam"
+            component={AddTeamScreen}
+            options={{
+              headerShown: true,
+              headerTitle: "Ajouter une équipe",
+              headerBackTitle: "Retour"
+            }}
+          />
+          <Stack.Screen
+            name="TeamDetails"
+            component={TeamDetailsScreen}
+            options={{
+              headerShown: true,
+              headerTitle: "Détails de l'équipe",
+              headerBackTitle: "Retour"
+            }}
+          />
+        </Stack.Group>
 
         {/* Events Screens */}
         <Stack.Screen
@@ -159,11 +168,6 @@ export default function App() {
           component={UserProfileScreen}
           options={{ title: 'Profile', headerShown: true }}
         />
-        <Stack.Screen
-        name="ChangePassword"
-        component={ChangePasswordScreen}
-        options={{ title: 'Change Password', headerShown: true }}
-      />
         <Stack.Screen
           name="Settings"
           component={GeneralSettingsScreen}

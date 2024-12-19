@@ -12,7 +12,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../types';
 
-// Typage des paramètres de la route
 type TeamDetailsRouteProp = RouteProp<RootStackParamList, 'TeamDetails'>;
 
 export default function TeamDetailsScreen() {
@@ -52,7 +51,7 @@ export default function TeamDetailsScreen() {
   // Enregistrer les modifications
   const saveChanges = () => {
     Alert.alert('Succès', 'Les modifications ont été enregistrées.');
-    navigation.navigate('Teams' as never);
+    navigation.navigate('Teams' as never); // Utilisation de 'as never' pour éviter l'erreur de type
   };
 
   return (
@@ -64,7 +63,6 @@ export default function TeamDetailsScreen() {
         </TouchableOpacity>
         <Text style={styles.title}>👥 {teamName}</Text>
         <View style={{ width: 24 }} /> {/* Pour équilibrer */}
-       
       </View>
 
       <Text style={styles.subtitle}>Gère les membres de cette équipe</Text>

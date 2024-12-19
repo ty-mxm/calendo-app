@@ -1,63 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { RootStackParamList } from '../../../types';
 
-export default function TeamsScreen({ route }: { route: { params?: { newTeam?: string } } }) {
-  const [teams, setTeams] = useState(['Team 1', 'Team 2', 'Team 3']);
+type TeamsScreenRouteProp = RouteProp<RootStackParamList, 'Teams'>;
+
+export default function TeamsScreen() {
+  const [teams, setTeams] = useState<string[]>(['Team 1', 'Team 2', 'Team 3']);
   const navigation = useNavigation();
+  const route = useRoute<TeamsScreenRouteProp>();
 
-  // Récupérer une nouvelle équipe ajoutée
-  if (route.params?.newTeam) {
-    if (!teams.includes(route.params.newTeam)) {
-      setTeams([...teams, route.params.newTeam]);
-    }
-  }
-
+  useEffect(() => {
+    if (route.params && 'newTeam' in route.params && typeof route.params.newTeam === 'string' && !teams.includes(route.params.newTeam)) {
+      setTeams((prevTeams) => [...prevTeams, route.params?.newTeam as string]);    }
+  }, [route.params, teams]);
   const handleTeamDetails = (team: string) => {
+    // Utilisation de 'navigation.navigate' pour accéder à 'TeamDetails'
     navigation.navigate('TeamDetails', { teamName: team });
   };
 
+  const handleAddTeam = () => {
+    navigation.navigate('AddTeam' as never); // N'utilisez pas 'as never'
+  };
+
+  const renderTeamItem = ({ item }: { item: string }) => (
+    <TouchableOpacity
+      style={styles.teamContainer}
+      onPress={() => handleTeamDetails(item)}
+    >
+      <View style={styles.teamInfo}>
+        <Ionicons name="people" size={20} color="#7F57FF" />
+        <Text style={styles.teamName}>{item}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={20} color="#AAA" />
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Main' as never)}
+          style={styles.headerButton}
+        >
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>👥 Mes équipes</Text>
-        <View style={{ width: 24 }} /> {/* Espacement pour équilibrer */}
+        <View style={styles.headerButton} />
       </View>
 
-      {/* Sous-titre */}
-      <Text style={styles.subtitle}>Organise et gère tes équipes facilement</Text>
+      <Text style={styles.subtitle}>
+        Organise et gère tes équipes facilement
+      </Text>
 
-      {/* Ajouter une équipe */}
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('AddTeam' as never)}
+        onPress={handleAddTeam}
       >
         <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addButtonText}>Ajouter une équipe</Text>
       </TouchableOpacity>
 
-      {/* Liste des équipes */}
       <FlatList
         data={teams}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.teamContainer}
-            onPress={() => handleTeamDetails(item)}
-          >
-            <View style={styles.teamInfo}>
-              <Ionicons name="people" size={20} color="#7F57FF" />
-              <Text style={styles.teamName}>{item}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color="#AAA" />
-          </TouchableOpacity>
-        )}
+        renderItem={renderTeamItem}
         contentContainerStyle={styles.listContent}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>
+            Aucune équipe disponible. Commencez par en créer une !
+          </Text>
+        }
       />
     </View>
   );
@@ -75,6 +89,12 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
+  headerButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#FFF' },
   subtitle: {
     fontSize: 16,
@@ -82,6 +102,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 15,
     marginBottom: 20,
+    paddingHorizontal: 20,
   },
   addButton: {
     flexDirection: 'row',
@@ -91,13 +112,9 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: '#7F57FF',
     borderRadius: 10,
+    marginBottom: 20,
   },
-  addButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 8,
-  },
+  addButtonText: { color: '#FFF', fontWeight: 'bold', fontSize: 16, marginLeft: 8 },
   teamContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -108,8 +125,13 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 10,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
   },
   teamInfo: { flexDirection: 'row', alignItems: 'center' },
   teamName: { marginLeft: 10, fontSize: 16, fontWeight: 'bold', color: '#333' },
   listContent: { paddingBottom: 30 },
+  emptyText: { textAlign: 'center', color: '#666', fontSize: 16, marginTop: 30, paddingHorizontal: 20 },
 });
