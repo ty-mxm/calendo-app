@@ -17,7 +17,7 @@ export default function TeamsScreen() {
     if (route.params?.newTeam && typeof route.params.newTeam === 'string' && !teams.includes(route.params.newTeam)) {
       setTeams((prevTeams) => [...prevTeams, route.params.newTeam]);
     }
-  }, [route.params?.newTeam]); // Removed 'teams' from dependency array
+  }, [route.params?.newTeam]);
 
   const handleTeamDetails = (team: string) => {
     navigation.navigate('TeamDetails', { teamName: team });
@@ -42,29 +42,21 @@ export default function TeamsScreen() {
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.headerButton}
-        >
-          <Ionicons name="arrow-back" size={24} color="#FFF" />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>👥 Mes équipes</Text>
-        <View style={styles.headerButton} />
+        <Text style={styles.headerSubtitle}>
+          Organisez et gérez vos équipes avec simplicité
+        </Text>
       </View>
 
-      <Text style={styles.subtitle}>
-        Organise et gère tes équipes facilement
-      </Text>
-
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={handleAddTeam}
-      >
+      {/* Add Team Button */}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddTeam}>
         <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addButtonText}>Ajouter une équipe</Text>
       </TouchableOpacity>
 
+      {/* Team List */}
       <FlatList
         data={teams}
         keyExtractor={(item) => item}
@@ -83,30 +75,13 @@ export default function TeamsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9F9F9' },
   header: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#7F57FF',
-    paddingHorizontal: 15,
-    paddingVertical: 15,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingVertical: 20,
+    backgroundColor: '#6A5ACD',
+    marginBottom: 16,
   },
-  headerButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerTitle: { fontSize: 20, fontWeight: 'bold', color: '#FFF' },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 15,
-    marginBottom: 20,
-    paddingHorizontal: 20,
-  },
+  headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#FFF' },
+  headerSubtitle: { fontSize: 16, color: '#DCDCDC', marginTop: 8 },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',

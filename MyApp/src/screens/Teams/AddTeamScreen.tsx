@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Modal,
+} from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -11,64 +20,87 @@ export default function AddTeamScreen() {
   const [teamName, setTeamName] = useState('');
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  // Modifier la fonction handleCreateTeam pour éviter l'empilement d'écrans
+  // Prevent screen stacking with this function
   const handleCreateTeam = () => {
     if (teamName.trim()) {
       navigation.navigate('Teams', { newTeam: teamName });
-      setTeamName(''); // Réinitialiser le champ de texte
+      setTeamName(''); // Reset the text input
     }
   };
 
+  const handleClosePopup = () => {
+    navigation.goBack();
+  };
+
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    <Modal
+      transparent={true}
+      animationType="slide"
+      onRequestClose={handleClosePopup}
     >
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#FFF" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Créer une équipe</Text>
-        <View style={{ width: 24 }} />
-      </View>
+      <KeyboardAvoidingView
+        style={styles.modalContainer}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={styles.popupContainer}>
+          {/* Header */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.closeButton} onPress={handleClosePopup}>
+              <Ionicons name="close" size={24} color="#FFF" />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>Créer une équipe</Text>
+            <Text style={styles.headerSubtitle}>Ajoute un nom pour ton équipe</Text>
+          </View>
 
-      <View style={styles.content}>
-        <Text style={styles.title}>Créer une nouvelle équipe</Text>
-        <Text style={styles.subtitle}>Ajoute un nom pour ton équipe</Text>
+          {/* Content */}
+          <View style={styles.content}>
+            <View style={styles.inputContainer}>
+              <Ionicons name="people-outline" size={24} color="#7F57FF" />
+              <TextInput
+                style={styles.input}
+                placeholder="Nom de l'équipe"
+                value={teamName}
+                onChangeText={setTeamName}
+              />
+            </View>
 
-        <View style={styles.inputContainer}>
-          <Ionicons name="people-outline" size={24} color="#7F57FF" />
-          <TextInput
-            style={styles.input}
-            placeholder="Nom de l'équipe"
-            value={teamName}
-            onChangeText={setTeamName}
-          />
+            <TouchableOpacity style={styles.createButton} onPress={handleCreateTeam}>
+              <Text style={styles.createButtonText}>Créer l'équipe</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <TouchableOpacity style={styles.createButton} onPress={handleCreateTeam}>
-          <Text style={styles.createButtonText}>Créer l'équipe</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F5F5' },
-  header: {
-    flexDirection: 'row',
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: '#7F57FF',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
-  headerTitle: { color: '#FFF', fontSize: 20, fontWeight: 'bold' },
-  content: { flex: 1, justifyContent: 'center', paddingHorizontal: 20 },
-  title: { fontSize: 26, fontWeight: 'bold', color: '#333', marginBottom: 10 },
-  subtitle: { fontSize: 16, color: '#666', marginBottom: 20 },
+  popupContainer: {
+    width: '90%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    overflow: 'hidden',
+  },
+  header: {
+    alignItems: 'center',
+    backgroundColor: '#6A5ACD',
+    paddingVertical: 20,
+    position: 'relative',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+  headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#FFF' },
+  headerSubtitle: { fontSize: 16, color: '#DCDCDC', marginTop: 8 },
+  content: { padding: 20 },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',

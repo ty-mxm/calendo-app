@@ -19,11 +19,9 @@ export default function TeamDetailsScreen() {
   const route = useRoute<TeamDetailsRouteProp>();
   const { teamName } = route.params;
 
-  // Liste des membres d'une équipe
   const [members, setMembers] = useState<string[]>(['Sofia K', 'Yanis Y', 'Ty', 'Bri']);
   const [newMember, setNewMember] = useState<string>('');
 
-  // Ajouter un membre
   const addMember = () => {
     if (newMember.trim() === '') {
       Alert.alert('Erreur', 'Veuillez entrer un nom valide.');
@@ -33,7 +31,6 @@ export default function TeamDetailsScreen() {
     setNewMember('');
   };
 
-  // Supprimer un membre
   const removeMember = (name: string) => {
     Alert.alert(
       'Supprimer un membre',
@@ -48,27 +45,26 @@ export default function TeamDetailsScreen() {
     );
   };
 
-  // Enregistrer les modifications
   const saveChanges = () => {
-    Alert.alert('Succès', 'Les modifications ont été enregistrées.');
-    navigation.navigate('Teams' as never); // Utilisation de 'as never' pour éviter l'erreur de type
+    // Enregistrer les modifications (exemple d'alerte)
+    Alert.alert('Succès', 'Les changements ont été enregistrés.');
+    // Si besoin, envoyer les données à une API
   };
 
   return (
     <View style={styles.container}>
-      {/* En-tête */}
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="#FFF" />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButton}>
+          <Ionicons name="close" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.title}>👥 {teamName}</Text>
-        <View style={{ width: 24 }} /> {/* Pour équilibrer */}
+        <Text style={styles.headerTitle}>👥 {teamName}</Text>
+        <Text style={styles.headerSubtitle}>Gérez les membres de votre équipe</Text>
       </View>
 
-      <Text style={styles.subtitle}>Gère les membres de cette équipe</Text>
-
-      {/* Champ pour ajouter un membre */}
+      {/* Add Member Input */}
       <View style={styles.inputContainer}>
+        <Ionicons name="person-add" size={20} color="#7F57FF" />
         <TextInput
           style={styles.input}
           placeholder="Ajouter un membre"
@@ -80,7 +76,7 @@ export default function TeamDetailsScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Liste des membres */}
+      {/* Members List */}
       <FlatList
         data={members}
         keyExtractor={(item) => item}
@@ -95,12 +91,15 @@ export default function TeamDetailsScreen() {
         ListEmptyComponent={
           <Text style={styles.emptyText}>Aucun membre dans cette équipe.</Text>
         }
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
 
-      {/* Bouton Enregistrer */}
-      <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-        <Text style={styles.saveButtonText}>Enregistrer</Text>
-      </TouchableOpacity>
+      {/* Save Changes Button */}
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
+          <Text style={styles.saveButtonText}>Enregistrer les changements</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -109,29 +108,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F9F9F9',
-    padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#7F57FF',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingVertical: 20,
+    backgroundColor: '#6A5ACD',
+    marginBottom: 16,
   },
-  title: {
-    fontSize: 20,
+  closeButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+  },
+  headerTitle: {
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#FFF',
     textAlign: 'center',
   },
-  subtitle: {
+  headerSubtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#DCDCDC',
+    marginTop: 8,
     textAlign: 'center',
-    marginVertical: 20,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -139,16 +138,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#EFEFEF',
     borderRadius: 10,
     padding: 10,
-    marginBottom: 20,
+    marginHorizontal: 16,
+    marginBottom: 16,
   },
   input: {
     flex: 1,
     fontSize: 16,
+    marginLeft: 10,
     color: '#333',
-    marginRight: 10,
   },
   addButton: {
-    backgroundColor: '#40E0D0',
+    backgroundColor: '#7F57FF',
     padding: 10,
     borderRadius: 8,
   },
@@ -162,9 +162,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFF',
     padding: 15,
+    marginHorizontal: 16,
+    marginVertical: 8,
     borderRadius: 10,
-    marginBottom: 10,
-    elevation: 1,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
   },
   memberName: {
     fontSize: 16,
@@ -172,19 +177,23 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   emptyText: {
-    fontSize: 16,
-    color: '#999',
     textAlign: 'center',
-    marginTop: 20,
+    color: '#666',
+    fontSize: 16,
+    marginTop: 30,
+    paddingHorizontal: 20,
+  },
+  footer: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderColor: '#E0E0E0',
+    backgroundColor: '#FFF',
   },
   saveButton: {
-    backgroundColor: '#7F57FF',
+    backgroundColor: '#6A5ACD',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginVertical: 20,
-    alignSelf: 'center',
-    width: '50%',
   },
   saveButtonText: {
     color: '#FFF',

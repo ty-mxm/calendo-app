@@ -90,6 +90,8 @@ export default function AddEventScreen() {
           value={category}
           onChangeText={setCategory}
         />
+
+
       </View>
 
       {/* Bouton Créer l'événement */}

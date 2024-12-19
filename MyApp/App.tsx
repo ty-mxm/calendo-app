@@ -78,33 +78,38 @@ export default function App() {
           component={AppNavigator}
           options={{ headerShown: false }}
         />
+{/* Teams Screens */}
+<Stack.Group screenOptions={{ presentation: 'card' }}>
+  <Stack.Screen
+    name="Teams"
+    component={TeamsScreen}
+    options={{
+      headerShown: true,
+      headerTitle: "Mes Équipes",
+      headerBackTitle: "Retour",
+    }}
+  />
+  <Stack.Screen
+    name="AddTeam"
+    component={AddTeamScreen}
+    options={{
+      headerShown: true,
+      headerTitle: "Ajouter une équipe",
+      headerBackTitle: "Retour",
+      presentation: 'modal', // Défini comme une modal pour un style distinct
+    }}
+  />
+  <Stack.Screen
+    name="TeamDetails"
+    component={TeamDetailsScreen}
+    options={{
+      headerShown: true,
+      headerTitle: "Détails de l'équipe",
+      headerBackTitle: "Retour",
+    }}
+  />
+</Stack.Group>
 
-        {/* Teams Screens */}
-        <Stack.Group screenOptions={{ presentation: 'card' }}>
-          <Stack.Screen
-            name="Teams"
-            component={TeamsScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="AddTeam"
-            component={AddTeamScreen}
-            options={{
-              headerShown: true,
-              headerTitle: "Ajouter une équipe",
-              headerBackTitle: "Retour"
-            }}
-          />
-          <Stack.Screen
-            name="TeamDetails"
-            component={TeamDetailsScreen}
-            options={{
-              headerShown: true,
-              headerTitle: "Détails de l'équipe",
-              headerBackTitle: "Retour"
-            }}
-          />
-        </Stack.Group>
 
         {/* Events Screens */}
         <Stack.Screen
