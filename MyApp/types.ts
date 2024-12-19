@@ -15,7 +15,7 @@ export type RootStackParamList = {
   Teams: { newTeam: string };
   AddTeam: undefined;
   TeamDetails: { teamName: string };
-  EventDetails: { eventName: string; team: string; bucketlist: string; category: string };
+  EventDetails: { event: Event };
   Bucketlists: undefined;
   BucketlistDetails: undefined;
   Calendar: undefined;

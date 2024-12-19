@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { RootStackParamList } from '../../../types';
 
 type TeamsScreenRouteProp = RouteProp<RootStackParamList, 'Teams'>;
+type TeamsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Teams'>;
 
 export default function TeamsScreen() {
   const [teams, setTeams] = useState<string[]>(['Team 1', 'Team 2', 'Team 3']);
-  const navigation = useNavigation();
+  const navigation = useNavigation<TeamsScreenNavigationProp>();
   const route = useRoute<TeamsScreenRouteProp>();
 
   useEffect(() => {
-    if (route.params && 'newTeam' in route.params && typeof route.params.newTeam === 'string' && !teams.includes(route.params.newTeam)) {
-      setTeams((prevTeams) => [...prevTeams, route.params?.newTeam as string]);    }
-  }, [route.params, teams]);
+    if (route.params?.newTeam && typeof route.params.newTeam === 'string' && !teams.includes(route.params.newTeam)) {
+      setTeams((prevTeams) => [...prevTeams, route.params.newTeam]);
+    }
+  }, [route.params?.newTeam]); // Removed 'teams' from dependency array
+
   const handleTeamDetails = (team: string) => {
-    // Utilisation de 'navigation.navigate' pour accéder à 'TeamDetails'
     navigation.navigate('TeamDetails', { teamName: team });
   };
 
   const handleAddTeam = () => {
-    navigation.navigate('AddTeam' as never); // N'utilisez pas 'as never'
+    navigation.navigate('AddTeam');
   };
 
   const renderTeamItem = ({ item }: { item: string }) => (
@@ -41,7 +44,7 @@ export default function TeamsScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Main' as never)}
+          onPress={() => navigation.goBack()}
           style={styles.headerButton}
         >
           <Ionicons name="arrow-back" size={24} color="#FFF" />

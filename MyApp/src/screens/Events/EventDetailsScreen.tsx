@@ -12,7 +12,8 @@ type EventDetailsRouteProp = RouteProp<RootStackParamList, 'EventDetails'>;
 export default function EventDetailsScreen() {
   const route = useRoute<EventDetailsRouteProp>();
   const navigation = useNavigation<NavigationProp>();
-  const { eventName, team, bucketlist, category } = route.params;
+  const { event } = route.params;
+  const { title: eventName, location: team, date: bucketlist, category, id, time } = event;
 
   return (
     <View style={styles.container}>
@@ -38,12 +39,12 @@ export default function EventDetailsScreen() {
         onPress={() =>
           navigation.navigate('EditEvent', {
             event: {
-              id: '1', // Remplacez par un ID unique réel
+              id,
               title: eventName,
               location: team,
               date: bucketlist,
-              time: '00:00', // Remplissez si vous avez une valeur pour le temps
-              category: category,
+              time,
+              category,
             },
           })
         }
@@ -53,9 +54,7 @@ export default function EventDetailsScreen() {
       </TouchableOpacity>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
+}const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F5F5F5' },
   header: {
     alignItems: 'center',

@@ -32,7 +32,7 @@ import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen'
 // Placeholder imports for missing screens (add these imports when available)
 import CalendarScreen from './src/screens/Calendar/CalendarScreen';
 import CalendarDetailsScreen from './src/screens/Calendar/CalendarDetailsScreen';
-import DashboardScreen from './src/screens/Dashboard/DashboardScreen';
+
 import NotificationsScreen from './src/screens/Notifications/NotificationsScreen';
 import NotificationsSettingsScreen from './src/screens/Notifications/NotificationsSettingsScreen';
 import UserProfileScreen from './src/screens/Profile/UserProfileScreen';
@@ -69,7 +69,7 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Home', headerShown: false }}
+          options={{headerShown: false }}
         />
 
         {/* Main App Navigator */}
@@ -110,7 +110,7 @@ export default function App() {
         <Stack.Screen
           name="AddEvent"
           component={AddEventScreen}
-          options={{ title: 'Add Event', headerShown: true }}
+          options={{ title: 'Add Event', headerShown: false }}
         />
         <Stack.Screen
           name="EventDetails"
@@ -120,7 +120,7 @@ export default function App() {
         <Stack.Screen
           name="EditEvent"
           component={EditEventScreen}
-          options={{ title: 'Edit Event', headerShown: true }}
+          options={{ title: 'Edit Event', headerShown: false }}
         />
 
         {/* Bucketlists Screens */}
@@ -148,20 +148,16 @@ export default function App() {
         />
 
         {/* General Screens */}
-        <Stack.Screen
-          name="Dashboard"
-          component={DashboardScreen}
-          options={{ title: 'Dashboard', headerShown: true }}
-        />
+     
         <Stack.Screen
           name="Notifications"
           component={NotificationsScreen}
-          options={{ title: 'Notifications', headerShown: true }}
+          options={{ title: 'Notifications', headerShown: false }}
         />
         <Stack.Screen
           name="NotificationsSettings"
           component={NotificationsSettingsScreen}
-          options={{ title: 'Notifications Settings', headerShown: true }}
+          options={{ title: 'Notifications Settings', headerShown: false }}
         />
         <Stack.Screen
           name="Profile"

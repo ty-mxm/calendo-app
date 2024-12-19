@@ -14,7 +14,7 @@ export default function AddTeamScreen() {
   // Modifier la fonction handleCreateTeam pour éviter l'empilement d'écrans
   const handleCreateTeam = () => {
     if (teamName.trim()) {
-      navigation.navigate('Teams', { newTeam: teamName }); // Utiliser navigation.navigate au lieu de reset
+      navigation.navigate('Teams', { newTeam: teamName });
       setTeamName(''); // Réinitialiser le champ de texte
     }
   };
