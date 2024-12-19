@@ -6,6 +6,11 @@ import { Ionicons } from '@expo/vector-icons';
 export default function UserProfileScreen() {
   const navigation = useNavigation(); // Ensure this is correctly imported and used
 
+  const handleLogout = () => {
+    // Add any logout logic here (e.g., clearing user session)
+    navigation.navigate('Login' as never); // Navigate to Login screen
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -26,14 +31,13 @@ export default function UserProfileScreen() {
 
       {/* Options */}
       <View style={styles.options}>
-      <TouchableOpacity
-  style={styles.optionButton}
-  onPress={() => navigation.navigate('ChangePassword' as never)}
->
-  <Ionicons name="lock-closed-outline" size={20} color="#FFF" />
-  <Text style={styles.optionText}>Change Password</Text>
-</TouchableOpacity>
-
+        <TouchableOpacity
+          style={styles.optionButton}
+          onPress={() => navigation.navigate('ChangePassword' as never)}
+        >
+          <Ionicons name="lock-closed-outline" size={20} color="#FFF" />
+          <Text style={styles.optionText}>Change Password</Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.optionButton}>
           <Ionicons name="person-outline" size={20} color="#FFF" />
@@ -42,7 +46,7 @@ export default function UserProfileScreen() {
       </View>
 
       {/* Logout */}
-      <TouchableOpacity style={styles.logoutButton}>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Ionicons name="log-out-outline" size={20} color="#FFF" />
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
