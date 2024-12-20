@@ -7,6 +7,13 @@ export interface Event {
   category: string;
 }
 
+export interface BucketlistCategory {
+  title: string;
+  emoji: string;
+  color: string;
+  itemsCount: number;
+}
+
 export type RootStackParamList = {
   Home: { newEvent?: Omit<Event, 'id'> };
   AddEvent: { selectedTeam?: string };
@@ -17,7 +24,7 @@ export type RootStackParamList = {
   TeamDetails: { teamName: string };
   EventDetails: { event: Event };
   Bucketlists: undefined;
-  BucketlistDetails: undefined;
+  BucketlistDetails: { category: BucketlistCategory };
   Calendar: undefined;
   CalendarDetails: undefined;
   Dashboard: undefined;
