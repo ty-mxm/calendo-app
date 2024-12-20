@@ -43,7 +43,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Settings" screenOptions={{ headerShown: false }}>
         {/* Auth Screens */}
         <Stack.Screen
           name="ForgotPassword"
