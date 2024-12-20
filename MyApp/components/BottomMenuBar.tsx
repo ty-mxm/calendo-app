@@ -7,6 +7,8 @@ import TeamsScreen from '../src/screens/Teams/TeamsScreen';
 import NotificationsScreen from '../src/screens/Notifications/NotificationsScreen';
 import UserProfileScreen from '../src/screens/Profile/UserProfileScreen';
 import AddEventScreen from '../src/screens/Events/AddEventScreen';
+import SyncCalendarScreen from '../src/screens/Settings/SyncCalendarScreen';
+import BucketlistsScreen from '../src/screens/Bucketlists/BucketlistsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +23,7 @@ export default function AppNavigator() {
         tabBarInactiveTintColor: '#555',
       }}
     >
-      {/* Onglet Home */}
+      {/* Home Tab */}
       <Tab.Screen
         name="Home"
         component={HomeScreen}
@@ -30,11 +32,10 @@ export default function AppNavigator() {
             <Ionicons name="home-outline" size={22} color={color} />
           ),
           tabBarLabel: 'Home',
-          headerShown: true,
         }}
       />
 
-      {/* Onglet Teams */}
+      {/* Teams Tab */}
       <Tab.Screen
         name="Teams"
         component={TeamsScreen}
@@ -46,7 +47,19 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* Bouton central pour ajouter un événement */}
+      {/* Bucketlists Tab */}
+      <Tab.Screen
+        name="Bucketlists"
+        component={BucketlistsScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="star-outline" size={26} color={color} />
+          ),
+          tabBarLabel: 'Bucketlist',
+        }}
+      />
+
+      {/* Central Button for Adding Event */}
       <Tab.Screen
         name="AddEvent"
         component={AddEventScreen}
@@ -65,7 +78,19 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* Onglet Notifications */}
+      {/* Sync Calendar Tab */}
+      <Tab.Screen
+        name="Sync"
+        component={SyncCalendarScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="sync-outline" size={22} color={color} />
+          ),
+          tabBarLabel: 'Sync',
+        }}
+      />
+
+      {/* Notifications Tab */}
       <Tab.Screen
         name="Notifications"
         component={NotificationsScreen}
@@ -77,7 +102,7 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* Onglet Profile */}
+      {/* Profile Tab */}
       <Tab.Screen
         name="Profile"
         component={UserProfileScreen}
