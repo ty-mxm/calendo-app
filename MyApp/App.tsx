@@ -28,6 +28,7 @@ import BucketlistDetailsScreen from './src/screens/Bucketlists/BucketlistDetails
 
 // Settings Screens
 import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen';
+import SyncCalendarScreen from './src/screens/Settings/SyncCalendarScreen'
 
 // Placeholder imports for missing screens (add these imports when available)
 import CalendarScreen from './src/screens/Calendar/CalendarScreen';
@@ -43,7 +44,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Settings" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         {/* Auth Screens */}
         <Stack.Screen
           name="ForgotPassword"
@@ -182,6 +183,14 @@ export default function App() {
           name="Settings"
           component={GeneralSettingsScreen}
           options={{ title: 'Settings', headerShown: true }}
+        />
+        <Stack.Screen
+          name="SyncCalendar"
+          component={SyncCalendarScreen}
+          options={{
+            title: 'Sync Calendar',
+            headerShown: true,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
