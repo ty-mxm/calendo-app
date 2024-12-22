@@ -8,12 +8,12 @@ export default function ForgotPasswordScreen() {
 
   const handleResetPassword = () => {
     if (email.trim() === '') {
-      Alert.alert('Error', 'Please enter your email address.');
+      Alert.alert('Erreur', 'Veuillez entrer votre adresse e-mail.');
     } else {
       // Placeholder for backend API call
       Alert.alert(
-        'Success',
-        'A reset link has been sent to your email. Please check your inbox.',
+        'Succès',
+        'Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.',
         [{ text: 'OK', onPress: () => navigation.navigate('Login' as never) }]
       );
     }
@@ -29,17 +29,17 @@ export default function ForgotPasswordScreen() {
 
       {/* Title */}
       <Text style={styles.title}>Calendo</Text>
-      <Text style={styles.subtitle}>Forgot Password</Text>
+      <Text style={styles.subtitle}>Mot de passe oublié</Text>
 
       {/* Description */}
       <Text style={styles.description}>
-        Enter your email and we'll send you a link to reset your password.
+        Entrez votre e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
       </Text>
 
       {/* Input Field */}
       <TextInput
         style={styles.input}
-        placeholder="Enter your email"
+        placeholder="Entrez votre e-mail"
         placeholderTextColor="#B3B3F5"
         keyboardType="email-address"
         value={email}
@@ -48,12 +48,12 @@ export default function ForgotPasswordScreen() {
 
       {/* Reset Password Button */}
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
-        <Text style={styles.buttonText}>Reset Password</Text>
+        <Text style={styles.buttonText}>Réinitialiser le mot de passe</Text>
       </TouchableOpacity>
 
       {/* Back to Login */}
       <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
-        <Text style={styles.linkText}>Back to Login</Text>
+        <Text style={styles.linkText}>Retour à la connexion</Text>
       </TouchableOpacity>
     </View>
   );

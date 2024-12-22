@@ -15,35 +15,35 @@ export default function LoginScreen() {
 
       {/* Title */}
       <Text style={styles.title}>Calendo</Text>
-      <Text style={styles.subtitle}>Login</Text>
+      <Text style={styles.subtitle}>Connexion</Text>
 
       {/* Sign Up Text */}
       <Text style={styles.registerText}>
-        If you don’t have an account{' '}
+        Si vous n'avez pas de compte{' '}
         <Text
           style={styles.linkText}
           onPress={() => navigation.navigate('SignUp' as never)}
         >
-          sign up here!
+          inscrivez-vous ici !
         </Text>
       </Text>
 
       {/* Input Fields */}
       <TextInput
         style={styles.input}
-        placeholder="Enter email"
+        placeholder="Entrez votre e-mail"
         placeholderTextColor="#B3B3F5"
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Mot de passe"
         placeholderTextColor="#B3B3F5"
         secureTextEntry
       />
 
       {/* Forgot Password */}
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword' as never)}>
-        <Text style={styles.forgotPassword}>Forgot password?</Text>
+        <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
       {/* Login Button */}
@@ -51,11 +51,11 @@ export default function LoginScreen() {
         style={styles.button}
         onPress={() => navigation.navigate('GetStarted' as never)} // Navigate to GetStarted
       >
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
       {/* Or continue with */}
-      <Text style={styles.orText}>or continue with</Text>
+      <Text style={styles.orText}>ou continuez avec</Text>
       <View style={styles.socialIcons}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/831/831276.png' }} // Apple Icon

@@ -15,34 +15,34 @@ export default function SignUpScreen() {
 
       {/* Title */}
       <Text style={styles.title}>Calendo</Text>
-      <Text style={styles.subtitle}>Sign Up</Text>
+      <Text style={styles.subtitle}>Inscription</Text>
 
       {/* Login Navigation */}
       <Text style={styles.loginText}>
-        If you already have an account{' '}
+        Si vous avez déjà un compte{' '}
         <Text
           style={styles.linkText}
           onPress={() => navigation.navigate('Login' as never)}
         >
-          log in here!
+          connectez-vous ici !
         </Text>
       </Text>
 
       {/* Input Fields */}
       <TextInput
         style={styles.input}
-        placeholder="Enter Email"
+        placeholder="Entrez votre e-mail"
         placeholderTextColor="#B3B3F5"
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder="Mot de passe"
         placeholderTextColor="#B3B3F5"
         secureTextEntry
       />
       <TextInput
         style={styles.input}
-        placeholder="Confirm Password"
+        placeholder="Confirmez votre mot de passe"
         placeholderTextColor="#B3B3F5"
         secureTextEntry
       />
@@ -52,11 +52,11 @@ export default function SignUpScreen() {
         style={styles.button}
         onPress={() => navigation.navigate('GetStarted' as never)} // Navigates to "GetStarted"
       >
-        <Text style={styles.buttonText}>Register</Text>
+        <Text style={styles.buttonText}>S'inscrire</Text>
       </TouchableOpacity>
 
       {/* Or continue with */}
-      <Text style={styles.orText}>or continue with</Text>
+      <Text style={styles.orText}>ou continuez avec</Text>
       <View style={styles.socialIcons}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/831/831276.png' }} // Apple Icon
