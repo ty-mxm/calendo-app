@@ -115,14 +115,15 @@ export default function HomeScreen() {
         style={styles.calendar}
       />
 
+      {/* Liste des événements */}
+      <Text style={styles.eventListTitle}>Événements</Text>
+
       {/* Ajouter un événement */}
       <TouchableOpacity style={styles.addEventButton} onPress={() => setIsModalVisible(true)}>
         <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addEventText}>Ajouter un événement</Text>
       </TouchableOpacity>
-
-      {/* Liste des événements */}
-      <Text style={styles.eventListTitle}>Événements</Text>
+      
       {events.map((event) => (
         <View key={event.id} style={[styles.eventCard, getCategoryStyle(event.category)]}>
           <Text style={styles.eventTitle}>{event.title}</Text>
