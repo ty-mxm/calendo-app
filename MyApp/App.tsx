@@ -25,6 +25,8 @@ import EditEventScreen from './src/screens/Events/EditEventScreen';
 // Bucketlists Screens
 import BucketlistsScreen from './src/screens/Bucketlists/BucketlistsScreen';
 import BucketlistDetailsScreen from './src/screens/Bucketlists/BucketlistDetailsScreen';
+import AddBucketListScreen from './src/screens/Bucketlists/AddBucketListScreen';
+
 
 // Settings Screens
 import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen';
@@ -141,6 +143,16 @@ export default function App() {
           component={BucketlistDetailsScreen}
           options={{ title: 'Bucketlist Details', headerShown: true }}
         />
+        <Stack.Screen
+  name="AddBucketlist"
+  component={AddBucketListScreen}
+  options={{
+    title: 'Ajouter une Bucketlist',
+    headerShown: true,
+    headerBackTitle: 'Retour',
+  }}
+/>
+
 
         {/* Calendar Screens */}
         <Stack.Screen

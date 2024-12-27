@@ -37,6 +37,10 @@ export default function BucketlistsScreen() {
     </TouchableOpacity>
   );
 
+  const handleAddBucketList = () => {
+    navigation.navigate('AddBucketlist' as never);
+  };
+
   return (
     <View style={styles.screenContainer}>
       {/* Header */}
@@ -57,6 +61,12 @@ export default function BucketlistsScreen() {
           <Text style={styles.emptyText}>Aucune bucketlist disponible.</Text>
         }
       />
+
+      {/* Add Bucketlist Button */}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddBucketList}>
+        <Ionicons name="add-circle" size={24} color="#FFF" />
+        <Text style={styles.addButtonText}>Ajouter une Bucketlist</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -119,5 +129,22 @@ const styles = StyleSheet.create({
     color: '#AAA',
     fontSize: 16,
     marginTop: 50,
+  },
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#6A5ACD',
+    padding: 12,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    borderRadius: 10,
+    elevation: 3,
+  },
+  addButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 8,
   },
 });
