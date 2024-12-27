@@ -8,7 +8,7 @@ import NotificationsScreen from '../src/screens/Notifications/NotificationsScree
 import UserProfileScreen from '../src/screens/Profile/UserProfileScreen';
 import AddEventScreen from '../src/screens/Events/AddEventScreen';
 
-import BucketlistsScreen from '../src/screens/Bucketlists/BucketlistsScreen';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -47,17 +47,7 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* Bucketlists Tab */}
-      <Tab.Screen
-        name="Bucketlists"
-        component={BucketlistsScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="star-outline" size={26} color={color} />
-          ),
-          tabBarLabel: 'Bucketlist',
-        }}
-      />
+      
 
       {/* Central Button for Adding Event */}
       <Tab.Screen
