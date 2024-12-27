@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Ionicons, MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 interface Event {
   id: string;
@@ -22,6 +23,8 @@ interface Event {
 }
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
+
   const [events, setEvents] = useState<Event[]>([
     {
       id: '1',
@@ -123,16 +126,22 @@ export default function HomeScreen() {
         <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addEventText}>Ajouter un événement</Text>
       </TouchableOpacity>
-      
       {events.map((event) => (
-        <View key={event.id} style={[styles.eventCard, getCategoryStyle(event.category)]}>
-          <Text style={styles.eventTitle}>{event.title}</Text>
-          <Text style={styles.eventDetails}>📅 {event.date}</Text>
-          <Text style={styles.eventDetails}>👥 {event.team}</Text>
-          <Text style={styles.eventDetails}>📋 {event.bucketlist}</Text>
-          <Text style={styles.eventCategory}>{event.category}</Text>
-        </View>
-      ))}
+  <TouchableOpacity
+    key={event.id}
+    style={[styles.eventCard, getCategoryStyle(event.category)]}
+    onPress={() =>
+      navigation.navigate('EventDetails', { event }) // Assurez-vous que 'EventDetails' attend un 'event' du type Event
+    }
+  >
+    <Text style={styles.eventTitle}>{event.title}</Text>
+    <Text style={styles.eventDetails}>📅 {event.date}</Text>
+    <Text style={styles.eventDetails}>👥 {event.team}</Text>
+    <Text style={styles.eventDetails}>📋 {event.bucketlist}</Text>
+    <Text style={styles.eventCategory}>{event.category}</Text>
+  </TouchableOpacity>
+))}
+
 
       {/* Popup d'ajout d'événement */}
       <Modal
@@ -331,8 +340,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   teamNameCompact: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: 16, color: '#333',
   },
   teamCloseButton: {
     marginTop: 15,
@@ -343,8 +351,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   teamCloseButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 14,
+    color: '#FFF', fontWeight: 'bold', fontSize: 14,
   },
 });

@@ -34,8 +34,8 @@ export interface BucketlistItem {
 }
 
 export type RootStackParamList = {
-  Home: { newEvent?: Omit<Event, 'id'> };
-  AddEvent: { selectedTeam?: string };
+  Home: undefined;
+  AddEvent: undefined;
   EditEvent: { event: Event };
   Main: undefined;
   Teams: { newTeam?: string };
