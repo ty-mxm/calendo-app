@@ -17,25 +17,40 @@ export default function AddEventScreen() {
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
   const [bucketlist, setBucketlist] = useState('');
-  const [category, setCategory] = useState('');
   const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
+  const [isBucketlistModalVisible, setIsBucketlistModalVisible] = useState(false);
 
-  const teams = ['Team 1', 'Team 2', 'Team 3']; // Exemple de liste d'équipes
+  const teams = [
+    {
+      name: 'Team 1',
+      bucketlists: ['Voyages', 'Restaurants'],
+    },
+    {
+      name: 'Team 2',
+      bucketlists: ['Sports', 'Livres'],
+    },
+  ];
 
-  // Fonction pour choisir une équipe
   const handleSelectTeam = (selectedTeam: string) => {
     setTeam(selectedTeam);
-    setIsTeamModalVisible(false); // Fermer la popup
+    setBucketlist(''); // Reset bucketlist when team changes
+    setIsTeamModalVisible(false);
+  };
+
+  const handleSelectBucketlist = (selectedBucketlist: string) => {
+    setBucketlist(selectedBucketlist);
+    setIsBucketlistModalVisible(false);
   };
 
   const handleCreateEvent = () => {
-    if (!eventName || !team || !bucketlist || !category) {
+    if (!eventName || !team || !bucketlist) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
-    console.log({ eventName, team, bucketlist, category });
+    console.log({ eventName, team, bucketlist });
     alert('Événement créé avec succès !');
+    navigation.goBack();
   };
 
   return (
@@ -58,7 +73,7 @@ export default function AddEventScreen() {
         <MaterialIcons name="group" size={24} color="#FF69B4" />
         <TextInput
           style={styles.input}
-          placeholder="Ajouter un groupe"
+          placeholder="Sélectionner une équipe*"
           value={team}
           editable={false}
         />
@@ -67,31 +82,26 @@ export default function AddEventScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Ajouter une Bucketlist */}
+      {/* Bucketlist sélectionnée */}
       <View style={styles.inputContainer}>
         <FontAwesome5 name="list-alt" size={20} color="#FFA500" />
         <TextInput
           style={styles.input}
-          placeholder="Ajouter une Bucketlist"
+          placeholder="Sélectionner une bucketlist*"
           value={bucketlist}
           editable={false}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('Bucketlists' as never)}>
+        <TouchableOpacity
+          onPress={() => {
+            if (!team) {
+              alert('Veuillez d\u2019abord sélectionner une équipe.');
+              return;
+            }
+            setIsBucketlistModalVisible(true);
+          }}
+        >
           <AntDesign name="pluscircle" size={24} color="#7F57FF" />
         </TouchableOpacity>
-      </View>
-
-      {/* Catégorie */}
-      <View style={styles.inputContainer}>
-        <MaterialIcons name="category" size={24} color="#87CEEB" />
-        <TextInput
-          style={styles.input}
-          placeholder="Catégorie*"
-          value={category}
-          onChangeText={setCategory}
-        />
-
-
       </View>
 
       {/* Bouton Créer l'événement */}
@@ -112,11 +122,47 @@ export default function AddEventScreen() {
 
             <FlatList
               data={teams}
+              keyExtractor={(item) => item.name}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.teamOption}
+                  onPress={() => handleSelectTeam(item.name)}
+                >
+                  <Text style={styles.teamName}>{item.name}</Text>
+                </TouchableOpacity>
+              )}
+            />
+
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsTeamModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Fermer</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Popup pour sélectionner une bucketlist */}
+      <Modal
+        visible={isBucketlistModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setIsBucketlistModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Choisir une bucketlist</Text>
+
+            <FlatList
+              data={
+                teams.find((t) => t.name === team)?.bucketlists || []
+              }
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.teamOption}
-                  onPress={() => handleSelectTeam(item)}
+                  onPress={() => handleSelectBucketlist(item)}
                 >
                   <Text style={styles.teamName}>{item}</Text>
                 </TouchableOpacity>
@@ -125,7 +171,7 @@ export default function AddEventScreen() {
 
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setIsTeamModalVisible(false)}
+              onPress={() => setIsBucketlistModalVisible(false)}
             >
               <Text style={styles.closeButtonText}>Fermer</Text>
             </TouchableOpacity>
@@ -160,7 +206,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
   },
-  createButtonText: { color: '#FFF', fontSize: 18, textAlign: 'center', fontWeight: 'bold' },
+  createButtonText: {
+    color: '#FFF',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 
   // Modal styles
   modalContainer: {
