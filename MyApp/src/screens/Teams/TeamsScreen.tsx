@@ -3,38 +3,61 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
-import { RootStackParamList } from '../../../types';
+import { RootStackParamList, Team } from '../../../types';
 
 type TeamsScreenRouteProp = RouteProp<RootStackParamList, 'Teams'>;
 type TeamsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Teams'>;
 
 export default function TeamsScreen() {
-  const [teams, setTeams] = useState<string[]>(['Team 1', 'Team 2', 'Team 3']);
+  const [teams, setTeams] = useState<Team[]>([
+    {
+      id: '1',
+      name: 'Team 1',
+      members: ['Alice', 'Bob'],
+      bucketlists: [],
+    },
+    {
+      id: '2',
+      name: 'Team 2',
+      members: ['Charlie'],
+      bucketlists: [],
+    },
+  ]);
   const navigation = useNavigation<TeamsScreenNavigationProp>();
   const route = useRoute<TeamsScreenRouteProp>();
 
   useEffect(() => {
-    if (route.params?.newTeam && typeof route.params.newTeam === 'string' && !teams.includes(route.params.newTeam)) {
-      setTeams((prevTeams) => [...prevTeams, route.params.newTeam]);
+    if (
+      route.params?.newTeam &&
+      typeof route.params.newTeam === 'string' &&
+      !teams.some((team) => team.name === route.params.newTeam)
+    ) {
+      const newTeam: Team = {
+        id: `${Date.now()}`,
+        name: route.params.newTeam,
+        members: [],
+        bucketlists: [],
+      };
+      setTeams((prevTeams) => [...prevTeams, newTeam]);
     }
   }, [route.params?.newTeam]);
 
-  const handleTeamDetails = (team: string) => {
-    navigation.navigate('TeamDetails', { teamName: team });
+  const handleTeamDetails = (team: Team) => {
+    navigation.navigate('TeamDetails', { teamName: team.name });
   };
 
   const handleAddTeam = () => {
     navigation.navigate('AddTeam');
   };
 
-  const renderTeamItem = ({ item }: { item: string }) => (
+  const renderTeamItem = ({ item }: { item: Team }) => (
     <TouchableOpacity
       style={styles.teamContainer}
       onPress={() => handleTeamDetails(item)}
     >
       <View style={styles.teamInfo}>
         <Ionicons name="people" size={20} color="#6A5ACD" />
-        <Text style={styles.teamName}>{item}</Text>
+        <Text style={styles.teamName}>{item.name}</Text>
       </View>
       <Ionicons name="chevron-forward" size={20} color="#AAA" />
     </TouchableOpacity>
@@ -42,27 +65,24 @@ export default function TeamsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>👥 Mes Équipes</Text>
-        <Text style={styles.headerSubtitle}>Gérez vos équipes de manière efficace</Text>
+        <Text style={styles.headerTitle}>Mes Équipes</Text>
+        <Text style={styles.headerSubtitle}>Gérez vos équipes et leurs bucketlists</Text>
       </View>
 
-      {/* Add Team Button */}
       <TouchableOpacity style={styles.addButton} onPress={handleAddTeam}>
         <Ionicons name="add-circle" size={24} color="#FFF" />
-        <Text style={styles.addButtonText}>Nouvelle Équipe</Text>
+        <Text style={styles.addButtonText}>Créer une Équipe</Text>
       </TouchableOpacity>
 
-      {/* Team List */}
       <FlatList
         data={teams}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         renderItem={renderTeamItem}
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
           <Text style={styles.emptyText}>
-            Aucune équipe disponible. Commencez par en ajouter une !
+            Aucune équipe disponible. Créez-en une pour commencer !
           </Text>
         }
       />
@@ -74,13 +94,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FA' },
   header: {
     alignItems: 'center',
-    paddingVertical: 25,
+    paddingVertical: 20,
     backgroundColor: '#6A5ACD',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    marginBottom: 20,
+    marginBottom: 16,
   },
-  headerTitle: { fontSize: 26, fontWeight: 'bold', color: '#FFF' },
+  headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#FFF' },
   headerSubtitle: { fontSize: 14, color: '#DCDCDC', marginTop: 5 },
   addButton: {
     flexDirection: 'row',
@@ -107,7 +127,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     borderRadius: 10,
     borderLeftWidth: 5,
-    borderLeftColor: '#6A5ACD', // Ligne colorée à gauche pour distinction
+    borderLeftColor: '#6A5ACD',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     marginRight: 10,
-    backgroundColor: '#5A4CAD',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     padding: 8,
     borderRadius: 50,
   },
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    borderLeftWidth: 5, // Utilise la couleur de la catégorie
+    borderLeftWidth: 5,
   },
   categoryTitle: {
     fontSize: 16,

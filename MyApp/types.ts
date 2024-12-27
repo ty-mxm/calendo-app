@@ -1,3 +1,4 @@
+// types.ts
 export interface Event {
   id: string;
   title: string;
@@ -14,12 +15,30 @@ export interface BucketlistCategory {
   itemsCount: number;
 }
 
+export interface Team {
+  id: string;
+  name: string;
+  members: string[];
+  bucketlists: Bucketlist[];
+}
+
+export interface Bucketlist {
+  category: string;
+  items: BucketlistItem[];
+}
+
+export interface BucketlistItem {
+  id: string;
+  title: string;
+  addedBy: string;
+}
+
 export type RootStackParamList = {
   Home: { newEvent?: Omit<Event, 'id'> };
   AddEvent: { selectedTeam?: string };
   EditEvent: { event: Event };
   Main: undefined;
-  Teams: { newTeam: string };
+  Teams: { newTeam?: string };
   AddTeam: undefined;
   TeamDetails: { teamName: string };
   EventDetails: { event: Event };
