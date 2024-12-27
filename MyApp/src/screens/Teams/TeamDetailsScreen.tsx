@@ -46,9 +46,11 @@ export default function TeamDetailsScreen() {
   };
 
   const saveChanges = () => {
-    // Enregistrer les modifications (exemple d'alerte)
-    Alert.alert('Succès', 'Les changements ont été enregistrés.');
-    // Si besoin, envoyer les données à une API
+    Alert.alert('Succès', 'Les modifications ont été enregistrées.');
+  };
+
+  const navigateToBucketlists = () => {
+    navigation.navigate('Bucketlists' as never);
   };
 
   return (
@@ -56,23 +58,22 @@ export default function TeamDetailsScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButton}>
-          <Ionicons name="close" size={24} color="#FFF" />
+          <Ionicons name="arrow-back" size={20} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>👥 {teamName}</Text>
-        <Text style={styles.headerSubtitle}>Gérez les membres de votre équipe</Text>
+        <Text style={styles.headerTitle}>{teamName}</Text>
       </View>
 
       {/* Add Member Input */}
       <View style={styles.inputContainer}>
-        <Ionicons name="person-add" size={20} color="#7F57FF" />
         <TextInput
           style={styles.input}
           placeholder="Ajouter un membre"
           value={newMember}
           onChangeText={setNewMember}
+          placeholderTextColor="#AAA"
         />
         <TouchableOpacity style={styles.addButton} onPress={addMember}>
-          <Text style={styles.addButtonText}>Ajouter</Text>
+          <Ionicons name="add" size={18} color="#FFF" />
         </TouchableOpacity>
       </View>
 
@@ -82,22 +83,28 @@ export default function TeamDetailsScreen() {
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <View style={styles.memberContainer}>
-            <Text style={styles.memberName}>👤 {item}</Text>
+            <Text style={styles.memberName}>{item}</Text>
             <TouchableOpacity onPress={() => removeMember(item)}>
-              <Ionicons name="close-circle" size={24} color="#FF6C6C" />
+              <Ionicons name="close-circle-outline" size={20} color="#FF6C6C" />
             </TouchableOpacity>
           </View>
         )}
         ListEmptyComponent={
-          <Text style={styles.emptyText}>Aucun membre dans cette équipe.</Text>
+          <Text style={styles.emptyText}>Aucun membre pour l'instant.</Text>
         }
         contentContainerStyle={{ paddingBottom: 20 }}
       />
 
-      {/* Save Changes Button */}
+      {/* Footer */}
       <View style={styles.footer}>
+        <TouchableOpacity style={styles.bucketlistButton} onPress={navigateToBucketlists}>
+          <Ionicons name="list-outline" size={18} color="#FFF" />
+          <Text style={styles.footerButtonText}>Voir Bucketlists</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-          <Text style={styles.saveButtonText}>Enregistrer les changements</Text>
+          <Ionicons name="checkmark-outline" size={18} color="#FFF" />
+          <Text style={styles.footerButtonText}>Enregistrer</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -107,97 +114,92 @@ export default function TeamDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#F8F9FA',
+    padding: 20,
   },
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: '#6A5ACD',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   closeButton: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
+    marginRight: 10,
+    backgroundColor: '#6A5ACD',
+    padding: 8,
+    borderRadius: 10,
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFF',
-    textAlign: 'center',
-  },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#DCDCDC',
-    marginTop: 8,
-    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#EFEFEF',
     borderRadius: 10,
-    padding: 10,
-    marginHorizontal: 16,
-    marginBottom: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    marginBottom: 20,
   },
   input: {
     flex: 1,
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: 14,
     color: '#333',
   },
   addButton: {
+    marginLeft: 10,
     backgroundColor: '#7F57FF',
     padding: 10,
     borderRadius: 8,
-  },
-  addButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
   },
   memberContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FFF',
-    padding: 15,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    borderRadius: 10,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
+    padding: 12,
+    marginBottom: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#DDD',
   },
   memberName: {
     fontSize: 16,
-    fontWeight: 'bold',
     color: '#333',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
-    fontSize: 16,
-    marginTop: 30,
-    paddingHorizontal: 20,
+    color: '#AAA',
+    fontSize: 14,
+    marginTop: 20,
   },
   footer: {
-    padding: 16,
-    borderTopWidth: 1,
-    borderColor: '#E0E0E0',
-    backgroundColor: '#FFF',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  bucketlistButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#6A5ACD',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
+    marginRight: 10,
   },
   saveButton: {
-    backgroundColor: '#6A5ACD',
-    padding: 15,
-    borderRadius: 10,
+    flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#28A745',
+    padding: 10,
+    borderRadius: 8,
+    flex: 1,
   },
-  saveButtonText: {
+  footerButtonText: {
+    marginLeft: 8,
+    fontSize: 14,
     color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '600',
   },
 });

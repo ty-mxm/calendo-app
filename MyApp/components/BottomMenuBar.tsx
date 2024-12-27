@@ -7,7 +7,7 @@ import TeamsScreen from '../src/screens/Teams/TeamsScreen';
 import NotificationsScreen from '../src/screens/Notifications/NotificationsScreen';
 import UserProfileScreen from '../src/screens/Profile/UserProfileScreen';
 import AddEventScreen from '../src/screens/Events/AddEventScreen';
-import SyncCalendarScreen from '../src/screens/Settings/SyncCalendarScreen';
+
 import BucketlistsScreen from '../src/screens/Bucketlists/BucketlistsScreen';
 
 const Tab = createBottomTabNavigator();
@@ -78,17 +78,7 @@ export default function AppNavigator() {
         }}
       />
 
-      {/* Sync Calendar Tab */}
-      <Tab.Screen
-        name="Sync"
-        component={SyncCalendarScreen}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="sync-outline" size={22} color={color} />
-          ),
-          tabBarLabel: 'Sync',
-        }}
-      />
+ 
 
       {/* Notifications Tab */}
       <Tab.Screen
