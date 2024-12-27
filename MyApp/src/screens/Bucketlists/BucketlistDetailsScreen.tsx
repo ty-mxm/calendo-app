@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { RootStackParamList, BucketlistCategory } from '../../../types';
+import { Ionicons } from '@expo/vector-icons';
 
 type BucketlistDetailsRouteProp = RouteProp<RootStackParamList, 'BucketlistDetails'>;
 
@@ -13,44 +14,45 @@ interface BucketlistItem {
 
 export default function BucketlistDetailsScreen() {
   const route = useRoute<BucketlistDetailsRouteProp>();
+  const navigation = useNavigation();
   const { category } = route.params;
 
-  // Mock data for each category
+  // Données fictives pour chaque catégorie
   const categoryItems: Record<string, BucketlistItem[]> = {
-    Trips: [
-      { id: '1', title: 'Visit Paris', addedBy: 'John' },
-      { id: '2', title: 'Go to Bali', addedBy: 'Emily' },
-      { id: '3', title: 'Explore New York', addedBy: 'Michael' },
-      { id: '4', title: 'Road trip in Canada', addedBy: 'Sarah' },
-      { id: '5', title: 'Hike in Patagonia', addedBy: 'Chris' },
+    Voyages: [
+      { id: '1', title: 'Visiter Paris', addedBy: 'John' },
+      { id: '2', title: 'Aller à Bali', addedBy: 'Emily' },
+      { id: '3', title: 'Explorer New York', addedBy: 'Michael' },
+      { id: '4', title: 'Road trip au Canada', addedBy: 'Sarah' },
+      { id: '5', title: 'Randonner en Patagonie', addedBy: 'Chris' },
     ],
     Restaurants: [
-      { id: '1', title: 'Try Sushi Place', addedBy: 'John' },
-      { id: '2', title: 'Visit Italian Bistro', addedBy: 'Emily' },
-      { id: '3', title: 'Dine at Steakhouse', addedBy: 'Michael' },
-      { id: '4', title: 'Taste Local Street Food', addedBy: 'Sarah' },
-      { id: '5', title: 'Eat at Vegan Cafe', addedBy: 'Chris' },
+      { id: '1', title: 'Essayer un restaurant japonais', addedBy: 'John' },
+      { id: '2', title: 'Visiter un bistrot italien', addedBy: 'Emily' },
+      { id: '3', title: 'Dîner dans un steakhouse', addedBy: 'Michael' },
+      { id: '4', title: 'Découvrir la street food locale', addedBy: 'Sarah' },
+      { id: '5', title: 'Manger dans un café végan', addedBy: 'Chris' },
     ],
-    'Sports': [
-      { id: '1', title: 'Attend Yoga Class', addedBy: 'John' },
-      { id: '2', title: 'Play Soccer', addedBy: 'Emily' },
-      { id: '3', title: 'Go Rock Climbing', addedBy: 'Michael' },
-      { id: '4', title: 'Try Ice Skating', addedBy: 'Sarah' },
-      { id: '5', title: 'Swim in the Ocean', addedBy: 'Chris' },
+    Sports: [
+      { id: '1', title: 'Assister à un cours de yoga', addedBy: 'John' },
+      { id: '2', title: 'Jouer au football', addedBy: 'Emily' },
+      { id: '3', title: 'Faire de l’escalade', addedBy: 'Michael' },
+      { id: '4', title: 'Essayer le patinage', addedBy: 'Sarah' },
+      { id: '5', title: 'Nager dans l’océan', addedBy: 'Chris' },
     ],
-    Hobbies: [
-      { id: '1', title: 'Paint a Landscape', addedBy: 'John' },
-      { id: '2', title: 'Take a Photography Class', addedBy: 'Emily' },
-      { id: '3', title: 'Write Poetry', addedBy: 'Michael' },
-      { id: '4', title: 'Learn to Play Guitar', addedBy: 'Sarah' },
-      { id: '5', title: 'Build a Birdhouse', addedBy: 'Chris' },
+    Loisirs: [
+      { id: '1', title: 'Peindre un paysage', addedBy: 'John' },
+      { id: '2', title: 'Prendre un cours de photographie', addedBy: 'Emily' },
+      { id: '3', title: 'Écrire un poème', addedBy: 'Michael' },
+      { id: '4', title: 'Apprendre la guitare', addedBy: 'Sarah' },
+      { id: '5', title: 'Fabriquer une cabane à oiseaux', addedBy: 'Chris' },
     ],
-    Books: [
-      { id: '1', title: 'Read “1984”', addedBy: 'John' },
-      { id: '2', title: 'Finish “War and Peace”', addedBy: 'Emily' },
-      { id: '3', title: 'Start “The Great Gatsby”', addedBy: 'Michael' },
-      { id: '4', title: 'Complete “To Kill a Mockingbird”', addedBy: 'Sarah' },
-      { id: '5', title: 'Explore “Moby Dick”', addedBy: 'Chris' },
+    Livres: [
+      { id: '1', title: 'Lire "1984"', addedBy: 'John' },
+      { id: '2', title: 'Finir "Guerre et Paix"', addedBy: 'Emily' },
+      { id: '3', title: 'Commencer "Gatsby le Magnifique"', addedBy: 'Michael' },
+      { id: '4', title: 'Achever "Ne tirez pas sur l’oiseau moqueur"', addedBy: 'Sarah' },
+      { id: '5', title: 'Explorer "Moby Dick"', addedBy: 'Chris' },
     ],
   };
 
@@ -59,21 +61,29 @@ export default function BucketlistDetailsScreen() {
   const renderItem = ({ item }: { item: BucketlistItem }) => (
     <View style={styles.itemCard}>
       <Text style={styles.itemTitle}>{item.title}</Text>
-      <Text style={styles.itemSubtitle}>Added by: {item.addedBy}</Text>
+      <Text style={styles.itemSubtitle}>Ajouté par : {item.addedBy}</Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
+      {/* En-tête avec flèche de retour */}
       <View style={[styles.header, { backgroundColor: category.color }]}>
-        <Text style={styles.headerEmoji}>{category.emoji}</Text>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#FFF" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>{category.title}</Text>
       </View>
+
+      {/* Liste des éléments */}
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.list}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>Aucun élément trouvé dans cette catégorie.</Text>
+        }
       />
     </View>
   );
@@ -82,19 +92,25 @@ export default function BucketlistDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F9F9F9',
   },
   header: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    backgroundColor: '#6A5ACD',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },
-  headerEmoji: {
-    fontSize: 40,
+  backButton: {
+    marginRight: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    padding: 8,
+    borderRadius: 50,
   },
   headerTitle: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFF',
   },
@@ -104,18 +120,30 @@ const styles = StyleSheet.create({
   itemCard: {
     backgroundColor: '#FFF',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 8,
     marginBottom: 10,
     elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    borderLeftWidth: 5,
+    borderLeftColor: '#6A5ACD', // Couleur pour distinguer chaque élément
   },
   itemTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
     color: '#333',
   },
   itemSubtitle: {
     fontSize: 14,
     color: '#666',
     marginTop: 5,
+  },
+  emptyText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#AAA',
+    marginTop: 20,
   },
 });

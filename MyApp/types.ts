@@ -9,8 +9,8 @@ export interface Event {
 
 export interface BucketlistCategory {
   title: string;
-  emoji: string;
-  color: string;
+  emoji?: string;
+  color?: string;
   itemsCount: number;
 }
 

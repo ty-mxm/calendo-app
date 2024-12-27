@@ -17,24 +17,23 @@ export default function BucketlistsScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   const categories: BucketlistCategory[] = [
-    { title: 'Trips', emoji: '✈️', color: '#FFB6C1', itemsCount: 12 },
-    { title: 'Restaurants', emoji: '🍴', color: '#FFD700', itemsCount: 15 },
-    { title: 'Sports', emoji: '⚽', color: '#40E0D0', itemsCount: 8 },
-    { title: 'Hobbies', emoji: '🎨', color: '#FFA07A', itemsCount: 10 },
-    { title: 'Books', emoji: '📚', color: '#87CEEB', itemsCount: 7 },
+    { title: 'Voyages', itemsCount: 12, color: '#FFA07A' },
+    { title: 'Restaurants', itemsCount: 15, color: '#FFD700' },
+    { title: 'Sports', itemsCount: 8, color: '#40E0D0' },
+    { title: 'Loisirs', itemsCount: 10, color: '#6A5ACD' },
+    { title: 'Livres', itemsCount: 7, color: '#87CEEB' },
   ];
 
   const renderItem = ({ item }: { item: BucketlistCategory }) => (
     <TouchableOpacity
-      style={[styles.categoryCard, { backgroundColor: item.color }]}
+      style={[styles.categoryCard, { borderLeftColor: item.color }]}
       onPress={() => navigation.navigate('BucketlistDetails', { category: item })}
     >
-      <Text style={styles.categoryEmoji}>{item.emoji}</Text>
       <View>
         <Text style={styles.categoryTitle}>{item.title}</Text>
-        <Text style={styles.categorySubtitle}>{item.itemsCount} items</Text>
+        <Text style={styles.categorySubtitle}>{item.itemsCount} éléments</Text>
       </View>
-      <Ionicons name="chevron-forward" size={20} color="#FFF" />
+      <Ionicons name="chevron-forward" size={18} color="#333" />
     </TouchableOpacity>
   );
 
@@ -42,10 +41,10 @@ export default function BucketlistsScreen() {
     <View style={styles.screenContainer}>
       {/* Header */}
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Ionicons name="arrow-back" size={24} color="#FFF" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Bucketlists</Text>
-        <Text style={styles.headerSubtitle}>
-          Explore and manage your group bucketlists
-        </Text>
       </View>
 
       {/* Category List */}
@@ -54,6 +53,9 @@ export default function BucketlistsScreen() {
         keyExtractor={(item) => item.title}
         renderItem={renderItem}
         contentContainerStyle={styles.container}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>Aucune bucketlist disponible.</Text>
+        }
       />
     </View>
   );
@@ -62,52 +64,60 @@ export default function BucketlistsScreen() {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#F9F9F9',
   },
   header: {
-    backgroundColor: '#7F57FF',
-    paddingVertical: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    backgroundColor: '#6A5ACD',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    alignItems: 'center',
-    marginBottom: 20,
+  },
+  backButton: {
+    marginRight: 10,
+    backgroundColor: '#5A4CAD',
+    padding: 8,
+    borderRadius: 50,
   },
   headerTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '600',
     color: '#FFF',
   },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#E0E0E0',
-    marginTop: 5,
-  },
   container: {
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   categoryCard: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: 10,
+    backgroundColor: '#FFF',
     padding: 15,
-    marginBottom: 15,
+    marginBottom: 10,
+    borderRadius: 8,
     elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-  },
-  categoryEmoji: {
-    fontSize: 24,
-    marginRight: 15,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    borderLeftWidth: 5, // Utilise la couleur de la catégorie
   },
   categoryTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
     color: '#333',
   },
   categorySubtitle: {
     fontSize: 14,
     color: '#666',
+  },
+  emptyText: {
+    textAlign: 'center',
+    color: '#AAA',
+    fontSize: 16,
+    marginTop: 50,
   },
 });

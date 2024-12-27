@@ -33,7 +33,7 @@ export default function TeamsScreen() {
       onPress={() => handleTeamDetails(item)}
     >
       <View style={styles.teamInfo}>
-        <Ionicons name="people" size={20} color="#7F57FF" />
+        <Ionicons name="people" size={20} color="#6A5ACD" />
         <Text style={styles.teamName}>{item}</Text>
       </View>
       <Ionicons name="chevron-forward" size={20} color="#AAA" />
@@ -44,16 +44,14 @@ export default function TeamsScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>👥 Mes équipes</Text>
-        <Text style={styles.headerSubtitle}>
-          Organisez et gérez vos équipes avec simplicité
-        </Text>
+        <Text style={styles.headerTitle}>👥 Mes Équipes</Text>
+        <Text style={styles.headerSubtitle}>Gérez vos équipes de manière efficace</Text>
       </View>
 
       {/* Add Team Button */}
       <TouchableOpacity style={styles.addButton} onPress={handleAddTeam}>
-        <Ionicons name="add-circle-outline" size={24} color="#FFF" />
-        <Text style={styles.addButtonText}>Ajouter une équipe</Text>
+        <Ionicons name="add-circle" size={24} color="#FFF" />
+        <Text style={styles.addButtonText}>Nouvelle Équipe</Text>
       </TouchableOpacity>
 
       {/* Team List */}
@@ -64,7 +62,7 @@ export default function TeamsScreen() {
         contentContainerStyle={styles.listContent}
         ListEmptyComponent={
           <Text style={styles.emptyText}>
-            Aucune équipe disponible. Commencez par en créer une !
+            Aucune équipe disponible. Commencez par en ajouter une !
           </Text>
         }
       />
@@ -73,24 +71,30 @@ export default function TeamsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9F9F9' },
+  container: { flex: 1, backgroundColor: '#F8F9FA' },
   header: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 25,
     backgroundColor: '#6A5ACD',
-    marginBottom: 16,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginBottom: 20,
   },
-  headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#FFF' },
-  headerSubtitle: { fontSize: 16, color: '#DCDCDC', marginTop: 8 },
+  headerTitle: { fontSize: 26, fontWeight: 'bold', color: '#FFF' },
+  headerSubtitle: { fontSize: 14, color: '#DCDCDC', marginTop: 5 },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
     padding: 12,
-    backgroundColor: '#7F57FF',
+    backgroundColor: '#6A5ACD',
     borderRadius: 10,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
   addButtonText: { color: '#FFF', fontWeight: 'bold', fontSize: 16, marginLeft: 8 },
   teamContainer: {
@@ -102,6 +106,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 8,
     borderRadius: 10,
+    borderLeftWidth: 5,
+    borderLeftColor: '#6A5ACD', // Ligne colorée à gauche pour distinction
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -109,7 +115,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   teamInfo: { flexDirection: 'row', alignItems: 'center' },
-  teamName: { marginLeft: 10, fontSize: 16, fontWeight: 'bold', color: '#333' },
+  teamName: { marginLeft: 10, fontSize: 16, fontWeight: '500', color: '#333' },
   listContent: { paddingBottom: 30 },
-  emptyText: { textAlign: 'center', color: '#666', fontSize: 16, marginTop: 30, paddingHorizontal: 20 },
+  emptyText: {
+    textAlign: 'center',
+    color: '#AAA',
+    fontSize: 14,
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
 });
