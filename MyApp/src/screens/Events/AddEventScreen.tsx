@@ -8,7 +8,7 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
-import { MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 export default function AddEventScreen() {
@@ -16,9 +16,7 @@ export default function AddEventScreen() {
 
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
-  const [bucketlist, setBucketlist] = useState('');
   const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
-  const [isBucketlistModalVisible, setIsBucketlistModalVisible] = useState(false);
 
   const teams = [
     {
@@ -33,22 +31,16 @@ export default function AddEventScreen() {
 
   const handleSelectTeam = (selectedTeam: string) => {
     setTeam(selectedTeam);
-    setBucketlist(''); // Reset bucketlist when team changes
     setIsTeamModalVisible(false);
   };
 
-  const handleSelectBucketlist = (selectedBucketlist: string) => {
-    setBucketlist(selectedBucketlist);
-    setIsBucketlistModalVisible(false);
-  };
-
   const handleCreateEvent = () => {
-    if (!eventName || !team || !bucketlist) {
+    if (!eventName || !team) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
-    console.log({ eventName, team, bucketlist });
+    console.log({ eventName, team });
     alert('Événement créé avec succès !');
     navigation.goBack();
   };
@@ -78,28 +70,6 @@ export default function AddEventScreen() {
           editable={false}
         />
         <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
-          <AntDesign name="pluscircle" size={24} color="#7F57FF" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Bucketlist sélectionnée */}
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="list-alt" size={20} color="#FFA500" />
-        <TextInput
-          style={styles.input}
-          placeholder="Sélectionner une bucketlist*"
-          value={bucketlist}
-          editable={false}
-        />
-        <TouchableOpacity
-          onPress={() => {
-            if (!team) {
-              alert('Veuillez d\u2019abord sélectionner une équipe.');
-              return;
-            }
-            setIsBucketlistModalVisible(true);
-          }}
-        >
           <AntDesign name="pluscircle" size={24} color="#7F57FF" />
         </TouchableOpacity>
       </View>
@@ -142,42 +112,6 @@ export default function AddEventScreen() {
           </View>
         </View>
       </Modal>
-
-      {/* Popup pour sélectionner une bucketlist */}
-      <Modal
-        visible={isBucketlistModalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setIsBucketlistModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Choisir une bucketlist</Text>
-
-            <FlatList
-              data={
-                teams.find((t) => t.name === team)?.bucketlists || []
-              }
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.teamOption}
-                  onPress={() => handleSelectBucketlist(item)}
-                >
-                  <Text style={styles.teamName}>{item}</Text>
-                </TouchableOpacity>
-              )}
-            />
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setIsBucketlistModalVisible(false)}
-            >
-              <Text style={styles.closeButtonText}>Fermer</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 }
@@ -212,8 +146,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
-
-  // Modal styles
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
