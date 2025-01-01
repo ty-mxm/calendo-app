@@ -10,23 +10,23 @@ import {
 } from 'react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AddEventScreen() {
   const navigation = useNavigation();
 
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
+  const [location, setLocation] = useState('');
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
   const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
+  const [isStartTimePickerVisible, setIsStartTimePickerVisible] = useState(false);
+  const [isEndTimePickerVisible, setIsEndTimePickerVisible] = useState(false);
 
   const teams = [
-    {
-      name: 'Team 1',
-      bucketlists: ['Voyages', 'Restaurants'],
-    },
-    {
-      name: 'Team 2',
-      bucketlists: ['Sports', 'Livres'],
-    },
+    { name: 'Team 1' },
+    { name: 'Team 2' },
   ];
 
   const handleSelectTeam = (selectedTeam: string) => {
@@ -35,12 +35,12 @@ export default function AddEventScreen() {
   };
 
   const handleCreateEvent = () => {
-    if (!eventName || !team) {
+    if (!eventName || !team || !location) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
-    console.log({ eventName, team });
+    console.log({ eventName, team, location, startTime, endTime });
     alert('Événement créé avec succès !');
     navigation.goBack();
   };
@@ -73,6 +73,61 @@ export default function AddEventScreen() {
           <AntDesign name="pluscircle" size={24} color="#7F57FF" />
         </TouchableOpacity>
       </View>
+
+      {/* Location */}
+      <View style={styles.inputContainer}>
+        <MaterialIcons name="location-on" size={24} color="#FFA500" />
+        <TextInput
+          style={styles.input}
+          placeholder="Lieu*"
+          value={location}
+          onChangeText={setLocation}
+        />
+      </View>
+
+      {/* Start Time */}
+      <TouchableOpacity
+        style={styles.dateTimeContainer}
+        onPress={() => setIsStartTimePickerVisible(true)}
+      >
+        <MaterialIcons name="access-time" size={24} color="#40E0D0" />
+        <Text style={styles.dateTimeText}>
+          Début : {startTime.toLocaleString('fr-FR')}
+        </Text>
+      </TouchableOpacity>
+      {isStartTimePickerVisible && (
+        <DateTimePicker
+          value={startTime}
+          mode="datetime"
+          display="default"
+          onChange={(event: any, date?: Date) => {
+            setIsStartTimePickerVisible(false);
+            if (date) setStartTime(date);
+          }}
+        />
+      )}
+
+      {/* End Time */}
+      <TouchableOpacity
+        style={styles.dateTimeContainer}
+        onPress={() => setIsEndTimePickerVisible(true)}
+      >
+        <MaterialIcons name="access-time" size={24} color="#40E0D0" />
+        <Text style={styles.dateTimeText}>
+          Fin : {endTime.toLocaleString('fr-FR')}
+        </Text>
+      </TouchableOpacity>
+      {isEndTimePickerVisible && (
+        <DateTimePicker
+          value={endTime}
+          mode="datetime"
+          display="default"
+          onChange={(event: any, date?: Date) => {
+            setIsEndTimePickerVisible(false);
+            if (date) setEndTime(date);
+          }}
+        />
+      )}
 
       {/* Bouton Créer l'événement */}
       <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
@@ -134,6 +189,15 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: { flex: 1, fontSize: 16, marginLeft: 10, color: '#333' },
+  dateTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EFEFEF',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 15,
+  },
+  dateTimeText: { marginLeft: 10, fontSize: 16, color: '#333' },
   createButton: {
     backgroundColor: '#7F57FF',
     padding: 15,
