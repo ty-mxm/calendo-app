@@ -99,7 +99,7 @@ export default function TeamDetailsScreen() {
       <View style={styles.footer}>
         <TouchableOpacity style={styles.bucketlistButton} onPress={navigateToBucketlists}>
           <Ionicons name="list-outline" size={18} color="#FFF" />
-          <Text style={styles.footerButtonText}>Voir Bucketlists</Text>
+          <Text style={styles.footerButtonText}>Voir bucketlist</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>

@@ -7,37 +7,29 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList, BucketlistCategory } from '../../../types';
-import { StackNavigationProp } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-type NavigationProp = StackNavigationProp<RootStackParamList, 'Bucketlists'>;
-
 export default function BucketlistsScreen() {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation();
 
-  const categories: BucketlistCategory[] = [
-    { title: 'Voyages', itemsCount: 12, color: '#FFA07A' },
-    { title: 'Restaurants', itemsCount: 15, color: '#FFD700' },
-    { title: 'Sports', itemsCount: 8, color: '#40E0D0' },
-    { title: 'Loisirs', itemsCount: 10, color: '#6A5ACD' },
-    { title: 'Livres', itemsCount: 7, color: '#87CEEB' },
+  const events = [
+    { title: 'Voyage à Paris', addedBy: 'Ty', color: '#FFA07A' },
+    { title: 'Dîner au Damas', addedBy: 'Sofia', color: '#FFD700' },
+    { title: 'Match des Canadiens', addedBy: 'Yanis', color: '#40E0D0' },
+    { title: 'Voir L\'amour ouf au cinéma', addedBy: 'Bri', color: '#6A5ACD' },
+    { title: 'Randonnée au Mont-Saint-Hilaire', addedBy: 'Ty', color: '#87CEEB' },
   ];
 
-  const renderItem = ({ item }: { item: BucketlistCategory }) => (
-    <TouchableOpacity
-      style={[styles.categoryCard, { borderLeftColor: item.color }]}
-      onPress={() => navigation.navigate('BucketlistDetails', { category: item })}
-    >
+  const renderItem = ({ item }: { item: typeof events[0] }) => (
+    <View style={[styles.eventCard, { borderLeftColor: item.color }]}>
       <View>
-        <Text style={styles.categoryTitle}>{item.title}</Text>
-        <Text style={styles.categorySubtitle}>{item.itemsCount} éléments</Text>
+        <Text style={styles.eventTitle}>{item.title}</Text>
+        <Text style={styles.eventSubtitle}>Ajouté par: {item.addedBy}</Text>
       </View>
-      <Ionicons name="chevron-forward" size={18} color="#333" />
-    </TouchableOpacity>
+    </View>
   );
 
-  const handleAddBucketList = () => {
+  const handleAddWish = () => {
     navigation.navigate('AddBucketlist' as never);
   };
 
@@ -48,12 +40,12 @@ export default function BucketlistsScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Bucketlists</Text>
+        <Text style={styles.headerTitle}>Bucketlist</Text>
       </View>
 
-      {/* Category List */}
+      {/* Wish List */}
       <FlatList
-        data={categories}
+        data={events}
         keyExtractor={(item) => item.title}
         renderItem={renderItem}
         contentContainerStyle={styles.container}
@@ -62,10 +54,10 @@ export default function BucketlistsScreen() {
         }
       />
 
-      {/* Add Bucketlist Button */}
-      <TouchableOpacity style={styles.addButton} onPress={handleAddBucketList}>
+      {/* Add Wish Button */}
+      <TouchableOpacity style={styles.addButton} onPress={handleAddWish}>
         <Ionicons name="add-circle" size={24} color="#FFF" />
-        <Text style={styles.addButtonText}>Ajouter une Bucketlist</Text>
+        <Text style={styles.addButtonText}>Ajouter un souhait</Text>
       </TouchableOpacity>
     </View>
   );
@@ -100,9 +92,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
   },
-  categoryCard: {
+  eventCard: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FFF',
     padding: 15,
@@ -115,12 +106,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     borderLeftWidth: 5,
   },
-  categoryTitle: {
+  eventTitle: {
     fontSize: 16,
     fontWeight: '500',
     color: '#333',
   },
-  categorySubtitle: {
+  eventSubtitle: {
     fontSize: 14,
     color: '#666',
   },
