@@ -4,37 +4,25 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  FlatList,
   StyleSheet,
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AddBucketListScreen() {
+export default function AddWishScreen() {
   const navigation = useNavigation();
 
-  const [category, setCategory] = useState('');
-  const [items, setItems] = useState<string[]>([]);
-  const [newItem, setNewItem] = useState('');
+  const [wishTitle, setWishTitle] = useState('');
 
-  const handleAddItem = () => {
-    if (!newItem.trim()) {
-      Alert.alert('Erreur', 'Veuillez entrer un élément.');
-      return;
-    }
-    setItems((prevItems) => [...prevItems, newItem.trim()]);
-    setNewItem('');
-  };
-
-  const handleAddBucketList = () => {
-    if (!category.trim() || items.length === 0) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs et ajouter au moins un élément.');
+  const handleAddWish = () => {
+    if (!wishTitle.trim()) {
+      Alert.alert('Erreur', 'Veuillez entrer un souhait.');
       return;
     }
 
     // Simule une réussite sans API
-    Alert.alert('Succès', `Bucketlist de la catégorie "${category}" ajoutée avec les éléments : ${items.join(', ')} !`);
+    Alert.alert('Succès', `Souhait "${wishTitle}" ajouté avec succès !`);
     navigation.goBack();
   };
 
@@ -45,53 +33,30 @@ export default function AddBucketListScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter une Bucketlist</Text>
+        <Text style={styles.headerTitle}>Ajouter un Souhait</Text>
       </View>
 
       {/* Form */}
       <View style={styles.formContainer}>
-        {/* Category Input */}
+        {/* Wish Title Input */}
         <View style={styles.inputContainer}>
-          <Ionicons name="pricetags" size={20} color="#6A5ACD" />
+          <Ionicons name="star-outline" size={20} color="#6A5ACD" />
           <TextInput
             style={styles.input}
-            placeholder="Catégorie de la bucketlist"
+            placeholder="Titre du souhait"
             placeholderTextColor="#AAA"
-            value={category}
-            onChangeText={setCategory}
+            value={wishTitle}
+            onChangeText={setWishTitle}
           />
         </View>
-
-        {/* Add Item Input */}
-        <View style={styles.inputContainer}>
-          <Ionicons name="add" size={20} color="#6A5ACD" />
-          <TextInput
-            style={styles.input}
-            placeholder="Ajouter un élément"
-            placeholderTextColor="#AAA"
-            value={newItem}
-            onChangeText={setNewItem}
-          />
-          <TouchableOpacity onPress={handleAddItem} style={styles.addButtonSmall}>
-            <Text style={styles.addButtonText}>+</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Items List */}
-        <FlatList
-          data={items}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.listItem}>
-              <Text style={styles.listItemText}>{item}</Text>
-            </View>
-          )}
-          ListEmptyComponent={<Text style={styles.emptyText}>Aucun élément ajouté.</Text>}
-        />
+        {/* Info Text */}
+        <Text style={styles.infoText}>
+          Un souhait est une activité ou un événement que vous souhaitez partager avec votre équipe.
+        </Text>
 
         {/* Add Button */}
-        <TouchableOpacity style={styles.addButton} onPress={handleAddBucketList}>
-          <Text style={styles.addButtonText}>Ajouter la Bucketlist</Text>
+        <TouchableOpacity style={styles.addButton} onPress={handleAddWish}>
+          <Text style={styles.addButtonText}>Ajouter le souhait</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -118,10 +83,6 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 50,
   },
-  backButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-  },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -137,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   input: {
     flex: 1,
@@ -145,41 +106,21 @@ const styles = StyleSheet.create({
     color: '#333',
     marginLeft: 10,
   },
+  infoText: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
   addButton: {
     backgroundColor: '#6A5ACD',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
   },
-  addButtonSmall: {
-    backgroundColor: '#6A5ACD',
-    padding: 10,
-    borderRadius: 10,
-    marginLeft: 10,
-  },
   addButtonText: {
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 16,
-  },
-  listItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#DDD',
-  },
-  listItemText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  emptyText: {
-    textAlign: 'center',
-    color: '#AAA',
-    fontSize: 14,
-    marginTop: 20,
   },
 });
