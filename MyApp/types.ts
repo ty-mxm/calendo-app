@@ -37,11 +37,13 @@ export type RootStackParamList = {
   Home: undefined;
   AddEvent: undefined;
   EditEvent: { event: Event };
+  VoteScreen: { eventId: string };
   Main: undefined;
   Teams: { newTeam?: string };
   AddTeam: undefined;
   TeamDetails: { teamName: string };
   EventDetails: { eventId: string };
+  ChoiceScreen: { teamId: string };
   Bucketlists: undefined;
   BucketlistDetails: { category: BucketlistCategory };
   AddBucketlist: { teamId: string };

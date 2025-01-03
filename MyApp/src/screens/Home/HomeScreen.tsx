@@ -131,7 +131,7 @@ export default function HomeScreen() {
     key={event.id}
     style={[styles.eventCard, getCategoryStyle(event.category)]}
     onPress={() =>
-      navigation.navigate('EventDetails', { event })
+      navigation.navigate('EventDetails', { eventId : event.id })
     }
   >
     <Text style={styles.eventTitle}>{event.title}</Text>

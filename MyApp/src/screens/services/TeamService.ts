@@ -3,22 +3,28 @@ import { Team } from '../models/Team';
 
 const teams: Team[] = [
   {
-    id: '1',
-    name: 'Team 1',
-    members: ['Sofia', 'Bob'],
-    bucketlists: [],
+      id: '1',
+      name: 'Team 1',
+      members: ['Sofia', 'Bob'],
+      bucketlists: [],
+      choices: [],
+      availableSlots: []
   },
   {
-    id: '2',
-    name: 'Team 2',
-    members: ['Charlie', 'Yanis'],
-    bucketlists: [],
+      id: '2',
+      name: 'Team 2',
+      members: ['Charlie', 'Yanis'],
+      bucketlists: [],
+      choices: [],
+      availableSlots: []
   },
   {
-    id: '3',
-    name: 'Team 3',
-    members: ['Ty', 'Jean'],
-    bucketlists: [],
+      id: '3',
+      name: 'Team 3',
+      members: ['Ty', 'Jean'],
+      bucketlists: [],
+      choices: [],
+      availableSlots: []
   },
 ];
 
@@ -34,10 +40,12 @@ export const TeamService = {
   },
   createTeam: async (teamName: string): Promise<Team> => {
     const newTeam: Team = {
-      id: `${Date.now()}`, // Simule un ID unique
-      name: teamName,
-      members: [],
-      bucketlists: [],
+        id: `${Date.now()}`, // Simule un ID unique
+        name: teamName,
+        members: [],
+        bucketlists: [],
+        choices: [],
+        availableSlots: []
     };
     teams.push(newTeam);
     return newTeam;

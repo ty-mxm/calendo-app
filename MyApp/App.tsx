@@ -27,6 +27,9 @@ import BucketlistsScreen from './src/screens/Bucketlists/BucketlistsScreen';
 import BucketlistDetailsScreen from './src/screens/Bucketlists/BucketlistDetailsScreen';
 import AddBucketListScreen from './src/screens/Bucketlists/AddBucketListScreen';
 
+// Vote Screens
+import VoteScreen from './src/screens/Votes/VoteScreen';
+
 
 // Settings Screens
 import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen';
@@ -113,6 +116,12 @@ export default function App() {
     }}
   />
 </Stack.Group>
+ {/* VOte Screens */}
+ <Stack.Screen
+ name="VoteScreen"
+ component={VoteScreen}
+ options={{ title: 'Votes', headerShown: false }}
+ />
 
 
         {/* Events Screens */}

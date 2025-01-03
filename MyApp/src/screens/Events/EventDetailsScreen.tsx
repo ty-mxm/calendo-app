@@ -62,6 +62,13 @@ export default function EventDetailsScreen() {
         <Text style={styles.details}>🕒 {time}</Text>
         <Text style={styles.category}>Catégorie : {category}</Text>
       </View>
+      <TouchableOpacity
+  style={styles.voteButton}
+  onPress={() => navigation.navigate('VoteScreen', { eventId })}
+>
+  <Text style={styles.voteButtonText}>Voter</Text>
+</TouchableOpacity>
+
     </View>
   );
 }
@@ -83,6 +90,19 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginLeft: 10,
   },
+  voteButton: {
+    marginTop: 20,
+    backgroundColor: '#FFA500',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  voteButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  
   eventDetailsContainer: {
     margin: 20,
     backgroundColor: '#FFF',
