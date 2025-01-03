@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -9,29 +9,44 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { TeamController } from '../controllers/TeamController';
 import { RootStackParamList } from '../../../types';
 
 type TeamDetailsRouteProp = RouteProp<RootStackParamList, 'TeamDetails'>;
 
 export default function TeamDetailsScreen() {
-  const navigation = useNavigation();
   const route = useRoute<TeamDetailsRouteProp>();
   const { teamName } = route.params;
 
-  const [members, setMembers] = useState<string[]>(['Sofia K', 'Yanis Y', 'Ty', 'Bri']);
+  const [members, setMembers] = useState<string[]>([]);
   const [newMember, setNewMember] = useState<string>('');
 
-  const addMember = () => {
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      const team = await TeamController.getTeamByName(teamName);
+      if (team) {
+        setMembers(team.members);
+      } else {
+        Alert.alert('Erreur', "L'équipe n'existe pas.");
+      }
+    };
+
+    fetchTeamMembers();
+  }, [teamName]);
+
+  const addMember = async () => {
     if (newMember.trim() === '') {
       Alert.alert('Erreur', 'Veuillez entrer un nom valide.');
       return;
     }
-    setMembers([...members, newMember.trim()]);
+
+    await TeamController.addMember(teamName, newMember.trim());
+    setMembers((prev) => [...prev, newMember.trim()]);
     setNewMember('');
   };
 
-  const removeMember = (name: string) => {
+  const removeMember = async (name: string) => {
     Alert.alert(
       'Supprimer un membre',
       `Voulez-vous vraiment supprimer ${name} de l'équipe ?`,
@@ -39,27 +54,28 @@ export default function TeamDetailsScreen() {
         { text: 'Annuler', style: 'cancel' },
         {
           text: 'Supprimer',
-          onPress: () => setMembers(members.filter((member) => member !== name)),
+          onPress: async () => {
+            await TeamController.removeMember(teamName, name);
+            setMembers((prev) => prev.filter((member) => member !== name));
+          },
         },
       ]
     );
   };
 
-  const saveChanges = () => {
-    Alert.alert('Succès', 'Les modifications ont été enregistrées.');
-  };
-
-  const navigateToBucketlists = () => {
-    navigation.navigate('Bucketlists' as never);
+  const saveChanges = async () => {
+    try {
+      await TeamController.saveTeamChanges(teamName, members);
+      Alert.alert('Succès', 'Les modifications ont été enregistrées.');
+    } catch (error) {
+      Alert.alert('Erreur', "Impossible d'enregistrer les modifications.");
+    }
   };
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeButton}>
-          <Ionicons name="arrow-back" size={20} color="#FFF" />
-        </TouchableOpacity>
         <Text style={styles.headerTitle}>{teamName}</Text>
       </View>
 
@@ -70,7 +86,6 @@ export default function TeamDetailsScreen() {
           placeholder="Ajouter un membre"
           value={newMember}
           onChangeText={setNewMember}
-          placeholderTextColor="#AAA"
         />
         <TouchableOpacity style={styles.addButton} onPress={addMember}>
           <Ionicons name="add" size={18} color="#FFF" />
@@ -89,117 +104,42 @@ export default function TeamDetailsScreen() {
             </TouchableOpacity>
           </View>
         )}
-        ListEmptyComponent={
-          <Text style={styles.emptyText}>Aucun membre pour l'instant.</Text>
-        }
-        contentContainerStyle={{ paddingBottom: 20 }}
       />
 
-      {/* Footer */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.bucketlistButton} onPress={navigateToBucketlists}>
-          <Ionicons name="list-outline" size={18} color="#FFF" />
-          <Text style={styles.footerButtonText}>Voir bucketlist</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-          <Ionicons name="checkmark-outline" size={18} color="#FFF" />
-          <Text style={styles.footerButtonText}>Enregistrer</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Save Changes Button */}
+      <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
+        <Text style={styles.saveButtonText}>Enregistrer les changements</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F8F9FA',
-    padding: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  closeButton: {
-    marginRight: 10,
-    backgroundColor: '#6A5ACD',
-    padding: 8,
-    borderRadius: 10,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
-  },
+  container: { flex: 1, padding: 20 },
+  header: { marginBottom: 20 },
+  headerTitle: { fontSize: 24, fontWeight: 'bold' },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EFEFEF',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
     marginBottom: 20,
   },
-  input: {
-    flex: 1,
-    fontSize: 14,
-    color: '#333',
-  },
-  addButton: {
-    marginLeft: 10,
-    backgroundColor: '#7F57FF',
-    padding: 10,
-    borderRadius: 8,
-  },
+  input: { flex: 1, borderBottomWidth: 1, marginRight: 10 },
+  addButton: { backgroundColor: '#7F57FF', padding: 10, borderRadius: 8 },
   memberContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#FFF',
-    padding: 12,
+    padding: 10,
     marginBottom: 10,
+    backgroundColor: '#F5F5F5',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#DDD',
   },
-  memberName: {
-    fontSize: 16,
-    color: '#333',
-  },
-  emptyText: {
-    textAlign: 'center',
-    color: '#AAA',
-    fontSize: 14,
-    marginTop: 20,
-  },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  bucketlistButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#6A5ACD',
-    padding: 10,
-    borderRadius: 8,
-    flex: 1,
-    marginRight: 10,
-  },
+  memberName: { fontSize: 16 },
   saveButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: '#28A745',
-    padding: 10,
+    padding: 15,
     borderRadius: 8,
-    flex: 1,
+    alignItems: 'center',
+    marginTop: 20,
   },
-  footerButtonText: {
-    marginLeft: 8,
-    fontSize: 14,
-    color: '#FFF',
-    fontWeight: '600',
-  },
+  saveButtonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold' },
 });

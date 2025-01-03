@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { TeamController } from '../controllers/TeamController';
 
 type RootStackParamList = {
   Teams: { newTeam?: string };
@@ -18,15 +19,25 @@ type RootStackParamList = {
 
 export default function AddTeamScreen() {
   const [teamName, setTeamName] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  // Prevent screen stacking with this function
-  const handleCreateTeam = () => {
-    if (teamName.trim()) {
+  const handleCreateTeam = async () => {
+    try {
+      await TeamController.createTeam(teamName); // Appelle le contrôleur
       navigation.navigate('Teams', { newTeam: teamName });
-      setTeamName(''); // Reset the text input
+      setTeamName(''); // Réinitialise l'entrée
+    } catch (error) {
+      if (error instanceof Error) {
+        // Vérifie si l'erreur est une instance de Error
+        setErrorMessage(error.message); // Gère les erreurs (ex : nom vide)
+      } else {
+        // Cas où l'erreur n'est pas une instance de Error
+        setErrorMessage("Une erreur inconnue s'est produite.");
+      }
     }
   };
+  
 
   const handleClosePopup = () => {
     navigation.goBack();
@@ -54,6 +65,7 @@ export default function AddTeamScreen() {
 
           {/* Content */}
           <View style={styles.content}>
+            {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
             <View style={styles.inputContainer}>
               <Ionicons name="people-outline" size={24} color="#7F57FF" />
               <TextInput
@@ -101,6 +113,7 @@ const styles = StyleSheet.create({
   headerTitle: { fontSize: 28, fontWeight: 'bold', color: '#FFF' },
   headerSubtitle: { fontSize: 16, color: '#DCDCDC', marginTop: 8 },
   content: { padding: 20 },
+  error: { color: 'red', marginBottom: 10 },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
