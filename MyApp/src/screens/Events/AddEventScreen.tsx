@@ -9,12 +9,13 @@ import {
   FlatList,
 } from 'react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { EventController } from '../controllers/EventController';
+import { Event } from '../models/Event';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AddEventScreen() {
   const navigation = useNavigation();
-
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
   const [location, setLocation] = useState('');
@@ -34,14 +35,22 @@ export default function AddEventScreen() {
     setIsTeamModalVisible(false);
   };
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
     if (!eventName || !team || !location) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
-    console.log({ eventName, team, location, startTime, endTime });
-    alert('Événement créé avec succès !');
+    const newEvent: Event = {
+      title: eventName,
+      location,
+      date: startTime.toISOString(),
+      time: endTime.toISOString(),
+      category: team,
+    };
+
+    await EventController.createEvent(newEvent);
+    alert('Événement créé avec succès');
     navigation.goBack();
   };
 
