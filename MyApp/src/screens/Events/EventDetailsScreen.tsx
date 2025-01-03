@@ -1,23 +1,53 @@
-import React from 'react';
+// src/views/EventDetailsScreen.tsx
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList, Event } from '../../../types';
+import { EventController } from '../controllers/EventController';
+import { Event } from '../models/Event';
+import { RootStackParamList } from '../../../types';
 
-// Typage pour la navigation
 type NavigationProp = StackNavigationProp<RootStackParamList, 'EventDetails'>;
 type EventDetailsRouteProp = RouteProp<RootStackParamList, 'EventDetails'>;
 
 export default function EventDetailsScreen() {
   const route = useRoute<EventDetailsRouteProp>();
   const navigation = useNavigation<NavigationProp>();
-  const { event } = route.params;
-  const { title: eventName, location: team, date: bucketlist, category, id, time } = event;
+  const { eventId } = route.params;
+
+  const [event, setEvent] = useState<Event | null>(null);
+
+  useEffect(() => {
+    const fetchEventDetails = async () => {
+      try {
+        const fetchedEvent = await EventController.getEventById(eventId);
+        if (fetchedEvent) {
+          setEvent(fetchedEvent);
+        } else {
+          alert("L'événement n'a pas été trouvé !");
+          navigation.goBack();
+        }
+      } catch (error) {
+        alert("Erreur lors de la récupération des détails de l'événement.");
+      }
+    };
+
+    fetchEventDetails();
+  }, [eventId]);
+
+  if (!event) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Chargement...</Text>
+      </View>
+    );
+  }
+
+  const { title, location, date, time, category } = event;
 
   return (
     <View style={styles.container}>
-      {/* En-tête */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -25,36 +55,18 @@ export default function EventDetailsScreen() {
         <Text style={styles.headerTitle}>Détails de l'Événement</Text>
       </View>
 
-      {/* Détails de l'événement */}
       <View style={styles.eventDetailsContainer}>
-        <Text style={styles.title}>{eventName}</Text>
-        <Text style={styles.details}>📍 {team}</Text>
-        <Text style={styles.details}>⏰ {bucketlist}</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.details}>📍 {location}</Text>
+        <Text style={styles.details}>⏰ {date}</Text>
+        <Text style={styles.details}>🕒 {time}</Text>
         <Text style={styles.category}>Catégorie : {category}</Text>
       </View>
-
-      {/* Bouton Modifier */}
-      <TouchableOpacity
-        style={styles.editButton}
-        onPress={() =>
-          navigation.navigate('EditEvent', {
-            event: {
-              id,
-              title: eventName,
-              location: team,
-              date: bucketlist,
-              time,
-              category,
-            },
-          })
-        }
-      >
-        <Ionicons name="pencil-outline" size={20} color="#FFF" />
-        <Text style={styles.editButtonText}>Modifier</Text>
-      </TouchableOpacity>
     </View>
   );
-}const styles = StyleSheet.create({
+}
+
+const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F5F5F5' },
   header: {
     alignItems: 'center',
@@ -81,20 +93,4 @@ export default function EventDetailsScreen() {
   title: { fontSize: 22, fontWeight: 'bold', color: '#333', marginBottom: 10 },
   details: { fontSize: 16, color: '#666', marginBottom: 5 },
   category: { fontSize: 16, fontWeight: 'bold', color: '#7F57FF', marginTop: 10 },
-  editButton: {
-    backgroundColor: '#7F57FF',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-    marginHorizontal: 20,
-    borderRadius: 10,
-    marginTop: 20,
-  },
-  editButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 8,
-  },
 });

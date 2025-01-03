@@ -41,7 +41,7 @@ export type RootStackParamList = {
   Teams: { newTeam?: string };
   AddTeam: undefined;
   TeamDetails: { teamName: string };
-  EventDetails: { event: Event };
+  EventDetails: { eventId: string };
   Bucketlists: undefined;
   BucketlistDetails: { category: BucketlistCategory };
   AddBucketlist: { teamId: string };

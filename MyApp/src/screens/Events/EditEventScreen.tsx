@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
-import { RootStackParamList, Event } from '../../../types';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { EventController } from '../controllers/EventController'; // Utilisation du contrôleur
+import { Event } from '../models/Event'; // Import du modèle
+import { RootStackParamList } from '../../../types'; // Import du type pour les paramètres de navigation
 
 // Typage des paramètres pour la route
 type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
@@ -21,7 +23,12 @@ export default function EditEventScreen() {
   const [category, setCategory] = useState(event.category);
 
   // Fonction pour enregistrer les modifications
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (!title || !location || !date || !time || !category) {
+      alert('Veuillez remplir tous les champs');
+      return;
+    }
+
     const updatedEvent: Event = {
       ...event,
       title,
@@ -31,11 +38,11 @@ export default function EditEventScreen() {
       category,
     };
 
-    // Naviguer vers Home via Main (BottomTabNavigator)
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Main', params: { screen: 'Home' } }],
-    });
+    // Appel au contrôleur pour enregistrer les modifications
+    await EventController.updateEvent(updatedEvent);
+
+    alert('Événement modifié avec succès');
+    navigation.goBack();
   };
 
   return (
