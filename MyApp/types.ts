@@ -39,7 +39,7 @@ export type RootStackParamList = {
   EditEvent: { event: Event };
   VoteScreen: { eventId: string };
   Main: undefined;
-  Teams: { newTeam?: string };
+  Teams: undefined;
   AddTeam: undefined;
   TeamDetails: { teamName: string };
   EventDetails: { eventId: string };

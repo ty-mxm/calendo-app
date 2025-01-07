@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { TeamController } from '../controllers/TeamController';
 import { Team } from '../models/Team';
 import { RootStackParamList } from '../../../types';
@@ -12,6 +12,7 @@ type NavigationProp = StackNavigationProp<RootStackParamList, 'Teams'>;
 export default function TeamsScreen() {
   const [teams, setTeams] = useState<Team[]>([]);
   const navigation = useNavigation<NavigationProp>();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -20,7 +21,7 @@ export default function TeamsScreen() {
     };
 
     fetchTeams();
-  }, []);
+  }, [isFocused]);
 
   const handleAddTeam = () => {
     navigation.navigate('AddTeam');
@@ -28,6 +29,10 @@ export default function TeamsScreen() {
 
   const handleTeamDetails = (team: Team) => {
     navigation.navigate('TeamDetails', { teamName: team.name });
+  };
+
+  const handleDeleteTeam = (teamId: string) => {
+    setTeams(teams.filter(team => team.id !== teamId));
   };
 
   const renderTeamItem = ({ item }: { item: Team }) => (
@@ -39,7 +44,12 @@ export default function TeamsScreen() {
         <Ionicons name="people-outline" size={24} color="#6A5ACD" />
         <Text style={styles.teamName}>{item.name}</Text>
       </View>
-      <Ionicons name="chevron-forward-outline" size={24} color="#6A5ACD" />
+      <View style={styles.actionButtons}>
+        <TouchableOpacity onPress={() => handleDeleteTeam(item.id)}>
+          <Ionicons name="trash-outline" size={24} color="#FF0000" />
+        </TouchableOpacity>
+        <Ionicons name="chevron-forward-outline" size={24} color="#6A5ACD" />
+      </View>
     </TouchableOpacity>
   );
 
@@ -131,6 +141,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   listContent: { paddingBottom: 20 },
   emptyText: {

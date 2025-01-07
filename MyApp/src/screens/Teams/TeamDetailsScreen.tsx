@@ -25,10 +25,10 @@ export default function TeamDetailsScreen() {
   useEffect(() => {
     const fetchTeamMembers = async () => {
       const team = await TeamController.getTeamByName(teamName);
-      if (team) {
+      if (team && team.members) {
         setMembers(team.members);
       } else {
-        Alert.alert('Erreur', "L'équipe n'existe pas.");
+        Alert.alert('Erreur', "L'équipe n'existe pas ou n'a pas de membres.");
       }
     };
 

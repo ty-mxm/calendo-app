@@ -50,4 +50,30 @@ export const TeamController = {
       throw new Error("Impossible de supprimer le membre.");
     }
   },
+  deleteTeam: async (teamId: string): Promise<void> => {
+    try {
+      const response = await fetch(`https://votre-api.com/api/teams/${teamId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        // Gestion des erreurs en fonction du code de statut
+        if (response.status === 404) {
+          throw new Error("L'équipe n'existe pas.");
+        } else {
+          throw new Error("Erreur lors de la suppression de l'équipe.");
+        }
+      }
+    } catch (error: unknown) {
+      // Lancer une erreur personnalisée pour la remonter à l'appelant
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error("Erreur inconnue lors de la suppression.");
+      }
+    }
+  },
 };
