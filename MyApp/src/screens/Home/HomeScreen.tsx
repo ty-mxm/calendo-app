@@ -8,18 +8,21 @@ import {
   Modal,
   FlatList,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { Ionicons, MaterialIcons, FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 interface Event {
   id: string;
   title: string;
   date: string;
   team: string;
-  bucketlist: string;
-  category: string;
+  location: string;
+  startTime: string;
+  endTime: string;
 }
 
 export default function HomeScreen() {
@@ -31,73 +34,99 @@ export default function HomeScreen() {
       title: '🍳 Petit-déjeuner au restaurant',
       date: '2023-12-15',
       team: 'Team 1',
-      bucketlist: 'Bucketlist 1',
-      category: 'Nourriture',
+      location: 'Restaurant ABC',
+      startTime: '10:00 AM',
+      endTime: '11:00 AM',
     },
     {
       id: '2',
       title: '🏃‍♂️ Course au parc',
       date: '2023-12-16',
       team: 'Team 2',
-      bucketlist: 'Bucketlist 2',
-      category: 'Exercice',
+      location: 'Parc XYZ',
+      startTime: '7:00 AM',
+      endTime: '8:00 AM',
     },
     {
       id: '3',
       title: '🎬 Soirée cinéma',
       date: '2023-12-20',
       team: 'Team 3',
-      bucketlist: 'Bucketlist 3',
-      category: 'Loisir',
+      location: 'Cinéma 123',
+      startTime: '8:00 PM',
+      endTime: '10:00 PM',
     },
   ]);
 
   const [selectedDate, setSelectedDate] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
-  const [newEvent, setNewEvent] = useState({
-    title: '',
-    team: '',
-    bucketlist: '',
-    category: '',
-  });
+  const [eventName, setEventName] = useState('');
+  const [team, setTeam] = useState('');
+  const [location, setLocation] = useState('');
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+  const [isStartTimePickerVisible, setIsStartTimePickerVisible] = useState(false);
+  const [isEndTimePickerVisible, setIsEndTimePickerVisible] = useState(false);
 
   const teams = ['Team 1', 'Team 2', 'Team 3'];
 
-  const handleAddEvent = () => {
-    if (!newEvent.title || !newEvent.category || !newEvent.team || !newEvent.bucketlist) {
-      alert('Veuillez remplir tous les champs obligatoires.');
+  const handleSelectTeam = (selectedTeam: string) => {
+    setTeam(selectedTeam);
+    setIsTeamModalVisible(false);
+  };
+
+  const handleCreateEvent = () => {
+    if (!eventName || !team || !location) {
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
       return;
     }
 
     setEvents((prevEvents) => [
       ...prevEvents,
       {
-        ...newEvent,
-        date: selectedDate || 'Sans date',
         id: Math.random().toString(),
+        title: eventName,
+        date: selectedDate || 'Sans date',
+        team,
+        location,
+        startTime: startTime.toLocaleString('fr-FR', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        endTime: endTime.toLocaleString('fr-FR', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
       },
     ]);
-
     setIsModalVisible(false);
-    setNewEvent({ title: '', team: '', bucketlist: '', category: '' });
+    resetForm();
   };
 
-  const handleSelectTeam = (selectedTeam: string) => {
-    setNewEvent((prevEvent) => ({ ...prevEvent, team: selectedTeam }));
-    setIsTeamModalVisible(false);
+  const resetForm = () => {
+    setEventName('');
+    setTeam('');
+    setLocation('');
+    setStartTime(new Date());
+    setEndTime(new Date());
   };
 
-  const getCategoryStyle = (category: string) => {
-    switch (category) {
-      case 'Nourriture':
-        return { borderLeftColor: '#FFA07A' };
-      case 'Exercice':
-        return { borderLeftColor: '#40E0D0' };
-      case 'Loisir':
-        return { borderLeftColor: '#FFD700' };
-      default:
-        return { borderLeftColor: '#E0E0E0' };
+  const showDateTimePicker = (type: 'start' | 'end') => {
+    if (type === 'start') {
+      setIsStartTimePickerVisible(true);
+    } else {
+      setIsEndTimePickerVisible(true);
+    }
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date, type?: 'start' | 'end') => {
+    if (type === 'start') {
+      setIsStartTimePickerVisible(false);
+      if (selectedDate) setStartTime(selectedDate);
+    } else {
+      setIsEndTimePickerVisible(false);
+      if (selectedDate) setEndTime(selectedDate);
     }
   };
 
@@ -123,27 +152,28 @@ export default function HomeScreen() {
 
       {/* Ajouter un événement */}
       <TouchableOpacity style={styles.addEventButton} onPress={() => setIsModalVisible(true)}>
-        <Ionicons name="add-circle-outline" size={24} color="#FFF" />
+        <AntDesign name="pluscircleo" size={24} color="#FFF" />
         <Text style={styles.addEventText}>Ajouter un événement</Text>
       </TouchableOpacity>
+
+      {/* Events List */}
       {events.map((event) => (
-  <TouchableOpacity
-    key={event.id}
-    style={[styles.eventCard, getCategoryStyle(event.category)]}
-    onPress={() =>
-      navigation.navigate('EventDetails', { eventId : event.id })
-    }
-  >
-    <Text style={styles.eventTitle}>{event.title}</Text>
-    <Text style={styles.eventDetails}>📅 {event.date}</Text>
-    <Text style={styles.eventDetails}>👥 {event.team}</Text>
-    <Text style={styles.eventDetails}>📋 {event.bucketlist}</Text>
-    <Text style={styles.eventCategory}>{event.category}</Text>
-  </TouchableOpacity>
-))}
+        <TouchableOpacity
+          key={event.id}
+          style={[styles.eventCard, { borderLeftColor: '#1E90FF' }]}
+          onPress={() => navigation.navigate('EventDetails', { event })}
+        >
+          <Text style={styles.eventTitle}>{event.title}</Text>
+          <Text style={styles.eventDetails}>📅 {event.date}</Text>
+          <Text style={styles.eventDetails}>👥 {event.team}</Text>
+          <Text style={styles.eventDetails}>📍 {event.location}</Text>
+          <Text style={styles.eventDetails}>
+            🕒 {event.startTime} - {event.endTime}
+          </Text>
+        </TouchableOpacity>
+      ))}
 
-
-      {/* Popup d'ajout d'événement */}
+      {/* Modal for Adding Event */}
       <Modal
         visible={isModalVisible}
         animationType="slide"
@@ -154,24 +184,24 @@ export default function HomeScreen() {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Créer un nouvel événement</Text>
 
-            {/* Nom de l'événement */}
+            {/* Event Name */}
             <View style={styles.inputContainer}>
               <MaterialIcons name="event" size={24} color="#40E0D0" />
               <TextInput
                 style={styles.input}
-                placeholder="Nom de l'événement*"
-                value={newEvent.title}
-                onChangeText={(text) => setNewEvent((prev) => ({ ...prev, title: text }))}
+                placeholder="Nom de l'événement"
+                value={eventName}
+                onChangeText={setEventName}
               />
             </View>
 
-            {/* Groupe */}
+            {/* Team Selection */}
             <View style={styles.inputContainer}>
               <MaterialIcons name="group" size={24} color="#FF69B4" />
               <TextInput
                 style={styles.input}
-                placeholder="Ajouter un groupe"
-                value={newEvent.team}
+                placeholder="Sélectionner une équipe"
+                value={team}
                 editable={false}
               />
               <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
@@ -179,34 +209,69 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
 
-            {/* Bucketlist */}
+            {/* Location */}
             <View style={styles.inputContainer}>
-              <FontAwesome5 name="list-alt" size={20} color="#FFA500" />
+              <MaterialIcons name="location-on" size={24} color="#FFA500" />
               <TextInput
                 style={styles.input}
-                placeholder="Ajouter une Bucketlist"
-                value={newEvent.bucketlist}
-                onChangeText={(text) => setNewEvent((prev) => ({ ...prev, bucketlist: text }))}
+                placeholder="Lieu"
+                value={location}
+                onChangeText={setLocation}
               />
             </View>
 
-            {/* Catégorie */}
-            <View style={styles.inputContainer}>
-              <MaterialIcons name="category" size={24} color="#87CEEB" />
-              <TextInput
-                style={styles.input}
-                placeholder="Catégorie*"
-                value={newEvent.category}
-                onChangeText={(text) => setNewEvent((prev) => ({ ...prev, category: text }))}
+            {/* Start Time */}
+            <TouchableOpacity
+              style={styles.dateTimeContainer}
+              onPress={() => showDateTimePicker('start')}
+            >
+              <MaterialIcons name="access-time" size={24} color="#1E90FF" />
+              <Text style={styles.dateTimeText}>
+                Début :{' '}
+                {`${startTime.toLocaleDateString()} ${startTime.toLocaleTimeString('fr-FR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}`}
+              </Text>
+            </TouchableOpacity>
+            {isStartTimePickerVisible && (
+              <DateTimePicker
+                value={startTime}
+                mode="time"
+                display="default"
+                onChange={(event, date) => handleDateChange(event, date, 'start')}
               />
-            </View>
+            )}
 
-            {/* Bouton Créer */}
-            <TouchableOpacity style={styles.createButton} onPress={handleAddEvent}>
+            {/* End Time */}
+            <TouchableOpacity
+              style={styles.dateTimeContainer}
+              onPress={() => showDateTimePicker('end')}
+            >
+              <MaterialIcons name="access-time" size={24} color="#1E90FF" />
+              <Text style={styles.dateTimeText}>
+                Fin :{' '}
+                {`${endTime.toLocaleDateString()} ${endTime.toLocaleTimeString('fr-FR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}`}
+              </Text>
+            </TouchableOpacity>
+            {isEndTimePickerVisible && (
+              <DateTimePicker
+                value={endTime}
+                mode="time"
+                display="default"
+                onChange={(event, date) => handleDateChange(event, date, 'end')}
+              />
+            )}
+
+            {/* Create Button */}
+            <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
               <Text style={styles.createButtonText}>Créer l'événement</Text>
             </TouchableOpacity>
 
-            {/* Bouton Fermer */}
+            {/* Cancel Button */}
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setIsModalVisible(false)}
@@ -227,7 +292,6 @@ export default function HomeScreen() {
         <View style={styles.teamModalOverlay}>
           <View style={styles.teamModalContent}>
             <Text style={styles.teamModalTitle}>Choisir une équipe</Text>
-
             <FlatList
               data={teams}
               keyExtractor={(item) => item}
@@ -240,7 +304,6 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               )}
             />
-
             <TouchableOpacity
               style={styles.teamCloseButton}
               onPress={() => setIsTeamModalVisible(false)}
@@ -255,11 +318,29 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F9F9F9' },
-  header: { alignItems: 'center', paddingVertical: 20, backgroundColor: '#6A5ACD' },
-  headerTitle: { fontSize: 24, color: '#FFF', fontWeight: 'bold' },
-  headerSubtitle: { fontSize: 16, color: '#DCDCDC', marginTop: 8 },
-  calendar: { margin: 16, borderRadius: 10 },
+  container: {
+    flex: 1,
+    backgroundColor: '#F9F9F9',
+  },
+  header: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: '#6A5ACD',
+  },
+  headerTitle: {
+    fontSize: 24,
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#DCDCDC',
+    marginTop: 8,
+  },
+  calendar: {
+    margin: 16,
+    borderRadius: 10,
+  },
   addEventButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -269,8 +350,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 16,
   },
-  addEventText: { fontSize: 16, color: '#FFF', marginLeft: 8 },
-  eventListTitle: { fontSize: 20, fontWeight: 'bold', margin: 16, color: '#333' },
+  addEventText: {
+    fontSize: 16,
+    color: '#FFF',
+    marginLeft: 8,
+  },
+  eventListTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 16,
+    color: '#333',
+  },
   eventCard: {
     backgroundColor: '#FFF',
     padding: 16,
@@ -280,9 +370,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     elevation: 3,
   },
-  eventTitle: { fontSize: 18, fontWeight: 'bold', color: '#333' },
-  eventDetails: { fontSize: 14, color: '#666', marginBottom: 2 },
-  eventCategory: { fontSize: 12, fontWeight: 'bold', color: '#6A5ACD', marginTop: 8 },
+  eventTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  eventDetails: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 2,
+  },
+  eventCategory: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#6A5ACD',
+    marginTop: 8,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -295,7 +398,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
   },
-  modalTitle: { fontSize: 20, marginBottom: 20, fontWeight: 'bold', textAlign: 'center' },
+  modalTitle: {
+    fontSize: 20,
+    marginBottom: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -304,11 +412,33 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-  input: { flex: 1, fontSize: 16, marginLeft: 10 },
-  createButton: { backgroundColor: '#6A5ACD', padding: 12, borderRadius: 8, marginTop: 10 },
-  createButtonText: { textAlign: 'center', color: '#FFF', fontSize: 16 },
-  closeButton: { backgroundColor: '#FF6C6C', padding: 12, borderRadius: 8, marginTop: 10 },
-  closeButtonText: { textAlign: 'center', color: '#FFF', fontSize: 16 },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  createButton: {
+    backgroundColor: '#6A5ACD',
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  createButtonText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontSize: 16,
+  },
+  closeButton: {
+    backgroundColor: '#FF6C6C',
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 10,
+  },
+  closeButtonText: {
+    textAlign: 'center',
+    color: '#FFF',
+    fontSize: 16,
+  },
   teamModalOverlay: {
     flex: 1,
     justifyContent: 'center',
@@ -340,7 +470,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   teamNameCompact: {
-    fontSize: 16, color: '#333',
+    fontSize: 16,
+    color: '#333',
   },
   teamCloseButton: {
     marginTop: 15,
@@ -351,6 +482,21 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   teamCloseButtonText: {
-    color: '#FFF', fontWeight: 'bold', fontSize: 14,
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  dateTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EFEFEF',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
+  dateTimeText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#333',
   },
 });
