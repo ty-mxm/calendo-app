@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Modal,
   FlatList,
+  Alert,
+  Platform,
 } from 'react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { EventController } from '../controllers/EventController';
@@ -37,7 +39,7 @@ export default function AddEventScreen() {
 
   const handleCreateEvent = async () => {
     if (!eventName || !team || !location) {
-      alert('Veuillez remplir tous les champs');
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
       return;
     }
 
@@ -50,8 +52,26 @@ export default function AddEventScreen() {
     };
 
     await EventController.createEvent(newEvent);
-    alert('Événement créé avec succès');
+    Alert.alert('Succès', 'Événement créé avec succès');
     navigation.goBack();
+  };
+
+  const showDateTimePicker = (type: 'start' | 'end') => {
+    if (type === 'start') {
+      setIsStartTimePickerVisible(true);
+    } else {
+      setIsEndTimePickerVisible(true);
+    }
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date, type?: 'start' | 'end') => {
+    if (type === 'start') {
+      setIsStartTimePickerVisible(false);
+      if (selectedDate) setStartTime(selectedDate);
+    } else {
+      setIsEndTimePickerVisible(false);
+      if (selectedDate) setEndTime(selectedDate);
+    }
   };
 
   return (
@@ -63,7 +83,7 @@ export default function AddEventScreen() {
         <MaterialIcons name="event" size={24} color="#40E0D0" />
         <TextInput
           style={styles.input}
-          placeholder="Nom de l'événement*"
+          placeholder="Nom de l'événement"
           value={eventName}
           onChangeText={setEventName}
         />
@@ -74,7 +94,7 @@ export default function AddEventScreen() {
         <MaterialIcons name="group" size={24} color="#FF69B4" />
         <TextInput
           style={styles.input}
-          placeholder="Sélectionner une équipe*"
+          placeholder="Sélectionner une équipe"
           value={team}
           editable={false}
         />
@@ -88,7 +108,7 @@ export default function AddEventScreen() {
         <MaterialIcons name="location-on" size={24} color="#FFA500" />
         <TextInput
           style={styles.input}
-          placeholder="Lieu*"
+          placeholder="Lieu"
           value={location}
           onChangeText={setLocation}
         />
@@ -97,11 +117,11 @@ export default function AddEventScreen() {
       {/* Start Time */}
       <TouchableOpacity
         style={styles.dateTimeContainer}
-        onPress={() => setIsStartTimePickerVisible(true)}
+        onPress={() => showDateTimePicker('start')}
       >
-        <MaterialIcons name="access-time" size={24} color="#40E0D0" />
+        <MaterialIcons name="access-time" size={24} color="#1E90FF" />
         <Text style={styles.dateTimeText}>
-          Début : {startTime.toLocaleString('fr-FR')}
+          Début : {`${startTime.getDate()} ${startTime.toLocaleDateString('fr-FR', { month: 'short' })} ${startTime.getFullYear()} à ${startTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
         </Text>
       </TouchableOpacity>
       {isStartTimePickerVisible && (
@@ -109,21 +129,18 @@ export default function AddEventScreen() {
           value={startTime}
           mode="datetime"
           display="default"
-          onChange={(event: any, date?: Date) => {
-            setIsStartTimePickerVisible(false);
-            if (date) setStartTime(date);
-          }}
+          onChange={(event, date) => handleDateChange(event, date, 'start')}
         />
       )}
 
       {/* End Time */}
       <TouchableOpacity
         style={styles.dateTimeContainer}
-        onPress={() => setIsEndTimePickerVisible(true)}
+        onPress={() => showDateTimePicker('end')}
       >
-        <MaterialIcons name="access-time" size={24} color="#40E0D0" />
+        <MaterialIcons name="access-time" size={24} color="#1E90FF" />
         <Text style={styles.dateTimeText}>
-          Fin : {endTime.toLocaleString('fr-FR')}
+          Fin : {`${endTime.getDate()} ${endTime.toLocaleDateString('fr-FR', { month: 'short' })} ${endTime.getFullYear()} à ${endTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
         </Text>
       </TouchableOpacity>
       {isEndTimePickerVisible && (
@@ -131,10 +148,7 @@ export default function AddEventScreen() {
           value={endTime}
           mode="datetime"
           display="default"
-          onChange={(event: any, date?: Date) => {
-            setIsEndTimePickerVisible(false);
-            if (date) setEndTime(date);
-          }}
+          onChange={(event, date) => handleDateChange(event, date, 'end')}
         />
       )}
 
