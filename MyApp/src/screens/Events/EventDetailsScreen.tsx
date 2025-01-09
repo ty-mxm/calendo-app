@@ -1,8 +1,7 @@
-// src/views/EventDetailsScreen.tsx
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { EventController } from '../controllers/EventController';
 import { Event } from '../models/Event';
@@ -39,36 +38,47 @@ export default function EventDetailsScreen() {
   if (!event) {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Chargement...</Text>
+        <Text style={styles.loadingText}>Chargement...</Text>
       </View>
     );
   }
 
-  const { title, location, date, time, category } = event;
+  const { title, location, date, time } = event;
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Détails de l'Événement</Text>
+        <Text style={styles.headerTitle}>Détails de l'événement</Text>
       </View>
 
+      {/* Event Details */}
       <View style={styles.eventDetailsContainer}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.details}>📍 {location}</Text>
-        <Text style={styles.details}>⏰ {date}</Text>
-        <Text style={styles.details}>🕒 {time}</Text>
-        <Text style={styles.category}>Catégorie : {category}</Text>
+        <View style={styles.detailRow}>
+          <MaterialIcons name="place" size={20} color="#6495ED" />
+          <Text style={styles.details}>{location}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <MaterialIcons name="event" size={20} color="#6495ED" />
+          <Text style={styles.details}>{date}</Text>
+        </View>
+        <View style={styles.detailRow}>
+          <MaterialIcons name="access-time" size={20} color="#6495ED" />
+          <Text style={styles.details}>{time}</Text>
+        </View>
       </View>
-      <TouchableOpacity
-  style={styles.voteButton}
-  onPress={() => navigation.navigate('VoteScreen', { eventId })}
->
-  <Text style={styles.voteButtonText}>Voter</Text>
-</TouchableOpacity>
 
+      {/* Vote Button */}
+      <TouchableOpacity
+        style={styles.voteButton}
+        onPress={() => navigation.navigate('VoteScreen', { eventId })}
+      >
+        <Text style={styles.voteButtonText}>Voter</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -76,33 +86,27 @@ export default function EventDetailsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F5F5F5' },
   header: {
-    alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#7F57FF',
-    paddingVertical: 15,
+    alignItems: 'center',
+    backgroundColor: '#7F57FF', // Same purple as vote button
+    paddingVertical: 40, 
     paddingHorizontal: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    marginBottom: 20,
+  },
+  backButton: {
+    marginRight: 10,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#FFF',
-    marginLeft: 10,
   },
-  voteButton: {
+  loadingText: {
+    fontSize: 18,
+    textAlign: 'center',
     marginTop: 20,
-    backgroundColor: '#FFA500',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
+    color: '#333',
   },
-  voteButtonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  
   eventDetailsContainer: {
     margin: 20,
     backgroundColor: '#FFF',
@@ -111,6 +115,24 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: { fontSize: 22, fontWeight: 'bold', color: '#333', marginBottom: 10 },
-  details: { fontSize: 16, color: '#666', marginBottom: 5 },
-  category: { fontSize: 16, fontWeight: 'bold', color: '#7F57FF', marginTop: 10 },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  details: { fontSize: 16, color: '#666', marginLeft: 8 },
+  voteButton: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    backgroundColor: '#6495ED',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+  voteButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+    alignSelf: 'center',
+  },
 });

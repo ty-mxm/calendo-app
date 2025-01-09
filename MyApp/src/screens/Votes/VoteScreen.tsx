@@ -12,9 +12,9 @@ export default function VoteScreen() {
   const { eventId } = route.params;
 
   const [choices, setChoices] = useState<{ choice: string; votes: number }[]>([
-    { choice: 'Restaurant Mexicain', votes: 3 },
-    { choice: 'Restaurant Chinois', votes: 5 },
-    { choice: 'Restaurant Vietnamien', votes: 2 },
+    { choice: 'Restaurant Milos', votes: 3 },
+    { choice: 'Restaurant Le St-Urbain', votes: 5 },
+    { choice: 'Restaurant Damas', votes: 2 },
   ]);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   voteButton: {
-    backgroundColor: '#7F57FF',
+    backgroundColor: '#6495ED',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
