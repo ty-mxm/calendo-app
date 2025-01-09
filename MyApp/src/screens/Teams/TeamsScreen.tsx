@@ -59,7 +59,7 @@ export default function TeamsScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Mes équipes</Text>
         <Text style={styles.headerSubtitle}>
-          Gérer et organiser vos équipes
+          Gérez et organisez vos équipes
         </Text>
       </View>
 

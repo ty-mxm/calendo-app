@@ -8,14 +8,14 @@ export default function GetStartedScreen() {
   return (
     <View style={styles.container}>
       {/* Titre principal */}
-      <Text style={styles.title}>Sync Your Calendar With Your Friends</Text>
+      <Text style={styles.title}>Synchronisez votre calendrier avec vos amis</Text>
 
       {/* Boutons de synchronisation */}
       <TouchableOpacity style={styles.syncButton}>
-        <Text style={styles.syncButtonText}>Sync with Google Calendar</Text>
+        <Text style={styles.syncButtonText}>Synchroniser avec Google Calendar</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.syncButtonBlack}>
-        <Text style={styles.syncButtonText}>Sync with Apple Calendar</Text>
+        <Text style={styles.syncButtonText}>Synchroniser avec Apple Calendar</Text>
       </TouchableOpacity>
 
       {/* Bouton pour commencer */}
@@ -23,7 +23,7 @@ export default function GetStartedScreen() {
         style={styles.getStartedButton}
         onPress={() => navigation.navigate('Main' as never)}
       >
-        <Text style={styles.getStartedButtonText}>Get Started</Text>
+        <Text style={styles.getStartedButtonText}>Commencer</Text>
       </TouchableOpacity>
     </View>
   );

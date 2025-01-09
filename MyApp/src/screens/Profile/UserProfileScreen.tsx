@@ -4,22 +4,22 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function UserProfileScreen() {
-  const navigation = useNavigation(); // Ensure this is correctly imported and used
+  const navigation = useNavigation(); // Assurez-vous que ceci est correctement importé et utilisé
 
   const handleLogout = () => {
-    // Add any logout logic here (e.g., clearing user session)
-    navigation.navigate('Login' as never); // Navigate to Login screen
+    // Ajoutez ici toute logique de déconnexion (par ex. effacer la session utilisateur)
+    navigation.navigate('Login' as never); // Naviguer vers l'écran de connexion
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      {/* En-tête */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>My Profile</Text>
-        <Text style={styles.headerSubtitle}>Manage your account settings</Text>
+        <Text style={styles.headerTitle}>Mon profil</Text>
+        <Text style={styles.headerSubtitle}>Gérez les paramètres de votre compte</Text>
       </View>
 
-      {/* Profile Picture and Info */}
+      {/* Photo de profil et infos */}
       <View style={styles.profileSection}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }}
@@ -36,19 +36,19 @@ export default function UserProfileScreen() {
           onPress={() => navigation.navigate('ChangePassword' as never)}
         >
           <Ionicons name="lock-closed-outline" size={20} color="#FFF" />
-          <Text style={styles.optionText}>Change Password</Text>
+          <Text style={styles.optionText}>Changer le mot de passe</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.optionButton}>
           <Ionicons name="person-outline" size={20} color="#FFF" />
-          <Text style={styles.optionText}>Edit Profile</Text>
+          <Text style={styles.optionText}>Modifier le profil</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Logout */}
+      {/* Déconnexion */}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Ionicons name="log-out-outline" size={20} color="#FFF" />
-        <Text style={styles.logoutText}>Logout</Text>
+        <Text style={styles.logoutText}>Déconnexion</Text>
       </TouchableOpacity>
     </View>
   );
@@ -61,9 +61,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#7F57FF',
-    paddingVertical: 30,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    paddingVertical: 40,
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -119,7 +117,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FF6C6C',
+    backgroundColor: '#000',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
