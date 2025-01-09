@@ -161,7 +161,7 @@ export default function HomeScreen() {
         <TouchableOpacity
           key={event.id}
           style={[styles.eventCard, { borderLeftColor: '#1E90FF' }]}
-          onPress={() => navigation.navigate('EventDetails', { event })}
+          onPress={() => navigation.navigate('EventDetails', { eventId: event.id })}
         >
           <Text style={styles.eventTitle}>{event.title}</Text>
           <Text style={styles.eventDetails}>📅 {event.date}</Text>
