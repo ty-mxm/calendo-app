@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { ChoiceController } from '../controllers/ChoiceController';
 import { RootStackParamList } from '../../../types';
@@ -7,7 +7,7 @@ import { RootStackParamList } from '../../../types';
 type VoteScreenRouteProp = RouteProp<RootStackParamList, 'VoteScreen'>;
 
 export default function VoteScreen() {
-  const navigation = useNavigation(); // Hook pour la navigation
+  const navigation = useNavigation();
   const route = useRoute<VoteScreenRouteProp>();
   const { eventId } = route.params;
 
@@ -19,7 +19,6 @@ export default function VoteScreen() {
 
   useEffect(() => {
     const fetchChoices = async () => {
-      // Simule un appel API pour récupérer les choix
       const fetchedChoices = await ChoiceController.getChoices(eventId);
       setChoices((prevChoices) => {
         return fetchedChoices.length ? fetchedChoices : prevChoices;
@@ -31,17 +30,12 @@ export default function VoteScreen() {
 
   const handleVote = async (choice: string) => {
     try {
-      // Simule un vote
       await ChoiceController.voteForChoice(eventId, choice);
-
-      // Met à jour localement les votes
       setChoices((prevChoices) =>
         prevChoices.map((item) =>
           item.choice === choice ? { ...item, votes: item.votes + 1 } : item
         )
       );
-
-      // Navigue vers EventDetails après le vote
       navigation.navigate('EventDetails', { eventId });
     } catch (error) {
       alert('Erreur lors du vote. Veuillez réessayer.');
@@ -50,39 +44,83 @@ export default function VoteScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Votez pour une option</Text>
-      {choices.map((item) => (
-        <View key={item.choice} style={styles.choiceContainer}>
-          <Text style={styles.choiceText}>{item.choice}</Text>
-          <Text style={styles.voteCount}>{item.votes} votes</Text>
-          <TouchableOpacity
-            style={styles.voteButton}
-            onPress={() => handleVote(item.choice)}
-          >
-            <Text style={styles.voteButtonText}>Voter</Text>
-          </TouchableOpacity>
-        </View>
-      ))}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Votez pour une option</Text>
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {choices.map((item) => (
+          <View key={item.choice} style={styles.choiceCard}>
+            <View>
+              <Text style={styles.choiceText}>{item.choice}</Text>
+              <Text style={styles.voteCount}>{item.votes} votes</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.voteButton}
+              onPress={() => handleVote(item.choice)}
+            >
+              <Text style={styles.voteButtonText}>Voter</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
-  choiceContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#F9F9F9',
+  },
+  header: {
+    backgroundColor: '#7F57FF', // Same as the vote button color
+    paddingVertical: 30, // Adjusted padding to account for camera notch
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    marginBottom: 20, // Removed rounded bottom effect
+  },
+  headerText: {
+    fontSize: 24,
+    color: '#FFF',
+    fontWeight: 'bold',
+  },
+  scrollContainer: {
+    paddingHorizontal: 16,
+  },
+  choiceCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#FFF',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
     borderWidth: 1,
-    borderColor: '#DDD',
+    borderColor: '#E0E0E0',
   },
-  choiceText: { fontSize: 16, color: '#333' },
-  voteCount: { fontSize: 14, color: '#666' },
-  voteButton: { backgroundColor: '#6A5ACD', padding: 10, borderRadius: 8 },
-  voteButtonText: { color: '#FFF', fontWeight: 'bold' },
+  choiceText: {
+    fontSize: 18,
+    color: '#333',
+    fontWeight: '500',
+    marginBottom: 4,
+  },
+  voteCount: {
+    fontSize: 14,
+    color: '#666',
+  },
+  voteButton: {
+    backgroundColor: '#7F57FF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  voteButtonText: {
+    color: '#FFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });
