@@ -8,13 +8,12 @@ import {
   Modal,
   FlatList,
   Alert,
-  Platform,
 } from 'react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { EventController } from '../controllers/EventController';
-import { Event } from '../models/Event';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { EventController } from '../controllers/EventController';
+import { Event } from '../models/Event';
 
 export default function AddEventScreen() {
   const navigation = useNavigation();
@@ -76,86 +75,92 @@ export default function AddEventScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Créer un nouvel événement</Text>
-
-      {/* Nom de l'événement */}
-      <View style={styles.inputContainer}>
-        <MaterialIcons name="event" size={24} color="#40E0D0" />
-        <TextInput
-          style={styles.input}
-          placeholder="Nom de l'événement"
-          value={eventName}
-          onChangeText={setEventName}
-        />
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Créer un nouvel événement</Text>
       </View>
 
-      {/* Groupe sélectionné */}
-      <View style={styles.inputContainer}>
-        <MaterialIcons name="group" size={24} color="#FF69B4" />
-        <TextInput
-          style={styles.input}
-          placeholder="Sélectionner une équipe"
-          value={team}
-          editable={false}
-        />
-        <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
-          <AntDesign name="pluscircle" size={24} color="#7F57FF" />
+      {/* Content */}
+      <View style={styles.content}>
+        {/* Nom de l'événement */}
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="event" size={24} color="#6495ED" />
+          <TextInput
+            style={styles.input}
+            placeholder="Nom de l'événement"
+            value={eventName}
+            onChangeText={setEventName}
+          />
+        </View>
+
+        {/* Groupe sélectionné */}
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="group" size={24} color="#6495ED" />
+          <TextInput
+            style={styles.input}
+            placeholder="Sélectionner une équipe"
+            value={team}
+            editable={false}
+          />
+          <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
+            <AntDesign name="pluscircle" size={24} color="#6495ED" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Location */}
+        <View style={styles.inputContainer}>
+          <MaterialIcons name="location-on" size={24} color="#6495ED" />
+          <TextInput
+            style={styles.input}
+            placeholder="Lieu"
+            value={location}
+            onChangeText={setLocation}
+          />
+        </View>
+
+        {/* Start Time */}
+        <TouchableOpacity
+          style={styles.dateTimeContainer}
+          onPress={() => showDateTimePicker('start')}
+        >
+          <MaterialIcons name="access-time" size={24} color="#6495ED" />
+          <Text style={styles.dateTimeText}>
+            Début : {`${startTime.getDate()} ${startTime.toLocaleDateString('fr-FR', { month: 'short' })} ${startTime.getFullYear()} à ${startTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
+          </Text>
+        </TouchableOpacity>
+        {isStartTimePickerVisible && (
+          <DateTimePicker
+            value={startTime}
+            mode="datetime"
+            display="default"
+            onChange={(event, date) => handleDateChange(event, date, 'start')}
+          />
+        )}
+
+        {/* End Time */}
+        <TouchableOpacity
+          style={styles.dateTimeContainer}
+          onPress={() => showDateTimePicker('end')}
+        >
+          <MaterialIcons name="access-time" size={24} color="#6495ED" />
+          <Text style={styles.dateTimeText}>
+            Fin : {`${endTime.getDate()} ${endTime.toLocaleDateString('fr-FR', { month: 'short' })} ${endTime.getFullYear()} à ${endTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
+          </Text>
+        </TouchableOpacity>
+        {isEndTimePickerVisible && (
+          <DateTimePicker
+            value={endTime}
+            mode="datetime"
+            display="default"
+            onChange={(event, date) => handleDateChange(event, date, 'end')}
+          />
+        )}
+
+        {/* Bouton Créer l'événement */}
+        <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
+          <Text style={styles.createButtonText}>Créer l'événement</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Location */}
-      <View style={styles.inputContainer}>
-        <MaterialIcons name="location-on" size={24} color="#FFA500" />
-        <TextInput
-          style={styles.input}
-          placeholder="Lieu"
-          value={location}
-          onChangeText={setLocation}
-        />
-      </View>
-
-      {/* Start Time */}
-      <TouchableOpacity
-        style={styles.dateTimeContainer}
-        onPress={() => showDateTimePicker('start')}
-      >
-        <MaterialIcons name="access-time" size={24} color="#1E90FF" />
-        <Text style={styles.dateTimeText}>
-          Début : {`${startTime.getDate()} ${startTime.toLocaleDateString('fr-FR', { month: 'short' })} ${startTime.getFullYear()} à ${startTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
-        </Text>
-      </TouchableOpacity>
-      {isStartTimePickerVisible && (
-        <DateTimePicker
-          value={startTime}
-          mode="datetime"
-          display="default"
-          onChange={(event, date) => handleDateChange(event, date, 'start')}
-        />
-      )}
-
-      {/* End Time */}
-      <TouchableOpacity
-        style={styles.dateTimeContainer}
-        onPress={() => showDateTimePicker('end')}
-      >
-        <MaterialIcons name="access-time" size={24} color="#1E90FF" />
-        <Text style={styles.dateTimeText}>
-          Fin : {`${endTime.getDate()} ${endTime.toLocaleDateString('fr-FR', { month: 'short' })} ${endTime.getFullYear()} à ${endTime.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`}
-        </Text>
-      </TouchableOpacity>
-      {isEndTimePickerVisible && (
-        <DateTimePicker
-          value={endTime}
-          mode="datetime"
-          display="default"
-          onChange={(event, date) => handleDateChange(event, date, 'end')}
-        />
-      )}
-
-      {/* Bouton Créer l'événement */}
-      <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
-        <Text style={styles.createButtonText}>Créer l'événement</Text>
-      </TouchableOpacity>
 
       {/* Popup pour sélectionner une équipe */}
       <Modal
@@ -195,13 +200,21 @@ export default function AddEventScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#F5F5F5', padding: 20 },
-  title: {
-    fontSize: 26,
+  container: { flex: 1, backgroundColor: '#F5F5F5' },
+  header: {
+    backgroundColor: '#7F57FF',
+    paddingVertical: 40,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
-    textAlign: 'center',
+    color: '#FFF',
+  },
+  content: {
+    flex: 1,
+    padding: 20,
+    marginTop: 20,
   },
   inputContainer: {
     flexDirection: 'row',

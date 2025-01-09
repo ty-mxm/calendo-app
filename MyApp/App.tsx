@@ -126,10 +126,22 @@ export default function App() {
 
         {/* Events Screens */}
         <Stack.Screen
-          name="AddEvent"
-          component={AddEventScreen}
-          options={{ title: 'Add Event', headerShown: false }}
-        />
+  name="AddEvent"
+  component={AddEventScreen}
+  options={{
+    headerShown: true,
+    headerTitle: 'Créer un nouvel événement',
+    headerStyle: {
+      backgroundColor: '#7F57FF',
+    },
+    headerTintColor: '#FFF',
+    headerTitleStyle: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  }}
+/>
+
         <Stack.Screen
           name="EventDetails"
           component={EventDetailsScreen}
