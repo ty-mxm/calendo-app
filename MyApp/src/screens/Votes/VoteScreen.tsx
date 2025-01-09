@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: '#7F57FF', // Same as the vote button color
-    paddingVertical: 30, // Adjusted padding to account for camera notch
+    paddingVertical: 40, // Adjusted padding to account for camera notch
     paddingHorizontal: 16,
     alignItems: 'center',
     marginBottom: 20, // Removed rounded bottom effect

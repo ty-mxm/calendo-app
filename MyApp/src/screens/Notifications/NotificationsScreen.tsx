@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 // Interface pour les notifications
 interface Notification {
@@ -39,13 +41,13 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
   const getCategoryStyle = (category: string) => {
     switch (category) {
       case 'Ajout':
-        return { borderLeftColor: '#FFA07A' }; // Saumon
+        return { borderLeftColor: '#6495ED' }; 
       case 'Rappel':
-        return { borderLeftColor: '#40E0D0' }; // Turquoise
+        return { borderLeftColor: '#6495ED' }; 
       case 'Mise à jour':
-        return { borderLeftColor: '#FFD700' }; // Doré
+        return { borderLeftColor: '#6495ED' }; 
       default:
-        return { borderLeftColor: '#E0E0E0' };
+        return { borderLeftColor: '#6495ED' };
     }
   };
 
@@ -63,8 +65,8 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.notificationTime}>{item.time}</Text>
         </View>
         <TouchableOpacity onPress={() => handleDeleteNotification(item.id)}>
-          <Ionicons name="close-circle" size={24} color="#FF6C6C" />
-        </TouchableOpacity>
+        <MaterialCommunityIcons name="close-circle-outline" size={24} color="#000" />
+      </TouchableOpacity>
       </TouchableOpacity>
     </View>
   );
@@ -76,7 +78,7 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
       renderItem={renderNotification}
       ListHeaderComponent={() => (
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>🔔 Notifications</Text>
+          <Text style={styles.headerTitle}>Notifications</Text>
           <Text style={styles.headerSubtitle}>Vos dernières mises à jour et alertes</Text>
         </View>
       )}
@@ -95,10 +97,8 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 40,
     backgroundColor: '#7F57FF',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     marginBottom: 16,
   },
   headerTitle: {

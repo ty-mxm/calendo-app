@@ -160,18 +160,31 @@ export default function HomeScreen() {
       {events.map((event) => (
         <TouchableOpacity
           key={event.id}
-          style={[styles.eventCard, { borderLeftColor: '#1E90FF' }]}
+          style={[styles.eventCard, { borderLeftColor: '#6495ED' }]}
           onPress={() => navigation.navigate('EventDetails', { eventId: event.id })}
         >
           <Text style={styles.eventTitle}>{event.title}</Text>
-          <Text style={styles.eventDetails}>📅 {event.date}</Text>
-          <Text style={styles.eventDetails}>👥 {event.team}</Text>
-          <Text style={styles.eventDetails}>📍 {event.location}</Text>
-          <Text style={styles.eventDetails}>
-            🕒 {event.startTime} - {event.endTime}
-          </Text>
+          <View style={styles.eventDetailsRow}>
+            <MaterialIcons name="event" size={18} color="#6495ED" />
+            <Text style={styles.eventDetails}>{event.date}</Text>
+          </View>
+          <View style={styles.eventDetailsRow}>
+            <MaterialIcons name="group" size={18} color="#6495ED" />
+            <Text style={styles.eventDetails}>{event.team}</Text>
+          </View>
+          <View style={styles.eventDetailsRow}>
+            <MaterialIcons name="location-on" size={18} color="#6495ED" />
+            <Text style={styles.eventDetails}>{event.location}</Text>
+          </View>
+          <View style={styles.eventDetailsRow}>
+            <MaterialIcons name="access-time" size={18} color="#6495ED" />
+            <Text style={styles.eventDetails}>
+              {event.startTime} - {event.endTime}
+            </Text>
+          </View>
         </TouchableOpacity>
       ))}
+
 
       {/* Modal for Adding Event */}
       <Modal
@@ -225,7 +238,7 @@ export default function HomeScreen() {
               style={styles.dateTimeContainer}
               onPress={() => showDateTimePicker('start')}
             >
-              <MaterialIcons name="access-time" size={24} color="#1E90FF" />
+              <MaterialIcons name="access-time" size={24} color="#6495ED" />
               <Text style={styles.dateTimeText}>
                 Début :{' '}
                 {`${startTime.toLocaleDateString()} ${startTime.toLocaleTimeString('fr-FR', {
@@ -248,7 +261,7 @@ export default function HomeScreen() {
               style={styles.dateTimeContainer}
               onPress={() => showDateTimePicker('end')}
             >
-              <MaterialIcons name="access-time" size={24} color="#1E90FF" />
+              <MaterialIcons name="access-time" size={24} color="#6495ED" />
               <Text style={styles.dateTimeText}>
                 Fin :{' '}
                 {`${endTime.toLocaleDateString()} ${endTime.toLocaleTimeString('fr-FR', {
@@ -324,8 +337,8 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: '#6A5ACD',
+    paddingVertical: 40,
+    backgroundColor: '#7F57FF',
   },
   headerTitle: {
     fontSize: 24,
@@ -345,7 +358,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#7F57FF',
     padding: 12,
     borderRadius: 8,
     margin: 16,
@@ -374,17 +387,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 8,
+  },
+  eventDetailsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
   },
   eventDetails: {
     fontSize: 14,
     color: '#666',
-    marginBottom: 2,
-  },
-  eventCategory: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#6A5ACD',
-    marginTop: 8,
+    marginLeft: 8,
   },
   modalContainer: {
     flex: 1,

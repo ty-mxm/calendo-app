@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   syncButton: {
-    backgroundColor: '#87CEEB', // Bleu clair
+    backgroundColor: '#6495ED', // Bleu cornflower
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,

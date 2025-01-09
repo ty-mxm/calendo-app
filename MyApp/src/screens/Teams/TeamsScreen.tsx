@@ -41,14 +41,14 @@ export default function TeamsScreen() {
       onPress={() => handleTeamDetails(item)}
     >
       <View style={styles.teamInfo}>
-        <Ionicons name="people-outline" size={24} color="#6A5ACD" />
+        <Ionicons name="people-outline" size={24} color="#7F57FF" />
         <Text style={styles.teamName}>{item.name}</Text>
       </View>
       <View style={styles.actionButtons}>
         <TouchableOpacity onPress={() => handleDeleteTeam(item.id)}>
-          <Ionicons name="trash-outline" size={24} color="#FF0000" />
+          <Ionicons name="trash-outline" size={24} color="#000" />
         </TouchableOpacity>
-        <Ionicons name="chevron-forward-outline" size={24} color="#6A5ACD" />
+        <Ionicons name="chevron-forward-outline" size={24} color="#7F57FF" />
       </View>
     </TouchableOpacity>
   );
@@ -57,7 +57,7 @@ export default function TeamsScreen() {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Mes Équipes</Text>
+        <Text style={styles.headerTitle}>Mes équipes</Text>
         <Text style={styles.headerSubtitle}>
           Gérer et organiser vos équipes
         </Text>
@@ -66,7 +66,7 @@ export default function TeamsScreen() {
       {/* Add Team Button */}
       <TouchableOpacity style={styles.addButton} onPress={handleAddTeam}>
         <Ionicons name="add-circle-outline" size={28} color="#FFF" />
-        <Text style={styles.addButtonText}>Créer une Équipe</Text>
+        <Text style={styles.addButtonText}>Créer une équipe</Text>
       </TouchableOpacity>
 
       {/* Teams List */}
@@ -89,10 +89,8 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8F9FA' },
   header: {
     alignItems: 'center',
-    backgroundColor: '#6A5ACD',
-    paddingVertical: 30,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
+    backgroundColor: '#7F57FF',
+    paddingVertical: 40,
     marginBottom: 20,
   },
   headerTitle: { fontSize: 24, fontWeight: 'bold', color: '#FFF' },
@@ -103,7 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 20,
     padding: 15,
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#7F57FF',
     borderRadius: 15,
     marginBottom: 20,
     shadowColor: '#000',
