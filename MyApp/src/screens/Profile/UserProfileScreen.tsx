@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#7F57FF',
+    backgroundColor: '#6495ED', 
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: '#7F57FF',
     borderRadius: 10,
     paddingVertical: 15,
     paddingHorizontal: 20,
