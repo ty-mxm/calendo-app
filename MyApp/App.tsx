@@ -209,7 +209,7 @@ export default function App() {
           component={ChangePasswordScreen}
           options={{
             title: 'Change Password',
-            headerShown: true,
+            headerShown: false,
           }}
         />
         <Stack.Screen

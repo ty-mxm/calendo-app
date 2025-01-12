@@ -1,31 +1,48 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ChangePasswordScreen() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <MaterialIcons name="arrow-back" size={24} color="#FFF" />
+        </TouchableOpacity>
         <Text style={styles.headerText}>Modifier le mot de passe</Text>
       </View>
 
       {/* Content */}
       <View style={styles.content}>
+        {/* Current Password */}
         <TextInput
           style={styles.input}
-          placeholder="Entrez votre mot de passe actuel"
+          placeholder="Mot de passe actuel"
+          placeholderTextColor="#B3B3F5"
           secureTextEntry
         />
+
+        {/* New Password */}
         <TextInput
           style={styles.input}
-          placeholder="Entrez votre nouveau mot de passe"
+          placeholder="Nouveau mot de passe"
+          placeholderTextColor="#B3B3F5"
           secureTextEntry
         />
+
+        {/* Confirm New Password */}
         <TextInput
           style={styles.input}
-          placeholder="Confirmez votre nouveau mot de passe"
+          placeholder="Confirmer le nouveau mot de passe"
+          placeholderTextColor="#B3B3F5"
           secureTextEntry
         />
+
+        {/* Submit Button */}
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Soumettre</Text>
         </TouchableOpacity>
@@ -42,13 +59,19 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#7F57FF',
     paddingVertical: 40,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  backButton: {
+    marginRight: 10,
   },
   headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#FFF',
+    textAlign: 'center',
+    flex: 1,
   },
   content: {
     flex: 1,
@@ -56,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: '#EFEFEF',
+    backgroundColor: '#F0EFFF', // Light purple background
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -65,11 +88,11 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   button: {
-    backgroundColor: '#7F57FF',
+    backgroundColor: '#7F57FF', // Matches the header color
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
   },
   buttonText: {
     color: '#FFF',
