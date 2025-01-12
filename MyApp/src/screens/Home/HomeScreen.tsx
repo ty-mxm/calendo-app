@@ -199,7 +199,7 @@ export default function HomeScreen() {
 
             {/* Event Name */}
             <View style={styles.inputContainer}>
-              <MaterialIcons name="event" size={24} color="#40E0D0" />
+              <MaterialIcons name="event" size={24} color="#6495ED" />
               <TextInput
                 style={styles.input}
                 placeholder="Nom de l'événement"
@@ -210,7 +210,7 @@ export default function HomeScreen() {
 
             {/* Team Selection */}
             <View style={styles.inputContainer}>
-              <MaterialIcons name="group" size={24} color="#FF69B4" />
+              <MaterialIcons name="group" size={24} color="#6495ED" />
               <TextInput
                 style={styles.input}
                 placeholder="Sélectionner une équipe"
@@ -218,13 +218,13 @@ export default function HomeScreen() {
                 editable={false}
               />
               <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
-                <AntDesign name="pluscircle" size={24} color="#7F57FF" />
+                <AntDesign name="pluscircle" size={24} color="#6495ED" />
               </TouchableOpacity>
             </View>
 
             {/* Location */}
             <View style={styles.inputContainer}>
-              <MaterialIcons name="location-on" size={24} color="#FFA500" />
+              <MaterialIcons name="location-on" size={24} color="#6495ED" />
               <TextInput
                 style={styles.input}
                 placeholder="Lieu"
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   createButton: {
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#7F57FF',
     padding: 12,
     borderRadius: 8,
     marginTop: 10,
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   closeButton: {
-    backgroundColor: '#FF6C6C',
+    backgroundColor: '#6495ED',
     padding: 12,
     borderRadius: 8,
     marginTop: 10,
