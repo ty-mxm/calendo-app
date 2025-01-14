@@ -9,13 +9,14 @@ import {
   Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { TeamController } from '../controllers/TeamController';
 import { RootStackParamList } from '../../../types';
 
 type TeamDetailsRouteProp = RouteProp<RootStackParamList, 'TeamDetails'>;
 
 export default function TeamDetailsScreen() {
+  const navigation = useNavigation();
   const route = useRoute<TeamDetailsRouteProp>();
   const { teamName } = route.params;
 
@@ -67,11 +68,17 @@ export default function TeamDetailsScreen() {
     try {
       await TeamController.saveTeamChanges(teamName, members);
       Alert.alert('Succès', 'Les modifications ont été enregistrées.');
+  
+      // Redirige vers l'écran principal
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' }], 
+      });
     } catch (error) {
       Alert.alert('Erreur', "Impossible d'enregistrer les modifications.");
     }
   };
-
+  
   return (
     <View style={styles.container}>
       {/* Header */}
