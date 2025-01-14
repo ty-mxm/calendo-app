@@ -33,14 +33,14 @@ export default function AddWishScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ajouter un Souhait</Text>
+        <Text style={styles.headerTitle}>Ajouter un souhait</Text>
       </View>
 
       {/* Form */}
       <View style={styles.formContainer}>
         {/* Wish Title Input */}
         <View style={styles.inputContainer}>
-          <Ionicons name="star-outline" size={20} color="#6A5ACD" />
+          <Ionicons name="star-outline" size={20} color="#7F57FF" />
           <TextInput
             style={styles.input}
             placeholder="Titre du souhait"
@@ -66,25 +66,21 @@ export default function AddWishScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 15,
-    backgroundColor: '#6A5ACD',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    backgroundColor: '#7F57FF',
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
   backButton: {
     marginRight: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    padding: 8,
-    borderRadius: 50,
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#FFF',
   },
@@ -94,11 +90,16 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#EFEFEF',
-    borderRadius: 10,
+    backgroundColor: '#F0EFFF', // Light purple background
+    borderRadius: 8,
     paddingHorizontal: 10,
-    paddingVertical: 8,
-    marginBottom: 10,
+    paddingVertical: 12,
+    marginBottom: 20,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   input: {
     flex: 1,
@@ -113,14 +114,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   addButton: {
-    backgroundColor: '#6A5ACD',
+    backgroundColor: '#7F57FF',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 8,
     alignItems: 'center',
   },
   addButtonText: {
     color: '#FFF',
-    fontWeight: 'bold',
     fontSize: 16,
+    fontWeight: 'bold',
   },
 });

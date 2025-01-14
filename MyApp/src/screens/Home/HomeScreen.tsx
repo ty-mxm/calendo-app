@@ -56,7 +56,7 @@ export default function HomeScreen() {
 
   const [selectedDate, setSelectedDate] = useState('');
 
-  const colors = ['#6495ED', '#FFD700', '#FF4500'];
+  const colors = ['#FFA07A', '#40E0D0', '#FFD700'];
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }}>

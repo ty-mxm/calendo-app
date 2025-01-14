@@ -171,7 +171,7 @@ export default function App() {
   component={AddBucketListScreen}
   options={{
     title: 'Ajouter une Bucketlist',
-    headerShown: true,
+    headerShown: false,
     headerBackTitle: 'Retour',
   }}
 />
