@@ -9,9 +9,10 @@ export default function SignUpScreen() {
     <View style={styles.container}>
       {/* Logo */}
       <Image
-        source={{ uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png' }}
-        style={styles.logo}
-      />
+  source={require('../../../assets/logo-transparent.png')}
+  style={styles.logo}
+/>
+
 
       {/* Title */}
       <Text style={styles.title}>Calendo</Text>
@@ -79,8 +80,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
     marginBottom: 20,
   },

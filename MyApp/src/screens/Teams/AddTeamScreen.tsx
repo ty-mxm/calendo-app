@@ -12,6 +12,7 @@ import {
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { TeamController } from '../controllers/TeamController';
+import { EventProvider } from '../contexts/EventContext';
 
 type RootStackParamList = {
   Teams: { newTeam?: string };

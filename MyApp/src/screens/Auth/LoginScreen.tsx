@@ -6,16 +6,17 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   return (
+
     <View style={styles.container}>
-      {/* Logo */}
-      <Image
-        source={{ uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png' }}
-        style={styles.logo}
-      />
+
 
       {/* Title */}
       <Text style={styles.title}>Calendo</Text>
       <Text style={styles.subtitle}>Connexion</Text>
+      <Image
+     source={require('../../../assets/logo-transparent.png')}
+     style={styles.logo}
+   />
 
       {/* Sign Up Text */}
       <Text style={styles.registerText}>

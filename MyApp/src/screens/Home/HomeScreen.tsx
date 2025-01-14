@@ -62,7 +62,10 @@ export default function HomeScreen() {
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Bienvenue sur Calendo</Text>
+        <Text style={styles.headerTitle}>Bienvenue sur Calendo
+          
+        </Text>
+        
         <Text style={styles.headerSubtitle}>Gardez un œil sur vos prochains événements</Text>
       </View>
 
