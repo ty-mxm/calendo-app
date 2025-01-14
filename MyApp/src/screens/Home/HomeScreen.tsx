@@ -56,6 +56,8 @@ export default function HomeScreen() {
 
   const [selectedDate, setSelectedDate] = useState('');
 
+  const colors = ['#6495ED', '#FFD700', '#FF4500'];
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }}>
       {/* Header */}
@@ -86,33 +88,36 @@ export default function HomeScreen() {
       </TouchableOpacity>
 
       {/* Events List */}
-      {events.map((event) => (
-        <TouchableOpacity
-          key={event.id}
-          style={[styles.eventCard, { borderLeftColor: '#6495ED' }]}
-          onPress={() => navigation.navigate('EventDetails', { eventId: event.id })}
-        >
-          <Text style={styles.eventTitle}>{event.title}</Text>
-          <View style={styles.eventDetailsRow}>
-            <MaterialIcons name="event" size={18} color="#6495ED" />
-            <Text style={styles.eventDetails}>{event.date}</Text>
-          </View>
-          <View style={styles.eventDetailsRow}>
-            <MaterialIcons name="group" size={18} color="#6495ED" />
-            <Text style={styles.eventDetails}>{event.team}</Text>
-          </View>
-          <View style={styles.eventDetailsRow}>
-            <MaterialIcons name="location-on" size={18} color="#6495ED" />
-            <Text style={styles.eventDetails}>{event.location}</Text>
-          </View>
-          <View style={styles.eventDetailsRow}>
-            <MaterialIcons name="access-time" size={18} color="#6495ED" />
-            <Text style={styles.eventDetails}>
-              {event.startTime} - {event.endTime}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      ))}
+      {events.map((event, index) => (
+  <TouchableOpacity
+    key={event.id}
+    style={[
+      styles.eventCard,
+      { borderLeftColor: colors[index % colors.length] }, // Utilise une couleur différente pour chaque carte
+    ]}
+    onPress={() => navigation.navigate('EventDetails', { eventId: event.id })}
+  >
+    <Text style={styles.eventTitle}>{event.title}</Text>
+    <View style={styles.eventDetailsRow}>
+      <MaterialIcons name="event" size={18} color="#6495ED" />
+      <Text style={styles.eventDetails}>{event.date}</Text>
+    </View>
+    <View style={styles.eventDetailsRow}>
+      <MaterialIcons name="group" size={18} color="#6495ED" />
+      <Text style={styles.eventDetails}>{event.team}</Text>
+    </View>
+    <View style={styles.eventDetailsRow}>
+      <MaterialIcons name="location-on" size={18} color="#6495ED" />
+      <Text style={styles.eventDetails}>{event.location}</Text>
+    </View>
+    <View style={styles.eventDetailsRow}>
+      <MaterialIcons name="access-time" size={18} color="#6495ED" />
+      <Text style={styles.eventDetails}>
+        {event.startTime} - {event.endTime}
+      </Text>
+    </View>
+  </TouchableOpacity>
+))}
     </ScrollView>
   );
 }
