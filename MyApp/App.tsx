@@ -56,7 +56,7 @@ export default function App() {
         <Stack.Screen
           name="ForgotPassword"
           component={ForgotPasswordScreen}
-          options={{ title: 'Forgot Password', headerShown: true }}
+          options={{ title: 'Forgot Password', headerShown: false }}
         />
         <Stack.Screen
           name="Login"
@@ -66,7 +66,7 @@ export default function App() {
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
-          options={{ title: 'Sign Up', headerShown: true }}
+          options={{ title: 'Sign Up', headerShown: false }}
         />
 
         {/* Home Screens */}
@@ -159,7 +159,7 @@ export default function App() {
         <Stack.Screen
           name="Bucketlists"
           component={BucketlistsScreen}
-          options={{ title: 'Bucketlists', headerShown: true }}
+          options={{ title: 'Bucketlists', headerShown: false }}
         />
         <Stack.Screen
           name="BucketlistDetails"

@@ -56,7 +56,7 @@ export default function BucketlistsScreen() {
 
       {/* Add Wish Button */}
       <TouchableOpacity style={styles.addButton} onPress={handleAddWish}>
-        <Ionicons name="add-circle" size={24} color="#FFF" />
+        <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addButtonText}>Ajouter un souhait</Text>
       </TouchableOpacity>
     </View>
@@ -66,26 +66,22 @@ export default function BucketlistsScreen() {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 20,
+    backgroundColor: '#7F57FF',
+    paddingVertical: 40,
     paddingHorizontal: 20,
-    backgroundColor: '#6A5ACD',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    marginBottom: 20,
   },
   backButton: {
     marginRight: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    padding: 8,
-    borderRadius: 50,
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: 'bold',
     color: '#FFF',
   },
   container: {
@@ -125,11 +121,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#6A5ACD',
-    padding: 12,
+    backgroundColor: '#7F57FF',
+    padding: 15,
     marginHorizontal: 20,
     marginBottom: 20,
-    borderRadius: 10,
+    borderRadius: 8,
     elevation: 3,
   },
   addButtonText: {
