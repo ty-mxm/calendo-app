@@ -61,7 +61,7 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ title: 'Login', headerShown: true }}
+          options={{ title: 'Login', headerShown: false }}
         />
         <Stack.Screen
           name="SignUp"
@@ -112,7 +112,7 @@ export default function App() {
     name="TeamDetails"
     component={TeamDetailsScreen}
     options={{
-      headerShown: true,
+      headerShown: false,
       headerTitle: "Détails de l'équipe",
       headerBackTitle: "Retour",
     }}
