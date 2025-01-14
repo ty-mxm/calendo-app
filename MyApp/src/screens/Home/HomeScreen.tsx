@@ -28,6 +28,7 @@ interface Event {
 export default function HomeScreen() {
   const navigation = useNavigation();
 
+  // Initialisation avec les événements hardcodés
   const [events, setEvents] = useState<Event[]>([
     {
       id: '1',
@@ -60,7 +61,6 @@ export default function HomeScreen() {
 
   const [selectedDate, setSelectedDate] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isTeamModalVisible, setIsTeamModalVisible] = useState(false);
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
   const [location, setLocation] = useState('');
@@ -71,35 +71,32 @@ export default function HomeScreen() {
 
   const teams = ['Team 1', 'Team 2', 'Team 3'];
 
-  const handleSelectTeam = (selectedTeam: string) => {
-    setTeam(selectedTeam);
-    setIsTeamModalVisible(false);
-  };
-
   const handleCreateEvent = () => {
-    if (!eventName || !team || !location) {
+    if (!eventName || !team || !location || !selectedDate) {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs');
       return;
     }
 
+    // Ajoute le nouvel événement à la liste des événements existants
     setEvents((prevEvents) => [
       ...prevEvents,
       {
         id: Math.random().toString(),
         title: eventName,
-        date: selectedDate || 'Sans date',
+        date: selectedDate,
         team,
         location,
-        startTime: startTime.toLocaleString('fr-FR', {
+        startTime: startTime.toLocaleTimeString('fr-FR', {
           hour: '2-digit',
           minute: '2-digit',
         }),
-        endTime: endTime.toLocaleString('fr-FR', {
+        endTime: endTime.toLocaleTimeString('fr-FR', {
           hour: '2-digit',
           minute: '2-digit',
         }),
       },
     ]);
+
     setIsModalVisible(false);
     resetForm();
   };
@@ -185,7 +182,6 @@ export default function HomeScreen() {
         </TouchableOpacity>
       ))}
 
-
       {/* Modal for Adding Event */}
       <Modal
         visible={isModalVisible}
@@ -217,7 +213,7 @@ export default function HomeScreen() {
                 value={team}
                 editable={false}
               />
-              <TouchableOpacity onPress={() => setIsTeamModalVisible(true)}>
+              <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                 <AntDesign name="pluscircle" size={24} color="#6495ED" />
               </TouchableOpacity>
             </View>
@@ -294,41 +290,11 @@ export default function HomeScreen() {
           </View>
         </View>
       </Modal>
-
-      {/* Popup de sélection d'équipe */}
-      <Modal
-        visible={isTeamModalVisible}
-        animationType="fade"
-        transparent={true}
-        onRequestClose={() => setIsTeamModalVisible(false)}
-      >
-        <View style={styles.teamModalOverlay}>
-          <View style={styles.teamModalContent}>
-            <Text style={styles.teamModalTitle}>Choisir une équipe</Text>
-            <FlatList
-              data={teams}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.teamOptionCompact}
-                  onPress={() => handleSelectTeam(item)}
-                >
-                  <Text style={styles.teamNameCompact}>{item}</Text>
-                </TouchableOpacity>
-              )}
-            />
-            <TouchableOpacity
-              style={styles.teamCloseButton}
-              onPress={() => setIsTeamModalVisible(false)}
-            >
-              <Text style={styles.teamCloseButtonText}>Fermer</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </ScrollView>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {

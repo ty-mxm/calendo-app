@@ -36,11 +36,17 @@ export default function VoteScreen() {
           item.choice === choice ? { ...item, votes: item.votes + 1 } : item
         )
       );
-      navigation.navigate('EventDetails', { eventId });
+
+      // Redirection vers l'écran principal
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Main' as keyof RootStackParamList }],
+      });
     } catch (error) {
       alert('Erreur lors du vote. Veuillez réessayer.');
     }
   };
+  
 
   return (
     <View style={styles.container}>

@@ -11,6 +11,7 @@ import SignUpScreen from './src/screens/Auth/SignUpScreen';
 // Home Screens
 import HomeScreen from './src/screens/Home/HomeScreen';
 import GetStartedScreen from './src/screens/Home/GetStartedScreen';
+import { EventProvider } from './src/screens/contexts/EventContext';
 
 // Teams Screens
 import TeamsScreen from './src/screens/Teams/TeamsScreen';
@@ -48,6 +49,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
+    <EventProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
         {/* Auth Screens */}
@@ -227,5 +229,6 @@ export default function App() {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    </EventProvider>
   );
 }
