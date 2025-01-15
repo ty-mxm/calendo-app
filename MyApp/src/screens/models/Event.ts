@@ -1,9 +1,9 @@
 export interface Event {
-    id?: string; // Peut être généré localement ou récupéré depuis l'API
+    id?: string; 
     title: string;
     location: string;
-    date: string; // Format ISO
-    time: string; // Format ISO
+    date: string; 
+    time: string; 
     category: string;
   }
   

@@ -10,7 +10,7 @@ export default function LoginScreen() {
     <View style={styles.container}>
 
 
-      {/* Title */}
+
       <Text style={styles.title}>Calendo</Text>
       <Text style={styles.subtitle}>Connexion</Text>
       <Image
@@ -18,7 +18,7 @@ export default function LoginScreen() {
      style={styles.logo}
    />
 
-      {/* Sign Up Text */}
+      
       <Text style={styles.registerText}>
         Si vous n'avez pas de compte{' '}
         <Text
@@ -29,7 +29,7 @@ export default function LoginScreen() {
         </Text>
       </Text>
 
-      {/* Input Fields */}
+      
       <TextInput
         style={styles.input}
         placeholder="Entrez votre e-mail"
@@ -42,20 +42,20 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      {/* Forgot Password */}
+      
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword' as never)}>
         <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
-      {/* Login Button */}
+      
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('GetStarted' as never)} // Navigate to GetStarted
+        onPress={() => navigation.navigate('GetStarted' as never)} 
       >
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      {/* Or continue with */}
+      
       <Text style={styles.orText}>ou continuez avec</Text>
       <View style={styles.socialIcons}>
         <Image

@@ -79,7 +79,7 @@ export default function TeamDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+     
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -90,9 +90,9 @@ export default function TeamDetailsScreen() {
         <Text style={styles.headerTitle}>{teamName}</Text>
       </View>
 
-      {/* Content */}
+
       <View style={styles.content}>
-        {/* Add Member Input */}
+    
         <View style={styles.inputContainer}>
           <Ionicons
             name="person-add-outline"
@@ -112,7 +112,7 @@ export default function TeamDetailsScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Members List */}
+        
         <FlatList
           data={members}
           keyExtractor={(item) => item}
@@ -126,7 +126,7 @@ export default function TeamDetailsScreen() {
           )}
         />
 
-        {/* Button to Bucketlists */}
+       
         <TouchableOpacity
           style={styles.bucketlistButton}
           onPress={navigateToBucketlists}
@@ -135,7 +135,7 @@ export default function TeamDetailsScreen() {
           <Text style={styles.bucketlistButtonText}>Voir la bucketlist</Text>
         </TouchableOpacity>
 
-        {/* Save Changes Button */}
+      
         <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
           <Text style={styles.saveButtonText}>Enregistrer les changements</Text>
         </TouchableOpacity>

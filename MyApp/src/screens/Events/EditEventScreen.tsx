@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { EventController } from '../controllers/EventController'; // Utilisation du contrôleur
-import { Event } from '../models/Event'; // Import du modèle
-import { RootStackParamList } from '../../../types'; // Import du type pour les paramètres de navigation
+import { EventController } from '../controllers/EventController'; 
+import { Event } from '../models/Event'; 
+import { RootStackParamList } from '../../../types'; 
 
-// Typage des paramètres pour la route
+
 type EditEventRouteProp = RouteProp<RootStackParamList, 'EditEvent'>;
 type NavigationProp = StackNavigationProp<RootStackParamList, 'EditEvent'>;
 
@@ -15,7 +15,7 @@ export default function EditEventScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { event } = route.params;
 
-  // États pour les champs modifiables
+  
   const [title, setTitle] = useState(event.title);
   const [location, setLocation] = useState(event.location);
   const [date, setDate] = useState(event.date);
@@ -49,7 +49,7 @@ export default function EditEventScreen() {
     <View style={styles.container}>
       <Text style={styles.header}>Modifier l'Événement</Text>
 
-      {/* Champs de modification */}
+    
       <TextInput
         style={styles.input}
         placeholder="Titre"
@@ -81,7 +81,7 @@ export default function EditEventScreen() {
         onChangeText={setCategory}
       />
 
-      {/* Bouton Enregistrer */}
+      
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Enregistrer</Text>
       </TouchableOpacity>

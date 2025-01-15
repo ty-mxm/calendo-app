@@ -5,13 +5,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-// Interface pour les notifications
+
 interface Notification {
   id: string;
   title: string;
   message: string;
   time: string;
-  category: string; // Catégorie pour styliser les notifications
+  category: string; 
 }
 
 interface Props {
@@ -37,7 +37,7 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
     );
   };
 
-  // Stylisation des catégories
+ 
   const getCategoryStyle = (category: string) => {
     switch (category) {
       case 'Ajout':
@@ -51,7 +51,7 @@ const NotificationsScreen: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  // Rendu d'une notification
+  
   const renderNotification = ({ item }: { item: Notification }) => (
     <View style={styles.cardContainer}>
       <TouchableOpacity

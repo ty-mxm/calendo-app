@@ -13,20 +13,20 @@ export default function GeneralSettingsScreen() {
   const navigation = useNavigation();
 
   const toggleTheme = () => {
-    // Logic for toggling between light and dark mode
-    alert('Mode sombre activé !'); // Replace this with real theme toggling logic
+    
+    alert('Mode sombre activé !'); 
   };
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+     
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Paramètres Généraux</Text>
         <Text style={styles.headerSubtitle}>Personnalisez vos préférences</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.settingsList}>
-        {/* Password Manager */}
+       
         <TouchableOpacity
           style={styles.option}
           onPress={() => navigation.navigate('ChangePassword' as never)}
@@ -41,7 +41,7 @@ export default function GeneralSettingsScreen() {
           <Ionicons name="chevron-forward" size={20} color="#7F57FF" />
         </TouchableOpacity>
 
-        {/* Notifications */}
+ 
         <TouchableOpacity
           style={styles.option}
           onPress={() => navigation.navigate('Notifications' as never)}
@@ -56,7 +56,7 @@ export default function GeneralSettingsScreen() {
           <Ionicons name="chevron-forward" size={20} color="#7F57FF" />
         </TouchableOpacity>
 
-        {/* Light/Dark Mode */}
+       
         <TouchableOpacity style={styles.option} onPress={toggleTheme}>
           <Ionicons name="moon-outline" size={24} color="#40E0D0" />
           <View style={styles.optionTextContainer}>
@@ -67,7 +67,7 @@ export default function GeneralSettingsScreen() {
           </View>
         </TouchableOpacity>
 
-        {/* Sync Calendar */}
+  
         <TouchableOpacity
           style={styles.option}
           onPress={() => navigation.navigate('SyncCalendar' as never)}

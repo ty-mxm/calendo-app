@@ -47,7 +47,7 @@ export default function EventDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+     
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -55,7 +55,7 @@ export default function EventDetailsScreen() {
         <Text style={styles.headerTitle}>Détails de l'événement</Text>
       </View>
 
-      {/* Event Details */}
+      
       <View style={styles.eventDetailsContainer}>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.detailRow}>
@@ -72,7 +72,7 @@ export default function EventDetailsScreen() {
         </View>
       </View>
 
-      {/* Vote Button */}
+      
       <TouchableOpacity
         style={styles.voteButton}
         onPress={() => navigation.navigate('VoteScreen', { eventId })}
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#7F57FF', // Same purple as vote button
+    backgroundColor: '#7F57FF', 
     paddingVertical: 40, 
     paddingHorizontal: 20,
     marginBottom: 20,

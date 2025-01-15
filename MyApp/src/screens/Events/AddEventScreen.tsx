@@ -22,7 +22,7 @@ export default function AddEventScreen() {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   
-  // États du formulaire
+ 
   const [eventName, setEventName] = useState('');
   const [team, setTeam] = useState('');
   const [location, setLocation] = useState('');
@@ -34,14 +34,14 @@ export default function AddEventScreen() {
   const [isStartTimePickerVisible, setIsStartTimePickerVisible] = useState(false);
   const [isEndTimePickerVisible, setIsEndTimePickerVisible] = useState(false);
 
-  // Données de test pour les équipes
+
   const teams = [
     { id: '1', name: 'Team 1' },
     { id: '2', name: 'Team 2' },
     { id: '3', name: 'Team 3' },
   ];
 
-  // Gestion de la barre de navigation
+ 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
       if (isFocused) {
@@ -149,14 +149,14 @@ export default function AddEventScreen() {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      {/* En-tête */}
+   
       <View style={styles.header}>
         <Text style={styles.headerText}>Nouvel événement</Text>
       </View>
 
-      {/* Formulaire */}
+   
       <View style={styles.content}>
-        {/* Nom de l'événement */}
+        
         <View style={styles.inputContainer}>
           <MaterialIcons name="event" size={24} color="#6495ED" />
           <TextInput
@@ -168,7 +168,7 @@ export default function AddEventScreen() {
           />
         </View>
 
-        {/* Sélection d'équipe */}
+        
         <TouchableOpacity
           style={styles.inputContainer}
           onPress={() => setIsTeamModalVisible(true)}
@@ -180,7 +180,7 @@ export default function AddEventScreen() {
           <AntDesign name="right" size={24} color="#6495ED" />
         </TouchableOpacity>
 
-        {/* Lieu */}
+      
         <View style={styles.inputContainer}>
           <MaterialIcons name="location-on" size={24} color="#6495ED" />
           <TextInput
@@ -192,7 +192,7 @@ export default function AddEventScreen() {
           />
         </View>
 
-        {/* Date et heure de début */}
+    
         <TouchableOpacity
           style={styles.inputContainer}
           onPress={() => setIsStartTimePickerVisible(true)}
@@ -201,7 +201,7 @@ export default function AddEventScreen() {
           <Text style={styles.input}>Début : {formatDateTime(startTime)}</Text>
         </TouchableOpacity>
 
-        {/* Date et heure de fin */}
+  
         <TouchableOpacity
           style={styles.inputContainer}
           onPress={() => setIsEndTimePickerVisible(true)}
@@ -210,13 +210,13 @@ export default function AddEventScreen() {
           <Text style={styles.input}>Fin : {formatDateTime(endTime)}</Text>
         </TouchableOpacity>
 
-        {/* Bouton de création */}
+        
         <TouchableOpacity style={styles.createButton} onPress={handleCreateEvent}>
           <Text style={styles.createButtonText}>Créer l'événement</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Modal de sélection d'équipe */}
+     
       <Modal
         visible={isTeamModalVisible}
         animationType="slide"
@@ -261,7 +261,7 @@ export default function AddEventScreen() {
         </View>
       </Modal>
 
-      {/* Date/Time Pickers */}
+      
       {isStartTimePickerVisible && (
         <DateTimePicker
           value={startTime}

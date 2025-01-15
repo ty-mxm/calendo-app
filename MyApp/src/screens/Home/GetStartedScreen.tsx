@@ -7,10 +7,9 @@ export default function GetStartedScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Titre principal */}
+      
       <Text style={styles.title}>Synchronisez votre calendrier avec vos amis</Text>
 
-      {/* Boutons de synchronisation */}
       <TouchableOpacity style={styles.syncButton}>
         <Text style={styles.syncButtonText}>Synchroniser avec Google Calendar</Text>
       </TouchableOpacity>
@@ -18,7 +17,7 @@ export default function GetStartedScreen() {
         <Text style={styles.syncButtonText}>Synchroniser avec Apple Calendar</Text>
       </TouchableOpacity>
 
-      {/* Bouton pour commencer */}
+   
       <TouchableOpacity
         style={styles.getStartedButton}
         onPress={() => navigation.navigate('Main' as never)}
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   syncButton: {
-    backgroundColor: '#6495ED', // Bleu cornflower
+    backgroundColor: '#6495ED', 
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   syncButtonBlack: {
-    backgroundColor: '#000', // Noir
+    backgroundColor: '#000', 
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 8,
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   getStartedButton: {
-    backgroundColor: '#7F57FF', // Violet
+    backgroundColor: '#7F57FF', 
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,

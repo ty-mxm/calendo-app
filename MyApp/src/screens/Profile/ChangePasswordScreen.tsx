@@ -8,7 +8,7 @@ export default function ChangePasswordScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+      
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <MaterialIcons name="arrow-back" size={24} color="#FFF" />
@@ -16,9 +16,9 @@ export default function ChangePasswordScreen() {
         <Text style={styles.headerText}>Modifier le mot de passe</Text>
       </View>
 
-      {/* Content */}
+     
       <View style={styles.content}>
-        {/* Current Password */}
+      
         <TextInput
           style={styles.input}
           placeholder="Mot de passe actuel"
@@ -26,7 +26,7 @@ export default function ChangePasswordScreen() {
           secureTextEntry
         />
 
-        {/* New Password */}
+        
         <TextInput
           style={styles.input}
           placeholder="Nouveau mot de passe"
@@ -34,7 +34,7 @@ export default function ChangePasswordScreen() {
           secureTextEntry
         />
 
-        {/* Confirm New Password */}
+      
         <TextInput
           style={styles.input}
           placeholder="Confirmer le nouveau mot de passe"
@@ -42,7 +42,7 @@ export default function ChangePasswordScreen() {
           secureTextEntry
         />
 
-        {/* Submit Button */}
+      
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Soumettre</Text>
         </TouchableOpacity>
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   input: {
-    backgroundColor: '#F0EFFF', // Light purple background
+    backgroundColor: '#F0EFFF', 
     borderRadius: 10,
     paddingVertical: 12,
     paddingHorizontal: 15,
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   button: {
-    backgroundColor: '#7F57FF', // Matches the header color
+    backgroundColor: '#7F57FF', 
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: 'center',

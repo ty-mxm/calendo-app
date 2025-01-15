@@ -36,7 +36,7 @@ import VoteScreen from './src/screens/Votes/VoteScreen';
 import GeneralSettingsScreen from './src/screens/Settings/GeneralSettingsScreen';
 import SyncCalendarScreen from './src/screens/Settings/SyncCalendarScreen'
 
-// Placeholder imports for missing screens (add these imports when available)
+
 import CalendarScreen from './src/screens/Calendar/CalendarScreen';
 import CalendarDetailsScreen from './src/screens/Calendar/CalendarDetailsScreen';
 

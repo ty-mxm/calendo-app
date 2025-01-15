@@ -55,7 +55,7 @@ export default function TeamsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+     
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Mes équipes</Text>
         <Text style={styles.headerSubtitle}>
@@ -63,13 +63,13 @@ export default function TeamsScreen() {
         </Text>
       </View>
 
-      {/* Add Team Button */}
+     
       <TouchableOpacity style={styles.addButton} onPress={handleAddTeam}>
         <Ionicons name="add-circle-outline" size={28} color="#FFF" />
         <Text style={styles.addButtonText}>Créer une équipe</Text>
       </TouchableOpacity>
 
-      {/* Teams List */}
+    
       <FlatList
         data={teams}
         keyExtractor={(item) => item.id}

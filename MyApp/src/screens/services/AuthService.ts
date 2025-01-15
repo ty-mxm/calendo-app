@@ -28,7 +28,7 @@ export async function loginUser(email: string, password: string): Promise<string
   }
 
   const data = await response.json();
-  return data.token; // Supposant que l'API retourne un token
+  return data.token; 
 }
 
 export async function logoutUser(): Promise<void> {

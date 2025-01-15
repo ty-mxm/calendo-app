@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function UserProfileScreen() {
-  const navigation = useNavigation(); // Assurez-vous que ceci est correctement importé et utilisé
+  const navigation = useNavigation(); 
 
   const handleLogout = () => {
-    // Ajoutez ici toute logique de déconnexion (par ex. effacer la session utilisateur)
-    navigation.navigate('Login' as never); // Naviguer vers l'écran de connexion
+    
+    navigation.navigate('Login' as never); 
   };
 
   return (
@@ -19,7 +19,7 @@ export default function UserProfileScreen() {
         <Text style={styles.headerSubtitle}>Gérez les paramètres de votre compte</Text>
       </View>
 
-      {/* Photo de profil et infos */}
+      
       <View style={styles.profileSection}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }}
@@ -29,7 +29,7 @@ export default function UserProfileScreen() {
         <Text style={styles.email}>johndoe@example.com</Text>
       </View>
 
-      {/* Options */}
+     
       <View style={styles.options}>
         <TouchableOpacity
           style={styles.optionButton}
@@ -45,7 +45,7 @@ export default function UserProfileScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Déconnexion */}
+     
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Ionicons name="log-out-outline" size={20} color="#FFF" />
         <Text style={styles.logoutText}>Déconnexion</Text>

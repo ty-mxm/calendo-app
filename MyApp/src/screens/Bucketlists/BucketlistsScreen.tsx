@@ -35,7 +35,7 @@ export default function BucketlistsScreen() {
 
   return (
     <View style={styles.screenContainer}>
-      {/* Header */}
+      
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -43,7 +43,7 @@ export default function BucketlistsScreen() {
         <Text style={styles.headerTitle}>Bucketlist</Text>
       </View>
 
-      {/* Wish List */}
+      
       <FlatList
         data={events}
         keyExtractor={(item) => item.title}
@@ -54,7 +54,7 @@ export default function BucketlistsScreen() {
         }
       />
 
-      {/* Add Wish Button */}
+      
       <TouchableOpacity style={styles.addButton} onPress={handleAddWish}>
         <Ionicons name="add-circle-outline" size={24} color="#FFF" />
         <Text style={styles.addButtonText}>Ajouter un souhait</Text>

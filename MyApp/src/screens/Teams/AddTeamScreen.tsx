@@ -25,15 +25,15 @@ export default function AddTeamScreen() {
 
   const handleCreateTeam = async () => {
     try {
-      await TeamController.createTeam(teamName); // Appelle le contrôleur
+      await TeamController.createTeam(teamName); 
       navigation.navigate('Teams', { newTeam: teamName });
-      setTeamName(''); // Réinitialise l'entrée
+      setTeamName(''); 
     } catch (error) {
       if (error instanceof Error) {
-        // Vérifie si l'erreur est une instance de Error
-        setErrorMessage(error.message); // Gère les erreurs (ex : nom vide)
+      
+        setErrorMessage(error.message); 
       } else {
-        // Cas où l'erreur n'est pas une instance de Error
+       
         setErrorMessage("Une erreur inconnue s'est produite.");
       }
     }
@@ -55,7 +55,7 @@ export default function AddTeamScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <View style={styles.popupContainer}>
-          {/* Header */}
+          
           <View style={styles.header}>
             <TouchableOpacity style={styles.closeButton} onPress={handleClosePopup}>
               <Ionicons name="close" size={24} color="#FFF" />
@@ -64,7 +64,7 @@ export default function AddTeamScreen() {
             <Text style={styles.headerSubtitle}>Ajoute un nom pour ton équipe</Text>
           </View>
 
-          {/* Content */}
+          
           <View style={styles.content}>
             {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
             <View style={styles.inputContainer}>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
   },
   popupContainer: {
     width: '90%',

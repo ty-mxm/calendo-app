@@ -67,7 +67,7 @@ export default function BucketlistDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* En-tête avec flèche de retour */}
+      
       <View style={[styles.header, { backgroundColor: category.color }]}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -75,7 +75,7 @@ export default function BucketlistDetailsScreen() {
         <Text style={styles.headerTitle}>{category.title}</Text>
       </View>
 
-      {/* Liste des éléments */}
+      
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}

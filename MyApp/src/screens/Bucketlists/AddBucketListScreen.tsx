@@ -28,7 +28,7 @@ export default function AddWishScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
+    
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#FFF" />
@@ -36,9 +36,9 @@ export default function AddWishScreen() {
         <Text style={styles.headerTitle}>Ajouter un souhait</Text>
       </View>
 
-      {/* Form */}
+     
       <View style={styles.formContainer}>
-        {/* Wish Title Input */}
+        
         <View style={styles.inputContainer}>
           <Ionicons name="star-outline" size={20} color="#7F57FF" />
           <TextInput
@@ -49,12 +49,12 @@ export default function AddWishScreen() {
             onChangeText={setWishTitle}
           />
         </View>
-        {/* Info Text */}
+     
         <Text style={styles.infoText}>
           Un souhait est une activité ou un événement que vous souhaitez partager avec votre équipe.
         </Text>
 
-        {/* Add Button */}
+        
         <TouchableOpacity style={styles.addButton} onPress={handleAddWish}>
           <Text style={styles.addButtonText}>Ajouter le souhait</Text>
         </TouchableOpacity>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F0EFFF', // Light purple background
+    backgroundColor: '#F0EFFF', 
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 12,

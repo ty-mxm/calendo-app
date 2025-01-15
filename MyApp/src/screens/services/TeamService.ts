@@ -1,4 +1,4 @@
-// src/services/TeamService.ts
+
 import { Team } from '../models/Team';
 
 const teams: Team[] = [
@@ -30,7 +30,7 @@ const teams: Team[] = [
 
 export const TeamService = {
   getAllTeams: async (): Promise<Team[]> => {
-    return teams; // Simule une réponse de l'API
+    return teams; 
   },
   getTeamById: async (id: string): Promise<Team | undefined> => {
     return teams.find((team) => team.id === id);
@@ -40,7 +40,7 @@ export const TeamService = {
   },
   createTeam: async (teamName: string): Promise<Team> => {
     const newTeam: Team = {
-        id: `${Date.now()}`, // Simule un ID unique
+        id: `${Date.now()}`, 
         name: teamName,
         members: [],
         bucketlists: [],
@@ -52,7 +52,7 @@ export const TeamService = {
   },
   addMember: async (teamId: string, memberName: string): Promise<void> => {
     const team = teams.find((team) => team.id === teamId);
-    if (team && !team.members.includes(memberName)) {
+    if (team && team.members && !team.members.includes(memberName)) {
       team.members.push(memberName);
     }
   },
@@ -65,7 +65,9 @@ export const TeamService = {
   removeMember: async (teamId: string, memberName: string): Promise<void> => {
     const team = teams.find((team) => team.id === teamId);
     if (team) {
-      team.members = team.members.filter((member) => member !== memberName);
+      if (team.members) {
+        team.members = team.members.filter((member) => member !== memberName);
+      }
     }
   },
 };

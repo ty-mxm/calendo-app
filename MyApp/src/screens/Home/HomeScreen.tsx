@@ -23,7 +23,7 @@ interface Event {
 export default function HomeScreen() {
   const navigation = useNavigation();
 
-  // Initialisation avec les événements hardcodés
+  
   const [events, setEvents] = useState<Event[]>([
     {
       id: '1',
@@ -60,7 +60,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 100 }}>
-      {/* Header */}
+      
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Bienvenue sur Calendo
           
@@ -69,7 +69,7 @@ export default function HomeScreen() {
         <Text style={styles.headerSubtitle}>Gardez un œil sur vos prochains événements</Text>
       </View>
 
-      {/* Calendar */}
+      
       <Calendar
         onDayPress={(day) => setSelectedDate(day.dateString)}
         markedDates={{
@@ -78,10 +78,10 @@ export default function HomeScreen() {
         style={styles.calendar}
       />
 
-      {/* Liste des événements */}
+     
       <Text style={styles.eventListTitle}>Événements</Text>
 
-      {/* Ajouter un événement */}
+     
       <TouchableOpacity
         style={styles.addEventButton}
         onPress={() => navigation.navigate('AddEvent' as never)}
@@ -90,13 +90,13 @@ export default function HomeScreen() {
         <Text style={styles.addEventText}>Ajouter un événement</Text>
       </TouchableOpacity>
 
-      {/* Events List */}
+     
       {events.map((event, index) => (
   <TouchableOpacity
     key={event.id}
     style={[
       styles.eventCard,
-      { borderLeftColor: colors[index % colors.length] }, // Utilise une couleur différente pour chaque carte
+      { borderLeftColor: colors[index % colors.length] }, 
     ]}
     onPress={() => navigation.navigate('EventDetails', { eventId: event.id })}
   >

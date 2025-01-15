@@ -1,6 +1,6 @@
 import { Choice } from "./Choice";
 
-// src/models/Team.ts
+
 export interface Team {
     id: string;
     name: string;
