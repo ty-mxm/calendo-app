@@ -21,22 +21,22 @@ export default function ForgotPasswordScreen() {
 
   return (
     <View style={styles.container}>
-     
+      {/* Logo */}
       <Image
-        source={{ uri: 'https://cdn-icons-png.flaticon.com/512/1055/1055687.png' }}
+        source={require('../../../assets/logo-transparent.png')}
         style={styles.logo}
       />
 
-      
+      {/* Title */}
       <Text style={styles.title}>Calendo</Text>
       <Text style={styles.subtitle}>Mot de passe oublié</Text>
 
-    
+      {/* Description */}
       <Text style={styles.description}>
         Entrez votre e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
       </Text>
 
-      
+      {/* Input Field */}
       <TextInput
         style={styles.input}
         placeholder="Entrez votre e-mail"
@@ -46,12 +46,12 @@ export default function ForgotPasswordScreen() {
         onChangeText={setEmail}
       />
 
-     
+      {/* Reset Password Button */}
       <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
         <Text style={styles.buttonText}>Réinitialiser le mot de passe</Text>
       </TouchableOpacity>
 
-      
+      {/* Back to Login */}
       <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>
         <Text style={styles.linkText}>Retour à la connexion</Text>
       </TouchableOpacity>
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
     marginBottom: 20,
   },

@@ -6,19 +6,18 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   return (
-
     <View style={styles.container}>
+      {/* Logo */}
+      <Image
+        source={require('../../../assets/logo-transparent.png')}
+        style={styles.logo}
+      />
 
-
-
+      {/* Title */}
       <Text style={styles.title}>Calendo</Text>
       <Text style={styles.subtitle}>Connexion</Text>
-      <Image
-     source={require('../../../assets/logo-transparent.png')}
-     style={styles.logo}
-   />
 
-      
+      {/* Registration Navigation */}
       <Text style={styles.registerText}>
         Si vous n'avez pas de compte{' '}
         <Text
@@ -29,7 +28,7 @@ export default function LoginScreen() {
         </Text>
       </Text>
 
-      
+      {/* Input Fields */}
       <TextInput
         style={styles.input}
         placeholder="Entrez votre e-mail"
@@ -42,20 +41,20 @@ export default function LoginScreen() {
         secureTextEntry
       />
 
-      
+      {/* Forgot Password */}
       <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword' as never)}>
         <Text style={styles.forgotPassword}>Mot de passe oublié ?</Text>
       </TouchableOpacity>
 
-      
+      {/* Login Button */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('GetStarted' as never)} 
+        onPress={() => navigation.navigate('GetStarted' as never)}
       >
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      
+      {/* Or continue with */}
       <Text style={styles.orText}>ou continuez avec</Text>
       <View style={styles.socialIcons}>
         <Image
@@ -79,8 +78,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 150,
+    height: 150,
     alignSelf: 'center',
     marginBottom: 20,
   },
